@@ -1,7 +1,7 @@
 ## -- Trackero --
 
 ### Project Description
-+
++ A financial expense tracker application developed @Codecool Advanced module as a group capstone project.
 
 ### Techstack
 + Frontend
