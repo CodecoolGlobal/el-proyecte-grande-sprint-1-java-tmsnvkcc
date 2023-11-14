@@ -1,9 +1,10 @@
 import './Navbar.styles.css';
+import { NavbarButtonComponent } from '../index.js';
 
 const Navbar = () => {
   return (
     <nav>
-      NAVBAR
+      <NavbarButtonComponent buttonLabel='Track' destinationPath='track'/>
     </nav>
   );
 };
