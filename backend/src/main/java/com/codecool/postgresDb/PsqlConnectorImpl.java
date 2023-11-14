@@ -1,6 +1,8 @@
 package com.codecool.postgresDb;
 
 import com.codecool.logger.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,11 +10,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class PsqlConnectorImpl implements PsqlConnector {
-    private final Logger logger;
-
-    public PsqlConnectorImpl(Logger logger) {
-        this.logger = logger;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
 
     public Connection getConnection() {
         Connection conn = null;
@@ -25,9 +23,9 @@ public class PsqlConnectorImpl implements PsqlConnector {
             String connectionString = "jdbc:postgresql://" + hostName + ":" + port + "/"+ databaseName;
             conn = DriverManager.getConnection(connectionString, env.get("DB_USERNAME"), env.get("DB_PASSWORD"));
 
-            logger.logInfo("Connection to postgresql has been established.");
+            logger.info("Connection to postgresql has been established.");
         } catch (SQLException e) {
-            logger.logError(e.getMessage());
+            logger.error(e.getMessage());
         }
         return conn;
     }
