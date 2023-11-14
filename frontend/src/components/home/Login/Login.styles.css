@@ -64,5 +64,14 @@
         outline: 0.25rem solid var(--primary-main-font-color);
       }
     }
+
+    & article {
+      text-align: center;
+    }
+
+    & .loading-icon {
+      margin: 5rem 0 0 0;
+      font-size: 3.5rem;
+    }
   }
 }

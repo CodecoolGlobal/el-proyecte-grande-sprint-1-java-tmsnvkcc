@@ -11,8 +11,8 @@ import {
 import { Layout } from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-library.add(faCircleExclamation);
+import { faCircleExclamation, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+library.add(faCircleExclamation, faCircleNotch);
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<Layout />} errorElement={<ErrorPage />}>
