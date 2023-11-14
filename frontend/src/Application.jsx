@@ -8,11 +8,11 @@ import {
   ErrorPage,
   Home,
 } from 'pages/';
-import { Layout } from 'src/components/layout';
+import { Layout } from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-library.add(faCircleNotch);
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+library.add(faCircleExclamation);
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<Layout />} errorElement={<ErrorPage />}>
