@@ -1,0 +1,28 @@
+.input-component-container {
+  display: flex;
+  flex-direction: column;
+  margin: 2.5rem 0 2.5rem 0;
+  font-size: 2rem;
+
+  & input {
+    min-height: 5rem;
+    width: 35rem;
+    margin: 1rem 0 0 0;
+    padding: 0 0 0 2.5rem;
+    font-size: inherit;
+    border-radius: 0.75rem;
+    box-shadow: 0 0 2rem 0.5rem var(--primary-background);
+
+    &:focus {
+      outline: 0.4rem solid var(--primary-main);
+    }
+
+    &::placeholder {
+      color: var(--secondary-main-light);
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+}

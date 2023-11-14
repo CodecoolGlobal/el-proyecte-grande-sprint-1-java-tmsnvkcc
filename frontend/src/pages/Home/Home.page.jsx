@@ -1,7 +1,11 @@
+import {
+  Login,
+} from 'components/home';
+
 const Home = () => {
   return (
     <>
-      HOME PLACEHOLDER
+      <Login />
     </>
   );
 };
