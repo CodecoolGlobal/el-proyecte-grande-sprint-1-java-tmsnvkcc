@@ -1,15 +1,15 @@
 import './InputField.styles.css';
 
-const InputField = ({ labelTag, labelContent, type, defaultValue, placeholder }) => {
+const InputField = ({ id, labelContent, type, defaultValue, placeholder }) => {
   return (
     <article className={'input-component-container'}>
-      <label htmlFor={labelTag}>{labelContent}</label>
+      <label htmlFor={id}>{labelContent}</label>
       <input
         type={type}
-        id={labelTag}
-        name={labelTag}
+        id={id}
+        name={id}
         defaultValue={defaultValue ?? ''}
-        placeholder={placeholder}
+        placeholder={placeholder ?? ''}
       />
     </article>
   );

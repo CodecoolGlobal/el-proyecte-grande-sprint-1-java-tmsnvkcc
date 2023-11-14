@@ -1,27 +1,22 @@
-import './Login.styles.css';
 import { InputField } from 'components/form-related';
+import './Login.styles.css';
 
 const Login = () => {
   return (
     <section className={'login-form-container'}>
+      <h1>Who are you?</h1>
       <form id={'login-form'}>
         <InputField
-          labelTag={'email'}
+          id={'email'}
           labelContent={'Email'}
           type={'email'}
-          placeholder={'Enter email address...'}
+          placeholder={'Enter your email address...'}
         />
         <InputField
-          labelTag={'password'}
+          id={'password'}
           labelContent={'Password'}
           type={'password'}
-          placeholder={'Enter password...'}
-        />
-        <InputField
-          labelTag={'password-repeat'}
-          labelContent={'Password Repeat'}
-          type={'password'}
-          placeholder={'Repeat password...'}
+          placeholder={'Enter your password...'}
         />
       </form>
     </section>
