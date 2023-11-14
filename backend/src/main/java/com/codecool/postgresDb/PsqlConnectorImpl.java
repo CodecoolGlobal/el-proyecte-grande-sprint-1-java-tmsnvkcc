@@ -1,6 +1,5 @@
 package com.codecool.postgresDb;
 
-import com.codecool.logger.Logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
