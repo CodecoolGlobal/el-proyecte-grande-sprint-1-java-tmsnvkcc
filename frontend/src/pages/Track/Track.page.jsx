@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import './Track.styles.css';
+import {TrackComponentSelector} from "../../components/track/index.js";
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
 
+  const handleClick = ( tileName ) => { setCurrentTile(tileName)};
+
   return (
     <div>
       <div id='track-tile-selector'>
-        <button onClick={() => setCurrentTile('Spendings')}> Spendings </button>
-        <button onClick={() => setCurrentTile('Income')}> Income </button>
-        <button onClick={() => setCurrentTile('Savings')}> Savings </button>
-        <button onClick={() => setCurrentTile('Overview')}> Overview </button>
+        <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick}/>
+        <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick}/>
+        <TrackComponentSelector buttonLabel='Savings' clickHandler={handleClick}/>
+        <TrackComponentSelector buttonLabel='Overview' clickHandler={handleClick}/>
       </div>
 
     </div>
