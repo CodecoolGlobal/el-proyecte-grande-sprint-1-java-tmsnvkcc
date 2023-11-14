@@ -11,18 +11,18 @@ import {
 import { Layout } from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-library.add(faCircleExclamation);
+import { faCircleExclamation, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+library.add(faCircleExclamation, faCircleNotch);
 
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route element={<Layout />} errorElement={<ErrorPage />}>
+  <Route errorElement={<ErrorPage />}>
     <Route path={'/'}>
       <Route index element={<Home />} />
     </Route>
-    <Route path={'/profile'}>
+    <Route path={'/profile'} element={<Layout />}>
       <Route index />
     </Route>
-    <Route path={'/track'}>
+    <Route path={'/track'} element={<Layout />}>
       <Route index element={<Track />}/>
     </Route>
   </Route>,
