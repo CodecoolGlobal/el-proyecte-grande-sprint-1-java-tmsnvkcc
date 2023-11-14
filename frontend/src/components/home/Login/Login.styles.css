@@ -1,0 +1,10 @@
+.login-form-container {
+  width: 50rem;
+  height: 65rem;
+  margin: 20rem auto 0 auto;
+  border-radius: 2rem;
+  background-color: var(--dark-transparent-background);
+  border: 0.2rem solid var(--dark-transparent-background);
+  box-shadow: 0 0.4rem 0.4rem 0 var(--dark-transparent-background);
+  backdrop-filter: blur(0.2rem);
+}

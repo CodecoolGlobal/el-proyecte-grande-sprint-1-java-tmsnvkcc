@@ -18,7 +18,7 @@
     }
 
     &::placeholder {
-      color: var(--secondary-main-light);
+      color: var(--primary-main-font-color);
     }
 
     &:focus::placeholder {

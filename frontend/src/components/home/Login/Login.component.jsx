@@ -3,7 +3,7 @@ import { InputField } from 'components/form-related';
 
 const Login = () => {
   return (
-    <section>
+    <section className={'login-form-container'}>
       <form id={'login-form'}>
         <InputField
           labelTag={'email'}
