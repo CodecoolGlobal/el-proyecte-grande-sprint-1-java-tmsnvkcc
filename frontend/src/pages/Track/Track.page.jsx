@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Track.styles.css';
-import { TrackComponentSelector } from '../../components/track/index.js';gi
+import { TrackComponentSelector } from '../../components/track/index.js';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
