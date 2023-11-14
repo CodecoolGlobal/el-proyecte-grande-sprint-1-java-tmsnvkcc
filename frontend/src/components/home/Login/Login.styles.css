@@ -25,6 +25,9 @@
   }
 
   & form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-size: 2rem;
 
     & input {
@@ -32,14 +35,6 @@
       width: 35rem;
       margin: 1rem 0 0 0;
       padding: 0 0 0 2.5rem;
-      font-size: inherit;
-      color: inherit;
-      background-color: var(--primary-main);
-      border-radius: 0.75rem;
-
-      &:focus {
-        outline: 0.25rem solid var(--primary-main-font-color);
-      }
 
       &::placeholder {
         color: var(--primary-main-font-color);
@@ -49,6 +44,24 @@
 
       &:focus::placeholder {
         color: transparent;
+      }
+    }
+
+    & button {
+      height: 5rem;
+      width: 17.5rem;
+      margin: 5rem 0 0 0;
+    }
+
+    & input,
+    & button {
+      font-size: inherit;
+      color: inherit;
+      background-color: var(--primary-main);
+      border-radius: 0.75rem;
+
+      &:focus {
+        outline: 0.25rem solid var(--primary-main-font-color);
       }
     }
   }

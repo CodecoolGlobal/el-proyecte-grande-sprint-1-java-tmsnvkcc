@@ -1,4 +1,7 @@
-import { InputField } from 'components/form-related';
+import {
+  InputField,
+  SubmitButton,
+} from 'components/form-related';
 import './Login.styles.css';
 
 const Login = () => {
@@ -18,6 +21,7 @@ const Login = () => {
           type={'password'}
           placeholder={'Enter your password...'}
         />
+        <SubmitButton />
       </form>
     </section>
   );
