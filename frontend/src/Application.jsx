@@ -5,8 +5,8 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import {
-    ErrorPage,
-    Home, TrackPage,
+  ErrorPage,
+  Home, Track,
 } from 'pages/';
 import { Layout } from 'components/layout';
 import './index.css';
@@ -23,7 +23,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route index />
     </Route>
     <Route path={'/track'}>
-      <Route index element={TrackPage} />
+      <Route index element={<Track />}/>
     </Route>
   </Route>,
 ));

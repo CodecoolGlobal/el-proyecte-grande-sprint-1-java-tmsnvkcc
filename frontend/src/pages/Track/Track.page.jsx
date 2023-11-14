@@ -1,10 +1,20 @@
-const TrackPage = () => {
+import { useState } from 'react';
+import './Track.styles.css';
 
-    return (
-        <div>
+const Track = () => {
+  const [currentTile, setCurrentTile] = useState('Overview');
 
-        </div>
-    );
+  return (
+    <div>
+      <div id='track-tile-selector'>
+        <button onClick={() => setCurrentTile('Spendings')}> Spendings </button>
+        <button onClick={() => setCurrentTile('Income')}> Income </button>
+        <button onClick={() => setCurrentTile('Savings')}> Savings </button>
+        <button onClick={() => setCurrentTile('Overview')}> Overview </button>
+      </div>
+
+    </div>
+  );
 };
 
-export default TrackPage;
+export default Track;

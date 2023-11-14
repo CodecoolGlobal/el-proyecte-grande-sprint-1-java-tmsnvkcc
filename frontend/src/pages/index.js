@@ -1,9 +1,9 @@
 import ErrorPage from './ErrorPage';
 import Home from './Home';
-import TrackPage from './Track';
+import Track from './Track';
 
 export {
   ErrorPage,
   Home,
-  TrackPage,
+  Track,
 };

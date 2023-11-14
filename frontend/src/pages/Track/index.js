@@ -1,3 +1,3 @@
-import TrackPage from './Track.page.jsx';
+import Track from './Track.page.jsx';
 
-export default TrackPage;
+export default Track;
