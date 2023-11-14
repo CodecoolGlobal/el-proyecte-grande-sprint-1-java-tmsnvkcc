@@ -1,5 +1,5 @@
 const iconLibrary = {
-  faCircleNotch: { prefix: 'fas', iconName: 'circle-notch' },
+  faCircleExclamation: { prefix: 'fas', iconName: 'circle-exclamation' },
 };
 
 export default iconLibrary;
