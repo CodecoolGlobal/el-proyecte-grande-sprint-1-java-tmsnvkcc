@@ -1,5 +1,6 @@
 import {
   Login,
+  PasswordReset,
   Register,
 } from 'components/home';
 import { useState } from 'react';
@@ -13,21 +14,15 @@ const Home = () => {
   };
 
   if (activeForm === 'login') {
-    return (
-      <Login clickHandler={handleOnClick} />
-    );
+    return <Login clickHandler={handleOnClick} />;
   }
 
   if (activeForm === 'register') {
-    return (
-      <Register clickHandler={handleOnClick} />
-    );
+    return <Register clickHandler={handleOnClick} />;
   }
 
   if (activeForm === 'reset') {
-    return (
-      <Register clickHandler={handleOnClick} />
-    );
+    return <PasswordReset clickHandler={handleOnClick} />;
   }
 };
 

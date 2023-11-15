@@ -36,7 +36,7 @@ const Login = ({ clickHandler }) => {
           <FontAwesomeIcon icon={iconLibrary.faCircleNotch} spin className={'loading-icon'} />}
       </form>
       <article className={'bottom-button-container'}>
-        <FormSwapButton buttonName={'reset'} buttonContent={'Forgot email?'} clickHandler={clickHandler} />
+        <FormSwapButton buttonName={'reset'} buttonContent={'Forgot password?'} clickHandler={clickHandler} />
         <FormSwapButton buttonName={'register'} buttonContent={'Create account'} clickHandler={clickHandler} />
       </article>
     </section>

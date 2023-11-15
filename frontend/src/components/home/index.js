@@ -1,9 +1,11 @@
-import Login from './Login';
-import Register from './Register';
 import FormSwapButton from './FormSwapButton';
+import Login from './Login';
+import PasswordReset from './PasswordReset';
+import Register from './Register';
 
 export {
-  Login,
-  Register,
   FormSwapButton,
+  Login,
+  PasswordReset,
+  Register,
 };
