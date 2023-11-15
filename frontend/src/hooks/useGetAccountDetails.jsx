@@ -13,7 +13,7 @@ const fetchAccountDetail = async () => {
 
 const useGetAccountDetails = () => {
   const query = useQuery({
-    queryKey:'accountDetails',
+    queryKey:['accountDetails'],
     queryFn:fetchAccountDetail,
   });
 

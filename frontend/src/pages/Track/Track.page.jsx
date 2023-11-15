@@ -9,7 +9,7 @@ const Track = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
   const { accountData, isAccountLoading, isAccountError } = useGetAccountDetails();
-  const { transactionData, isTransactionLoading, isTransactionError } = useGetMonthlyTransactions();
+  const { transactionData, isTransactionLoading, isTransactionError } = useGetMonthlyTransactions(selectedYear, selectedMonth);
 
   const componentRenderHandler = () => {
     switch (currentTile) {
