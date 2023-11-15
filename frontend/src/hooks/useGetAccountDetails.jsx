@@ -9,7 +9,7 @@ const fetchAccountDetail = async () => {
     console.log(err);
   }
 };
-
+//TODO Wrap fetch to check localstorage first
 
 const useGetAccountDetails = () => {
   const query = useQuery({

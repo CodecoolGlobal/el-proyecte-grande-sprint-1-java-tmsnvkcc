@@ -9,7 +9,7 @@ const fetchMonthlyTransactions = async (year, month) => {
     console.log(err);
   }
 };
-
+//TODO Wrap fetch to check localstorage first
 
 const useGetMonthlyTransactions = ({ year, month }) => {
   const query = useQuery({

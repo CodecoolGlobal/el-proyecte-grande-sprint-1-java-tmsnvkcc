@@ -34,6 +34,9 @@ const Track = () => {
     setCurrentTile(tileName);
   };
 
+  console.log(accountData);
+  console.log(transactionData); // TODO Tesing purposes only
+
   return (
     <div>
       <div id='track-tile-selector'>
