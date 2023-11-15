@@ -1,20 +1,21 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FormError,
   InputField,
   SubmitButton,
 } from 'components/form-related';
+import { FormSwapButton } from 'components/home';
 import { useHandleFormSubmit } from 'hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Login.styles.css';
 import { iconLibrary } from 'config';
+import './Login.styles.css';
 
-const Login = () => {
-  const { loading, error, handleOnSubmit } = useHandleFormSubmit();
+const Login = ({ clickHandler }) => {
+  const { loading, errorMessage, handleOnSubmit } = useHandleFormSubmit();
 
   return (
-    <section className={'login-form-container'} onSubmit={(event) => handleOnSubmit('/api/user/login', event)}>
+    <section className={'login-form-container'}>
       <h1>Who are you?</h1>
-      <form id={'login-form'}>
+      <form id={'login-form'} onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/login', method: 'POST', navigateUrl: '/dashboard' }, event)}>
         <InputField
           id={'email'}
           labelContent={'Email'}
@@ -30,10 +31,14 @@ const Login = () => {
         {!loading ?
           <article>
             <SubmitButton />
-            {error && <FormError errorMessage={error} />}
+            {errorMessage && <FormError errorMessage={errorMessage} />}
           </article> :
           <FontAwesomeIcon icon={iconLibrary.faCircleNotch} spin className={'loading-icon'} />}
       </form>
+      <article className={'bottom-button-container'}>
+        <FormSwapButton buttonName={'reset'} buttonContent={'Forgot email?'} clickHandler={clickHandler} />
+        <FormSwapButton buttonName={'register'} buttonContent={'Create account'} clickHandler={clickHandler} />
+      </article>
     </section>
   );
 };

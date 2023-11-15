@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { TrackComponentSelector } from 'components/track';
 import './Track.styles.css';
-import { TrackComponentSelector } from '../../components/track/index.js';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
@@ -31,10 +31,10 @@ const Track = () => {
   return (
     <div>
       <div id='track-tile-selector'>
-        <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick}/>
-        <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick}/>
-        <TrackComponentSelector buttonLabel='Savings' clickHandler={handleClick}/>
-        <TrackComponentSelector buttonLabel='Overview' clickHandler={handleClick}/>
+        <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
+        <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />
+        <TrackComponentSelector buttonLabel='Savings' clickHandler={handleClick} />
+        <TrackComponentSelector buttonLabel='Overview' clickHandler={handleClick} />
       </div>
       {componentRenderHandler()}
     </div>
