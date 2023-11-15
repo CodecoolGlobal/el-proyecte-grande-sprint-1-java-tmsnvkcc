@@ -1,13 +1,13 @@
 import {
-    // components
-} from 'components/home';
+    PageTitle,
+} from 'components/form-related';
 import './Dashboard.styles.css';
 
 const Dashboard = () => {
 
   return (
     <>
-      <h1>Dashboard page!</h1>
+      <PageTitle title={"Dashboard"} />
     </>
   );
 };

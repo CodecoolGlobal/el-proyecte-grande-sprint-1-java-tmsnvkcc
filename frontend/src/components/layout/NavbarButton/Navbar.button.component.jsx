@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import './Navbar.button.styles.css';
 
 const NavbarButton = ({ buttonLabel, destinationPath }) => {
   const nav = useNavigate();
   const handleButtonClick = () => nav(destinationPath);
 
   return (
-    <button onClick={handleButtonClick}>{buttonLabel}</button>
+    <button className={'navbar-button'} onClick={handleButtonClick}>{buttonLabel}</button>
   );
 };
 
