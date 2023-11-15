@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import './Track.styles.css';
+import {
+  PageTitle,
+} from 'components/form-related';
 import { TrackComponentSelector } from '../../components/track/index.js';
 
 const Track = () => {
@@ -30,6 +33,7 @@ const Track = () => {
 
   return (
     <div>
+      <PageTitle title={"Track"} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick}/>
         <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick}/>

@@ -4,8 +4,10 @@ import { NavbarButtonComponent } from '../index.js';
 const Navbar = () => {
   return (
     <nav>
-      <NavbarButtonComponent buttonLabel='Track' destinationPath='/track'/>
-      <NavbarButtonComponent buttonLabel='Profile' destinationPath='/profile'/>
+        <NavbarButtonComponent buttonLabel='Dashboard' destinationPath='/dashboard'/>
+        <NavbarButtonComponent buttonLabel='Track' destinationPath='/track'/>
+        <NavbarButtonComponent buttonLabel='Insights' destinationPath='/insights'/>
+        <NavbarButtonComponent buttonLabel='Profile' destinationPath='/profile'/>
     </nav>
   );
 };
