@@ -5,6 +5,7 @@ const Navbar = () => {
   return (
     <nav>
       <NavbarButtonComponent buttonLabel='Track' destinationPath='/track'/>
+      <NavbarButtonComponent buttonLabel='Profile' destinationPath='/profile'/>
     </nav>
   );
 };
