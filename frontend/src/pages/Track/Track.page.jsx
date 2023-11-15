@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import './Track.styles.css';
 import { TrackComponentSelector } from '../../components/track/index.js';
+import { useGetAccountDetails } from '../../hooks/index.js';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
+  const { accountData, isAccountLoading, isAccountError } = useGetAccountDetails();
 
   const componentRenderHandler = () => {
     switch (currentTile) {
