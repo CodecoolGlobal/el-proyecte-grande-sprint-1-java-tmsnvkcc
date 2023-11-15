@@ -22,7 +22,12 @@ html {
 }
 
 body {
-  background-color: var(--primary-background);
+  background-color: lightgray;
+  background-image: url("../src/assets/Wallpaper.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
   color: var(--primary-main-font-color);
   font-size: 1.4rem;
 }

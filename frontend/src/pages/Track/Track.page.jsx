@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { TrackComponentSelector } from 'components/track';
 import './Track.styles.css';
+<<<<<<< HEAD
+=======
+import {
+  PageTitle,
+} from 'components/form-related';
+import { TrackComponentSelector } from '../../components/track/index.js';
+>>>>>>> development
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
@@ -30,6 +37,7 @@ const Track = () => {
 
   return (
     <div>
+      <PageTitle title={"Track"} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
         <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />

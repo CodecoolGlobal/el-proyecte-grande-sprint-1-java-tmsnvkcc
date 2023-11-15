@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {
   ErrorPage,
-  Home, Track,
+  Home, Track, Dashboard, Profile,
 } from 'pages/';
 import { Layout } from 'components/layout';
 import './index.css';
@@ -20,10 +20,13 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route index element={<Home />} />
     </Route>
     <Route path={'/profile'} element={<Layout />}>
-      <Route index />
+      <Route index element={<Profile />} />
     </Route>
     <Route path={'/track'} element={<Layout />}>
       <Route index element={<Track />}/>
+    </Route>
+    <Route path={'/dashboard'} element={<Layout />}>
+      <Route index element={<Dashboard />}/>
     </Route>
   </Route>,
 ));
