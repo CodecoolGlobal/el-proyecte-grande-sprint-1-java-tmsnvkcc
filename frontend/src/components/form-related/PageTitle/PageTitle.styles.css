@@ -1,0 +1,15 @@
+.page-title {
+    padding: 0 5rem;
+
+    && h1 {
+        display: inline;
+        border-bottom: 0.2rem solid var(--primary-main-font-color);
+        padding-bottom: 0.5rem;
+    }
+
+    && hr {
+        background-color: var(--primary-main-font-color);
+        height: 0.1rem;
+        width: 40%;
+    }
+}
