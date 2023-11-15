@@ -2,10 +2,14 @@ import { useState } from 'react';
 import './Track.styles.css';
 import { TrackComponentSelector } from '../../components/track/index.js';
 import { useGetAccountDetails } from '../../hooks/index.js';
+import useGetMonthlyTransactions from '../../hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
   const { accountData, isAccountLoading, isAccountError } = useGetAccountDetails();
+  const { transactionData, isTransactionLoading, isTransactionError } = useGetMonthlyTransactions();
 
   const componentRenderHandler = () => {
     switch (currentTile) {

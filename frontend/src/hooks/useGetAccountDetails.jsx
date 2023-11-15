@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 const fetchAccountDetail = async () => {
   try {
-    const response = await fetch('/account');
+    const response = await fetch('/api/account');
 
     return await response.json();
   } catch (err) {
