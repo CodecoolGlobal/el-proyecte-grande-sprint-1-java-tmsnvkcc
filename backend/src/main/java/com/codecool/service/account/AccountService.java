@@ -1,6 +1,7 @@
 package com.codecool.service.account;
 
 import com.codecool.dao.AccountDAO;
+import com.codecool.dto.GetAccountDTO;
 import com.codecool.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,16 @@ public class AccountService {
         this.accountDAO = accountDAO;
     }
 
-    public Account getAccount () {
-        return accountDAO.getAccount();
+    public GetAccountDTO getAccount () {
+        Account userAccount =  accountDAO.getAccount();
+
+        return new GetAccountDTO(
+                userAccount.uuid(),
+                userAccount.name(),
+                userAccount.description(),
+                userAccount.currency(),
+                userAccount.actualBalance(),
+                userAccount.savingsBalance()
+        );
     }
 }

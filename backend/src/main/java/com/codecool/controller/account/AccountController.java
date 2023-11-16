@@ -1,5 +1,6 @@
 package com.codecool.controller.account;
 
+import com.codecool.dto.GetAccountDTO;
 import com.codecool.model.Account;
 import com.codecool.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ private final AccountService accountService;
     }
 
     @GetMapping("")
-    public Account getAccount(){
+    public GetAccountDTO getAccount(){
         return accountService.getAccount();
     }
 }
