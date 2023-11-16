@@ -1,9 +1,9 @@
-const Profile = () =>{
-  return(
+const Profile = () => {
+  return (
     <>
       profile page
     </>
-  )
+  );
 };
 
 export default Profile;

@@ -1,7 +1,11 @@
-import Login from './Login/index.js';
-import Register from './Register/index.js';
+import FormSwapButton from './FormSwapButton';
+import Login from './Login';
+import PasswordReset from './PasswordReset';
+import Register from './Register';
 
 export {
+  FormSwapButton,
   Login,
+  PasswordReset,
   Register,
 };

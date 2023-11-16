@@ -5,9 +5,11 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import {
+  Dashboard,
   ErrorPage,
-  Home, Track,
+  Home,
   Profile,
+  Track,
 } from 'pages/';
 import { Layout } from 'components/layout';
 import './index.css';
@@ -36,6 +38,9 @@ const router = createBrowserRouter(createRoutesFromElements(
     </Route>
     <Route path={'/track'} element={<Layout />}>
       <Route index element={<Track />}/>
+    </Route>
+    <Route path={'/dashboard'} element={<Layout />}>
+      <Route index element={<Dashboard />}/>
     </Route>
   </Route>,
 ));

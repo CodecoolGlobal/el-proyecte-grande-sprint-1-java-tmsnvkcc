@@ -1,0 +1,8 @@
+.page-title {
+
+    && hr {
+        background-color: var(--primary-main-font-color);
+        height: 0.1rem;
+        width: 40%;
+    }
+}
