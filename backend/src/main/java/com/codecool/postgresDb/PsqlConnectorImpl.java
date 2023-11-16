@@ -18,7 +18,6 @@ public class PsqlConnectorImpl implements PsqlConnector {
             String hostName = env.get("DB_HOST");
             String port = env.get("DB_PORT");
             String databaseName = env.get("DB_NAME");
-
             String connectionString = "jdbc:postgresql://" + hostName + ":" + port + "/"+ databaseName;
             conn = DriverManager.getConnection(connectionString, env.get("DB_USERNAME"), env.get("DB_PASSWORD"));
 

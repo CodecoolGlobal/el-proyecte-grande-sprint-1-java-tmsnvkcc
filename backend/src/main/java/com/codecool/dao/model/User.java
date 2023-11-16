@@ -19,7 +19,6 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-
     public UUID getUuid() {
         return uuid;
     }

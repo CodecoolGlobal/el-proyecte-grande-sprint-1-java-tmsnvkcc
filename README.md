@@ -6,9 +6,11 @@
 ### Techstack
 + Frontend
     + ReactJS (Vite template);
+    + ReactRouter;
+    + ReactQuery;
     + Fontawesome Iconpack;
 
-+ Backend:
++ Backend
     + Java Spring Boot;
     + PostgreSQL;
 
