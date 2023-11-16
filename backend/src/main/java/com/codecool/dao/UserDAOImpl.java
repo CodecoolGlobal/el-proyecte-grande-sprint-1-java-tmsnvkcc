@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO{
         try (Connection conn = getPsqlConnector()) {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, newPassword);
-            preparedStatement.setString(2, uuid.toString());
+            preparedStatement.setString(2, uuid.toString()); // TODO: add the UUID to the parameter and replace here
 
             preparedStatement.executeUpdate();
 
@@ -90,6 +90,22 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public void addUser(String email, String username, boolean isAdmin) {
+        String query = "INSERT INTO users(uuid, username, email, isAdmin) VALUES (?, ?, ?, ?)";
 
+        try (Connection conn = getPsqlConnector()) {
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, "asd");
+            preparedStatement.setString(2, username);
+            preparedStatement.setString(3, email);
+            preparedStatement.setBoolean(4, isAdmin);
+
+            preparedStatement.executeUpdate();
+
+            logger.info("Adding a new user was successfully!");
+
+            preparedStatement.close();
+        } catch (SQLException e) {
+            logger.error("Error adding new user: " + e.getMessage());
+        }
     }
 }
