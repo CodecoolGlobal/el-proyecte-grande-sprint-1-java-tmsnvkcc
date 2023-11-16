@@ -7,6 +7,7 @@ import {
 import {
   FormError,
   InputField,
+  PasswordInputField,
   SubmitButton,
 } from 'components/form-related';
 import { iconLibrary } from 'config';
@@ -28,17 +29,15 @@ const Register = ({ clickHandler }) => {
           type={'email'}
           placeholder={'Enter your email address...'}
         />
-        <InputField
+        <PasswordInputField
           id={'register-password'}
           labelContent={'Password'}
-          type={'password'}
           placeholder={'Enter your password...'}
         />
-        <InputField
+        <PasswordInputField
           id={'register-password-repeat'}
-          labelContent={'Password Repeat'}
-          type={'password'}
-          placeholder={'Repeat your password...'}
+          labelContent={'Password'}
+          placeholder={'Enter your password...'}
         />
         {!loading ?
           <article>

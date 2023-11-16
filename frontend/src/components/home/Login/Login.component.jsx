@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FormError,
   InputField,
+  PasswordInputField,
   SubmitButton,
 } from 'components/form-related';
 import {
@@ -28,10 +29,9 @@ const Login = ({ clickHandler }) => {
           type={'email'}
           placeholder={'Enter your email address...'}
         />
-        <InputField
+        <PasswordInputField
           id={'login-password'}
           labelContent={'Password'}
-          type={'password'}
           placeholder={'Enter your password...'}
         />
         {!loading ?

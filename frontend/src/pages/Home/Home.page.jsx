@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import {
   Login,
   PasswordReset,
   Register,
 } from 'components/home';
-import { useState } from 'react';
 import './Home.styles.css';
 
 const Home = () => {
