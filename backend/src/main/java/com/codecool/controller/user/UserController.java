@@ -24,7 +24,7 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
     @GetMapping("/")
-    public ResponseEntity<String> getUser(){
+    public ResponseEntity<String> getUserInformation(){
         try{
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
