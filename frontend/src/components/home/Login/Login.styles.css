@@ -1,15 +1,3 @@
-.login-form-container {
-  width: 50rem;
-  height: 75rem;
-
-  & form {
-    height: 50rem;
-  }
-
-  & .bottom-button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 5rem 0 5rem;
-  }
+#login-form {
+  height: 50rem;
 }

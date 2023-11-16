@@ -16,9 +16,12 @@ const PasswordReset = ({ clickHandler }) => {
   const { loading, errorMessage, handleOnSubmit } = useHandleFormSubmit();
 
   return (
-    <section className={'password-reset-form-container'}>
+    <>
       <Title title={'Who are you?'} />
-      <form id={'reset-form'} onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/password-reset', method: 'PUT', navigateUrl: '/' }, event)}>
+      <form
+        id={'reset-form'}
+        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/password-reset', method: 'PUT', navigateUrl: '/' }, event)}
+      >
         <InputField
           id={'reset-email'}
           labelContent={'Email'}
@@ -36,7 +39,7 @@ const PasswordReset = ({ clickHandler }) => {
         <FormSwapButton buttonName={'login'} buttonContent={'Sign in'} clickHandler={clickHandler} />
         <FormSwapButton buttonName={'register'} buttonContent={'Create account'} clickHandler={clickHandler} />
       </article>
-    </section>
+    </>
   );
 };
 

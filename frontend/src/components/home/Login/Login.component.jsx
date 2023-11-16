@@ -16,9 +16,12 @@ const Login = ({ clickHandler }) => {
   const { loading, errorMessage, handleOnSubmit } = useHandleFormSubmit();
 
   return (
-    <section className={'login-form-container'}>
+    <>
       <Title title={'Who are you?'} />
-      <form id={'login-form'} onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/login', method: 'POST', navigateUrl: '/dashboard' }, event)}>
+      <form
+        id={'login-form'}
+        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/login', method: 'POST', navigateUrl: '/dashboard' }, event)}
+      >
         <InputField
           id={'login-email'}
           labelContent={'Email'}
@@ -42,7 +45,7 @@ const Login = ({ clickHandler }) => {
         <FormSwapButton buttonName={'reset'} buttonContent={'Forgot password?'} clickHandler={clickHandler} />
         <FormSwapButton buttonName={'register'} buttonContent={'Create account'} clickHandler={clickHandler} />
       </article>
-    </section>
+    </>
   );
 };
 

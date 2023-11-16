@@ -1,27 +1,15 @@
 body {
-  background: url('/src/assets/login_background.png') 50% / cover no-repeat;
+  background-image: url('/src/assets/login_background.png');
 }
 
-.login-form-container,
-.register-form-container,
-.password-reset-form-container {
+main {
+  width: 50rem;
+  height: fit-content;
   margin: 20rem auto 0 auto;
   border-radius: 2rem;
   background-color: var(--dark-transparent-background);
   border: 0.2rem solid var(--dark-transparent-background);
   box-shadow: 0 0.4rem 0.4rem 0 var(--dark-transparent-background);
-  backdrop-filter: blur(0.2rem);
-  animation: fadeIn ease 5s;
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
 
   & form {
     display: flex;
@@ -83,5 +71,12 @@ body {
 
   & button {
     cursor: pointer;
+  }
+
+  & .bottom-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 5rem 5rem 5rem;
   }
 }

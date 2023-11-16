@@ -30,9 +30,9 @@ const Home = () => {
   };
 
   return (
-    <>
+    <main>
       {renderFormComponent()}
-    </>
+    </main>
   );
 };
 

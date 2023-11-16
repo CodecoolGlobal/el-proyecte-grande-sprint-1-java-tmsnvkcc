@@ -23,7 +23,7 @@ html {
 
 body {
   background-color: lightgray;
-  background-image: url("../src/assets/Wallpaper.svg");
+  background-image: url('assets/wallpaper.svg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
