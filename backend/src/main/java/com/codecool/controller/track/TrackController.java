@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/track")
 public class TrackController {
     private final TrackPageService trackPageService;
-@Autowired
+    @Autowired
     public TrackController(TrackPageService trackPageService) {
         this.trackPageService = trackPageService;
     }
 
     @GetMapping("/{year}/{month}")
     public GetMonthlyTransactionsDTO getTransactionsForMonth(@PathVariable int year, @PathVariable int month){
-    return trackPageService.getTransactionForMonth(year,month);
+        return trackPageService.getTransactionForMonth(year,month);
     }
 }
 

@@ -1,8 +1,8 @@
 import useGetMonthlyTransactions from './useGetMonthlyTransactions.jsx';
 import { useGetAccountDetails } from './index.js';
 
-const useGetTrackPageData  = () => {
-  const transactions = useGetMonthlyTransactions();
+const useGetTrackPageData = (year, month) => {
+  const transactions = useGetMonthlyTransactions(year, month);
   const account = useGetAccountDetails();
 
   return { 'transactions' : transactions, 'account' : account };

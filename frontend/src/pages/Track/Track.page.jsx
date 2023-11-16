@@ -10,7 +10,7 @@ const Track = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
 
-  console.log(useGetTrackPageData());
+  console.log(useGetTrackPageData(selectedYear,selectedMonth));
   //TODO Implement logic to sort incoming data into different states (account, transactions etc...)
 
   const componentRenderHandler = () => {
