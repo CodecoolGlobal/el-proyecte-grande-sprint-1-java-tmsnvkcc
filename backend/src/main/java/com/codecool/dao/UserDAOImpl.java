@@ -3,6 +3,7 @@ package com.codecool.dao;
 import com.codecool.dao.model.User;
 import com.codecool.postgresDb.PsqlConnector;
 import com.codecool.postgresDb.PsqlConnectorImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,22 +91,26 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public void addUser(String email, String username, boolean isAdmin) {
-        String query = "INSERT INTO users(uuid, username, email, isAdmin) VALUES (?, ?, ?, ?)";
+      String query =
+        """
+          INSERT INTO
+            users(uuid, username, email, isadmin)
+          VALUES
+            (?, ?, ?, ?)
+         """;
 
-        try (Connection conn = getPsqlConnector()) {
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, "asd");
-            preparedStatement.setString(2, username);
-            preparedStatement.setString(3, email);
-            preparedStatement.setBoolean(4, isAdmin);
+        try (Connection conn = getPsqlConnector();
+          PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+          preparedStatement.setString(1, "asd");
+          preparedStatement.setString(2, username);
+          preparedStatement.setString(3, email);
+          preparedStatement.setBoolean(4, isAdmin);
 
-            preparedStatement.executeUpdate();
-
-            logger.info("Adding a new user was successfully!");
-
-            preparedStatement.close();
-        } catch (SQLException e) {
-            logger.error("Error adding new user: " + e.getMessage());
+          preparedStatement.executeUpdate();
+          logger.info("Adding a new user was successful.");
+        } catch (SQLException exception) {
+          logger.error("Error adding new user: " + exception.getMessage());
+          throw new RuntimeException("my error");
         }
     }
 }

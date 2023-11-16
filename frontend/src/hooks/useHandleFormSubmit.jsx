@@ -25,16 +25,15 @@ const useHandleFormSubmit = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setErrorMessage(data.errorMessage);
+        setErrorMessage(data.message);
       }
 
       if (response.ok) {
         navigate(navigateUrl);
       }
+
     } catch (error) {
-      console.error(error);
-      // TODO - setErrorMessage should receive the actual error message from the error object.
-      setErrorMessage('An unexpected error has happened. We ask you to refresh your browser and try again.');
+      setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
