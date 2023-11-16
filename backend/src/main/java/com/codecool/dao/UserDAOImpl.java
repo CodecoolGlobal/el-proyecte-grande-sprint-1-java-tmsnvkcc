@@ -1,5 +1,6 @@
 package com.codecool.dao;
 
+import com.codecool.dao.model.User;
 import com.codecool.postgresDb.PsqlConnector;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,11 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public void updateUsername(UUID uuid) {
 
+    }
+
+    @Override
+    public User getUser(String email, String password) {
+        return null;
     }
 
     @Override
