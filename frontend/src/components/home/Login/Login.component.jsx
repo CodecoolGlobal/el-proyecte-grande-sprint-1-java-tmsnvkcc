@@ -4,7 +4,10 @@ import {
   InputField,
   SubmitButton,
 } from 'components/form-related';
-import { FormSwapButton } from 'components/home';
+import {
+  FormSwapButton,
+  Title,
+} from 'components/home';
 import { useHandleFormSubmit } from 'hooks';
 import { iconLibrary } from 'config';
 import './Login.styles.css';
@@ -14,7 +17,7 @@ const Login = ({ clickHandler }) => {
 
   return (
     <section className={'login-form-container'}>
-      <h1>Who are you?</h1>
+      <Title title={'Who are you?'} />
       <form id={'login-form'} onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/login', method: 'POST', navigateUrl: '/dashboard' }, event)}>
         <InputField
           id={'email'}
