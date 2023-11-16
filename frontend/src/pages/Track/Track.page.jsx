@@ -2,9 +2,16 @@ import { useState } from 'react';
 import { TrackComponentSelector } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
+import { useGetAccountDetails, useGetTrackPageData } from 'hooks';
+import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
+
+  console.log(useGetTrackPageData(selectedYear,selectedMonth));
+  //TODO Implement logic to sort incoming data into different states (account, transactions etc...)
 
   const componentRenderHandler = () => {
     switch (currentTile) {
@@ -28,6 +35,7 @@ const Track = () => {
   const handleClick = (tileName) => {
     setCurrentTile(tileName);
   };
+
 
   return (
     <div>

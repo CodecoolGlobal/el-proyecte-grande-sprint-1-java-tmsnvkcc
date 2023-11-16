@@ -15,7 +15,18 @@ import { Layout } from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCircleExclamation, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 library.add(faCircleExclamation, faCircleNotch);
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      enabled: true,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    },
+  },
+});
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route errorElement={<ErrorPage />}>
@@ -36,7 +47,9 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 const Application = () => {
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   );
 };
 
