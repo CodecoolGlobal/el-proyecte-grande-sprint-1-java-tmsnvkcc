@@ -2,7 +2,7 @@
   --primary-main: rgb(53, 54, 58);
   --primary-main-font-color: rgb(255, 255, 255);
   --primary-off: rgb(237, 174, 73);
-  --primary-background: rgb(223, 223, 223);
+  --primary-background: rgb(223, 223, 223, 0.3);
   --dark-transparent-background: rgba(25, 25, 27, 0.9);
   --warning: rgb(243, 2, 2);
 }
@@ -23,7 +23,7 @@ html {
 
 body {
   background-color: lightgray;
-  background-image: url("../src/assets/Wallpaper.svg");
+  background-image: url('assets/wallpaper.svg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;

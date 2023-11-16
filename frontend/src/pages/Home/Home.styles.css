@@ -1,3 +1,82 @@
 body {
-  background: url('/src/assets/login_background.png') 50% / cover no-repeat;
+  background-image: url('/src/assets/login_background.png');
+}
+
+main {
+  width: 50rem;
+  height: fit-content;
+  margin: 20rem auto 0 auto;
+  border-radius: 2rem;
+  background-color: var(--dark-transparent-background);
+  border: 0.2rem solid var(--dark-transparent-background);
+  box-shadow: 0 0.4rem 0.4rem 0 var(--dark-transparent-background);
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+
+    & input {
+      height: 5rem;
+      width: 35rem;
+      margin: 1rem 0 0 0;
+      padding: 0 0 0 2.5rem;
+
+      &::placeholder {
+        color: var(--primary-main-font-color);
+        font-size: 1.5rem;
+        letter-spacing: 0.15rem;
+      }
+
+      &:focus::placeholder {
+        color: transparent;
+      }
+    }
+
+    & button {
+      height: 5rem;
+      width: 17.5rem;
+      margin: 5rem 0 0 0;
+    }
+
+    & input,
+    & button {
+      font-size: inherit;
+      color: inherit;
+      background-color: var(--primary-main);
+      border-radius: 0.75rem;
+
+      &:focus {
+        outline: 0.25rem solid var(--primary-main-font-color);
+      }
+    }
+
+    & article {
+      text-align: center;
+    }
+
+    & .loading-icon {
+      margin: 5rem 0 0 0;
+      font-size: 3.5rem;
+    }
+  }
+
+  & input,
+  & button {
+    &:hover {
+      background-color: var(--primary-background);
+    }
+  }
+
+  & button {
+    cursor: pointer;
+  }
+
+  & .bottom-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 5rem 5rem 5rem;
+  }
 }
