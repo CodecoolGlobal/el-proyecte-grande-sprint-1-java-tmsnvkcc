@@ -1,0 +1,20 @@
+.window {
+    width: 33.7rem; /*22vw*/
+    height: 42.9rem; /*60vh*/
+    border: 0.1rem solid rgba(201, 198, 198, 0.6);
+    padding: 1.8rem;
+    margin-right: 3rem;
+    border-radius: 1.5rem;
+    background: rgba(25, 25, 27, 0.81);
+    box-shadow: 0 0.8rem 0.8rem 0 rgba(0, 0, 0, 0.25);
+
+    && p {
+        margin: 2rem 0;
+    }
+
+    && hr {
+        background-color: var(--primary-main-font-color);
+        height: 0.1rem;
+        width: 80%;
+    }
+}
