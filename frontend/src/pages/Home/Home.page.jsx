@@ -13,17 +13,27 @@ const Home = () => {
     setActiveForm(component);
   };
 
-  if (activeForm === 'login') {
-    return <Login clickHandler={handleOnClick} />;
-  }
+  const renderFormComponent = () => {
+    switch (activeForm) {
+    case 'login':
+      return <Login clickHandler={handleOnClick} />;
 
-  if (activeForm === 'register') {
-    return <Register clickHandler={handleOnClick} />;
-  }
+    case 'register':
+      return <Register clickHandler={handleOnClick} />;
 
-  if (activeForm === 'reset') {
-    return <PasswordReset clickHandler={handleOnClick} />;
-  }
+    case 'reset':
+      return <PasswordReset clickHandler={handleOnClick} />;
+
+    default:
+      return <Login clickHandler={handleOnClick} />;
+    }
+  };
+
+  return (
+    <>
+      {renderFormComponent()}
+    </>
+  );
 };
 
 export default Home;

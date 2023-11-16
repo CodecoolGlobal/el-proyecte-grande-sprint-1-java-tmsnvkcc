@@ -11,6 +11,17 @@ body {
   border: 0.2rem solid var(--dark-transparent-background);
   box-shadow: 0 0.4rem 0.4rem 0 var(--dark-transparent-background);
   backdrop-filter: blur(0.2rem);
+  animation: fadeIn ease 5s;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 
   & form {
     display: flex;
