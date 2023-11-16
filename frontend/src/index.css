@@ -30,6 +30,7 @@ body {
   background-size: cover;
   color: var(--primary-main-font-color);
   font-size: 1.4rem;
+  font-family: 'Quicksand', sans-serif;
 }
 
 a,

@@ -57,6 +57,8 @@ CREATE TABLE income (
     description TEXT,
     dateOfTransaction DATE,
     amount DECIMAL(10,2),
+    isPlanned BOOLEAN,
+    isRecurring BOOLEAN,
     FOREIGN KEY (accountId) REFERENCES accounts(id),
     FOREIGN KEY (userId) REFERENCES users(id)
 );
@@ -70,6 +72,8 @@ CREATE TABLE savings (
     description TEXT,
     dateOfTransaction DATE,
     amount DECIMAL(10,2),
+    isPlanned BOOLEAN,
+    isRecurring BOOLEAN,
     FOREIGN KEY (accountId) REFERENCES accounts(id),
     FOREIGN KEY (userId) REFERENCES users(id)
 );
