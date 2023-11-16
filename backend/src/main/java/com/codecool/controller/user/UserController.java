@@ -33,6 +33,36 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(){
+        try{
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registration(){
+        try{
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @PutMapping("/password-reset")
+    public ResponseEntity<String> resetPassword(){
+        try{
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     @PutMapping("/changeUsername/{userId}")
     public ResponseEntity<String> changeUsername(@PathVariable UUID userId){
         try{
