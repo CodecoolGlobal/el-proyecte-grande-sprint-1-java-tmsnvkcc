@@ -13,5 +13,15 @@ public abstract class Transaction {
     protected boolean isPlanned;
     protected boolean isRecurring;
 
+    public Transaction(UUID uuid, int userId, int accountId, String description, LocalDate dateOfTransaction, int amount, boolean isPlanned, boolean isRecurring) {
+        this.uuid = uuid;
+        this.userId = userId;
+        this.accountId = accountId;
+        this.description = description;
+        this.dateOfTransaction = dateOfTransaction;
+        this.amount = amount;
+        this.isPlanned = isPlanned;
+        this.isRecurring = isRecurring;
+    }
 
 }
