@@ -24,4 +24,23 @@ public abstract class Transaction {
         this.isRecurring = isRecurring;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDate getDateOfTransaction() {
+        return dateOfTransaction;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public boolean isPlanned() {
+        return isPlanned;
+    }
+
+    public boolean isRecurring() {
+        return isRecurring;
+    }
 }

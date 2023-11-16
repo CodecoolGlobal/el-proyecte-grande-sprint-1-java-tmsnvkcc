@@ -1,4 +1,7 @@
 package com.codecool.dto;
 
-public record GetMonthlyTransactionsDTO() {
+import java.util.ArrayList;
+import java.util.List;
+
+public record GetMonthlyTransactionsDTO(List<ExternalTransactionDTO> income, List<ExternalTransactionDTO> spendings, List<LocalTransactionDTO> savings) {
 }

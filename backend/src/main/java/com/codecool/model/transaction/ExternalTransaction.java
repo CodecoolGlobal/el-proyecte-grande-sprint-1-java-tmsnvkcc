@@ -11,4 +11,7 @@ public class ExternalTransaction extends Transaction {
         this.categoryName = categoryName;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
 }
