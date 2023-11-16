@@ -11,9 +11,9 @@ const fetchMonthlyTransactions = async (year, month) => {
 };
 //TODO Wrap fetch to check localstorage first
 
-const useGetMonthlyTransactions = (year) => {
+const useGetMonthlyTransactions = (year, month) => {
   const query = useQuery({
-    queryKey:['accountDetails'],
+    queryKey:['monthlyTransactions'],
     queryFn:() => fetchMonthlyTransactions(year, month),
   });
 
