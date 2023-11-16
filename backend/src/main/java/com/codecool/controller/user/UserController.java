@@ -1,5 +1,6 @@
 package com.codecool.controller.user;
 
+import com.codecool.dto.NewUserDTO;
 import com.codecool.postgresDb.PsqlConnectorImpl;
 import com.codecool.service.user.UserService;
 import org.slf4j.Logger;
@@ -44,8 +45,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registration(){
+    public ResponseEntity<String> registration(@RequestBody NewUserDTO user){
         try{
+            userService.createUserAccount(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             logger.error(e.getMessage());
