@@ -5,9 +5,9 @@ import { serialiseFormData } from 'utilities';
 const useHandleFormSubmit = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleOnSubmit = async ({ apiUrl, navigateUrl }, event) => {
+  const handleOnSubmit = async ({ apiUrl, method, navigateUrl }, event) => {
     event.preventDefault();
 
     try {
@@ -15,7 +15,7 @@ const useHandleFormSubmit = () => {
 
       const payload = serialiseFormData(event.target);
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -25,7 +25,7 @@ const useHandleFormSubmit = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.errorMessage);
+        setErrorMessage(data.errorMessage);
       }
 
       if (response.ok) {
@@ -33,7 +33,8 @@ const useHandleFormSubmit = () => {
       }
     } catch (error) {
       console.error(error);
-      setError('An unexpected error has happened. We ask you to refresh your browser and try again.');
+      // TODO - setErrorMessage should receive the actual error message from the error object.
+      setErrorMessage('An unexpected error has happened. We ask you to refresh your browser and try again.');
     } finally {
       setLoading(false);
     }
@@ -41,7 +42,7 @@ const useHandleFormSubmit = () => {
 
   return {
     loading,
-    error,
+    errorMessage,
     handleOnSubmit,
   };
 };

@@ -5,15 +5,28 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import {
+  Dashboard,
   ErrorPage,
-  Home, Track,
+  Home,
   Profile,
+  Track,
 } from 'pages/';
 import { Layout } from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCircleExclamation, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 library.add(faCircleExclamation, faCircleNotch);
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      enabled: true,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    },
+  },
+});
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route errorElement={<ErrorPage />}>
@@ -26,12 +39,17 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path={'/track'} element={<Layout />}>
       <Route index element={<Track />}/>
     </Route>
+    <Route path={'/dashboard'} element={<Layout />}>
+      <Route index element={<Dashboard />}/>
+    </Route>
   </Route>,
 ));
 
 const Application = () => {
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   );
 };
 

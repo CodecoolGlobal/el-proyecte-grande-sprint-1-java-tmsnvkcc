@@ -1,22 +1,29 @@
 import {
   Login,
+  PasswordReset,
   Register,
 } from 'components/home';
 import { useState } from 'react';
+import './Home.styles.css';
 
 const Home = () => {
-  const [isLoginFormShown, setIsLoginFormShown] = useState(true);
+  const [activeForm, setActiveForm] = useState('login');
 
-  const handleOnClick = () => {
-    setIsLoginFormShown(!isLoginFormShown);
+  const handleOnClick = (component) => {
+    setActiveForm(component);
   };
 
-  return (
-    <>
-      {isLoginFormShown ? <Login /> : <Register />}
-      <button type={'button'} onClick={handleOnClick}>{isLoginFormShown ? 'Register' : 'Login'}</button>
-    </>
-  );
+  if (activeForm === 'login') {
+    return <Login clickHandler={handleOnClick} />;
+  }
+
+  if (activeForm === 'register') {
+    return <Register clickHandler={handleOnClick} />;
+  }
+
+  if (activeForm === 'reset') {
+    return <PasswordReset clickHandler={handleOnClick} />;
+  }
 };
 
 export default Home;
