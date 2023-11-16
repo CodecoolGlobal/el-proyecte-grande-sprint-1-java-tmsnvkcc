@@ -20,19 +20,19 @@ const Register = ({ clickHandler }) => {
       <Title title={'Who are you?'} />
       <form id={'register-form'} onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/register', method: 'POST', navigateUrl: '/' }, event)}>
         <InputField
-          id={'email'}
+          id={'register-email'}
           labelContent={'Email'}
           type={'email'}
           placeholder={'Enter your email address...'}
         />
         <InputField
-          id={'password'}
+          id={'register-password'}
           labelContent={'Password'}
           type={'password'}
           placeholder={'Enter your password...'}
         />
         <InputField
-          id={'password'}
+          id={'register-password-repeat'}
           labelContent={'Password Repeat'}
           type={'password'}
           placeholder={'Repeat your password...'}

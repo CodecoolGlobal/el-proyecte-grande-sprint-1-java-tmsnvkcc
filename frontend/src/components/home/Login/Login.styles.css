@@ -2,6 +2,10 @@
   width: 50rem;
   height: 75rem;
 
+  & form {
+    height: 50rem;
+  }
+
   & .bottom-button-container {
     display: flex;
     flex-direction: row;

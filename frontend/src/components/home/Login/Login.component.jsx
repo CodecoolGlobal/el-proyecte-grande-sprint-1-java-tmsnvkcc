@@ -20,13 +20,13 @@ const Login = ({ clickHandler }) => {
       <Title title={'Who are you?'} />
       <form id={'login-form'} onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/login', method: 'POST', navigateUrl: '/dashboard' }, event)}>
         <InputField
-          id={'email'}
+          id={'login-email'}
           labelContent={'Email'}
           type={'email'}
           placeholder={'Enter your email address...'}
         />
         <InputField
-          id={'password'}
+          id={'login-password'}
           labelContent={'Password'}
           type={'password'}
           placeholder={'Enter your password...'}

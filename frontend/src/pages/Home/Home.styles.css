@@ -3,7 +3,8 @@ body {
 }
 
 .login-form-container,
-.register-form-container {
+.register-form-container,
+.password-reset-form-container {
   margin: 20rem auto 0 auto;
   border-radius: 2rem;
   background-color: var(--dark-transparent-background);
@@ -16,7 +17,6 @@ body {
     flex-direction: column;
     align-items: center;
     font-size: 2rem;
-    height: 50rem;
 
     & input {
       height: 5rem;
@@ -61,5 +61,16 @@ body {
       margin: 5rem 0 0 0;
       font-size: 3.5rem;
     }
+  }
+
+  & input,
+  & button {
+    &:hover {
+      background-color: var(--primary-background);
+    }
+  }
+
+  & button {
+    cursor: pointer;
   }
 }

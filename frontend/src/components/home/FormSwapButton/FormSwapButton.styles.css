@@ -5,7 +5,6 @@
   color: var(--primary-main-font-color);
   background-color: var(--primary-main);
   border-radius: 0.75rem;
-  cursor: pointer;
 
   &:focus {
     outline: 0.25rem solid var(--primary-main-font-color);
