@@ -38,7 +38,7 @@ const Track = () => {
 
 
   return (
-    <div>
+    <div className={'track-page'}>
       <PageTitle title={'Track'} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
