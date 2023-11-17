@@ -1,6 +1,6 @@
 .window {
-    width: 33.7rem; /*22vw*/
-    height: 42.9rem; /*60vh*/
+    width: 22vw;
+    height: 60vh;
     border: 0.1rem solid rgba(201, 198, 198, 0.6);
     padding: 1.8rem;
     margin-right: 3rem;
