@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import {
+  PageTitle,
+} from 'components/form-related';
+import './Profile.styles.css';
 
 const Profile = () =>{
   const [loading, setLoading] = useState(false);
@@ -26,9 +29,10 @@ const Profile = () =>{
   }, []);
 
   return (
-    <>
+    <div className={'profile-page'}>
+      <PageTitle title={"Profile"} />
       {profileData}
-    </>
+    </div>
   )
 };
 
