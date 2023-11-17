@@ -9,11 +9,12 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import {
-  Dashboard,
   ErrorPage,
   Home,
-  Profile,
+  Dashboard,
   Track,
+  Insights,
+  Profile,
 } from 'pages';
 import { Layout } from 'components/layout';
 import './index.css';
@@ -36,14 +37,17 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path={'/'}>
       <Route index element={<Home />} />
     </Route>
-    <Route path={'/profile'} element={<Layout />}>
-      <Route index element={<Profile />} />
+    <Route path={'/dashboard'} element={<Layout />}>
+      <Route index element={<Dashboard />} />
     </Route>
     <Route path={'/track'} element={<Layout />}>
       <Route index element={<Track />} />
     </Route>
-    <Route path={'/dashboard'} element={<Layout />}>
-      <Route index element={<Dashboard />} />
+    <Route path={'/insights'} element={<Layout />}>
+      <Route index element={<Insights />} />
+    </Route>
+    <Route path={'/profile'} element={<Layout />}>
+      <Route index element={<Profile />} />
     </Route>
   </Route>,
 ));
