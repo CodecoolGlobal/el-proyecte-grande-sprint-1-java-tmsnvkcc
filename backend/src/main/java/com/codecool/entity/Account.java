@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -19,11 +20,11 @@ public class Account {
   @Column(name = "id")
   private int id;
 
-  @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "uuid")
-  private UUID uuid;
+  private UUID uuid = UUID.randomUUID();
 
-  @OneToOne(mappedBy = "accountId", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+  @OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
   private User user;
 
   @Column(name = "name")

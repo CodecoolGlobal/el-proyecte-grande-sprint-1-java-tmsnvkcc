@@ -20,15 +20,17 @@ public class User {
   @Column(name = "id")
   private int id;
 
-  @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "uuid")
-  private UUID uuid;
+  private UUID uuid = UUID.randomUUID();
 
   @Column(name = "user_name")
   private String userName;
 
   @Column(name = "email")
   private String email;
+
+  @Column(name = "hashed_password")
+  private String hashedPassword;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "account_id", referencedColumnName = "id")
@@ -37,12 +39,12 @@ public class User {
   @Column(name = "is_admin")
   private boolean isAdmin;
 
-  public User() {
-  }
+  public User() {}
 
-  public User(String userName, String email, Account accountId, boolean isAdmin) {
-    this.userName = userName;
+  public User(String email, String hashedPassword, Account accountId, boolean isAdmin) {
+    this.userName = "CHANGE ME!";
     this.email = email;
+    this.hashedPassword = hashedPassword;
     this.accountId = accountId;
     this.isAdmin = isAdmin;
   }
@@ -77,6 +79,14 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getHashedPassword() {
+    return hashedPassword;
+  }
+
+  public void setHashedPassword(String hashedPassword) {
+    this.hashedPassword = hashedPassword;
   }
 
   public Account getAccountId() {

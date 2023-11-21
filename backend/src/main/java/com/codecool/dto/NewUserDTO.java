@@ -1,4 +1,6 @@
 package com.codecool.dto;
 
-public record NewUserDTO(String email, String username, String password) {
-}
+public record NewUserDTO(
+  String registerEmail,
+  String registerPassword
+) {}

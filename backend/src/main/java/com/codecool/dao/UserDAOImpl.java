@@ -3,6 +3,7 @@ package com.codecool.dao;
 import com.codecool.entity.User;
 import com.codecool.postgresDb.PsqlConnector;
 import com.codecool.postgresDb.PsqlConnectorImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,11 @@ import java.sql.PreparedStatement;
 import java.util.UUID;
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
     private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
     private final PsqlConnector psqlConnector;
 
+    @Autowired
     public UserDAOImpl(PsqlConnector psqlConnector) {
         this.psqlConnector = psqlConnector;
     }
