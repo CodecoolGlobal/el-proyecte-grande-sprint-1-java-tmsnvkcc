@@ -21,14 +21,13 @@ CREATE TABLE users (
 -- Create accounts table
 CREATE TABLE accounts (
     id SERIAL PRIMARY KEY,
-    userId INT,
+    user_id INT REFERENCES users(id),
     uuid VARCHAR(36) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     currency VARCHAR(3),
-    actualBalance DECIMAL(10,2),
-    savingsBalance DECIMAL(10,2),
-    FOREIGN KEY (userId) REFERENCES users(id)
+    actual_balance DECIMAL(10, 2),
+    savings_balance DECIMAL(10, 2)
 );
 
 -- Create spendings table
@@ -85,7 +84,7 @@ VALUES
     ('def456', 'user2', 'user2@example.com', 2, false);
 
 -- Insert dummy data into accounts table
-INSERT INTO accounts (userId, uuid, name, description, currency, actualBalance, savingsBalance)
+INSERT INTO accounts (user_id, uuid, name, description, currency, actual_balance, savings_balance)
 VALUES
     (1, 'acc123', 'Account 1', 'Main account', 'USD', 1000.00, 500.00),
     (2, 'acc456', 'Account 2', 'Savings account', 'EUR', 2000.00, 1000.00);

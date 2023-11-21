@@ -1,10 +1,13 @@
 package com.codecool.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.util.UUID;
@@ -27,8 +30,9 @@ public class User {
   @Column(name = "email")
   private String email;
 
-  @Column(name = "account_id")
-  private int accountId;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "account_id", referencedColumnName = "id")
+  private Account accountId;
 
   @Column(name = "is_admin")
   private boolean isAdmin;
@@ -36,7 +40,7 @@ public class User {
   public User() {
   }
 
-  public User(String userName, String email, int accountId, boolean isAdmin) {
+  public User(String userName, String email, Account accountId, boolean isAdmin) {
     this.userName = userName;
     this.email = email;
     this.accountId = accountId;
@@ -75,11 +79,11 @@ public class User {
     this.email = email;
   }
 
-  public int getAccountId() {
+  public Account getAccountId() {
     return accountId;
   }
 
-  public void setAccountId(int accountId) {
+  public void setAccountId(Account accountId) {
     this.accountId = accountId;
   }
 
