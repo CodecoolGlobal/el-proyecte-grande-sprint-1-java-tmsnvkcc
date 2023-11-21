@@ -1,9 +1,8 @@
 package com.codecool.dao;
 
-import com.codecool.dao.model.User;
+import com.codecool.entity.User;
 import com.codecool.postgresDb.PsqlConnector;
 import com.codecool.postgresDb.PsqlConnectorImpl;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

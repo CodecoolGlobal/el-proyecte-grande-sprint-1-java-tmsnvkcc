@@ -1,6 +1,6 @@
 package com.codecool.dao;
 
-import com.codecool.dao.model.User;
+import com.codecool.entity.User;
 
 import java.util.UUID;
 

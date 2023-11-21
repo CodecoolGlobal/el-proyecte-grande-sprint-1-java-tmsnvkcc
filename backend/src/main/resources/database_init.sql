@@ -12,10 +12,10 @@ drop table if exists users;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     uuid VARCHAR(36) NOT NULL,
-    username VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    accountId INT,
-    isAdmin BOOLEAN
+    account_id INT,
+    is_admin BOOLEAN
 );
 
 -- Create accounts table
@@ -79,7 +79,7 @@ CREATE TABLE savings (
 );
 
 -- Insert dummy data into users table
-INSERT INTO users (uuid, username, email, accountId, isAdmin)
+INSERT INTO users (uuid, user_name, email, account_id, is_admin)
 VALUES
     ('abc123', 'user1', 'user1@example.com', 1, true),
     ('def456', 'user2', 'user2@example.com', 2, false);
