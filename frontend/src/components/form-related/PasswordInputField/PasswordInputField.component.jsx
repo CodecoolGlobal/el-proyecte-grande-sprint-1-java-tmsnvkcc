@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { iconLibrary } from 'config';
+import { iconLibraryConfig } from 'config';
 import './PasswordInputField.styles.css';
 
 const PasswordInputField = ({ id, labelContent, defaultValue, placeholder }) => {
@@ -22,7 +22,7 @@ const PasswordInputField = ({ id, labelContent, defaultValue, placeholder }) => 
           placeholder={placeholder ?? ''}
         />
         <div>
-          <FontAwesomeIcon className={'reveal-icon'} onClick={handleOnClick} icon={isRevealed ? iconLibrary.faEyeSlash : iconLibrary.faEye} />
+          <FontAwesomeIcon className={'reveal-icon'} onClick={handleOnClick} icon={isRevealed ? iconLibraryConfig.faEyeSlash : iconLibraryConfig.faEye} />
         </div>
       </div>
     </article>

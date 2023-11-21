@@ -1,5 +1,7 @@
-import iconLibrary from './iconLibrary.js';
+import axiosConfig from './axios.config.js';
+import iconLibraryConfig from './iconLibrary.config.js';
 
 export {
-  iconLibrary,
+  axiosConfig,
+  iconLibraryConfig,
 };
