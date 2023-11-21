@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useHandleFormSubmit } from 'hooks';
 import {
   FormSwapButton,
   Title,
@@ -10,7 +9,8 @@ import {
   PasswordInputField,
   SubmitButton,
 } from 'components/form-related';
-import { iconLibrary } from 'config';
+import { useHandleFormSubmit } from './Register.hooks.jsx';
+import { iconLibraryConfig } from 'config';
 import './Register.styles.css';
 
 const Register = ({ clickHandler }) => {
@@ -20,22 +20,22 @@ const Register = ({ clickHandler }) => {
     <>
       <Title title={'Who are you?'} />
       <form
-        id={'register-form'}
-        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/register', method: 'POST', navigateUrl: '/' }, event)}
+        id={'registerForm'}
+        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/users/register', method: 'POST' }, event)}
       >
         <InputField
-          id={'register-email'}
+          id={'registerEmail'}
           labelContent={'Email'}
           type={'email'}
           placeholder={'Enter your email address...'}
         />
         <PasswordInputField
-          id={'register-password'}
+          id={'registerPassword'}
           labelContent={'Password'}
           placeholder={'Enter your password...'}
         />
         <PasswordInputField
-          id={'register-password-repeat'}
+          id={'registerPasswordRepeat'}
           labelContent={'Password'}
           placeholder={'Enter your password...'}
         />
@@ -44,7 +44,7 @@ const Register = ({ clickHandler }) => {
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}
           </article> :
-          <FontAwesomeIcon icon={iconLibrary.faCircleNotch} spin className={'loading-icon'} />}
+          <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />}
       </form>
       <article className={'bottom-button-container'}>
         <FormSwapButton buttonName={'reset'} buttonContent={'Forgot password?'} clickHandler={clickHandler} />

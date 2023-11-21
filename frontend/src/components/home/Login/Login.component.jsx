@@ -10,7 +10,7 @@ import {
   Title,
 } from 'components/home';
 import { useHandleFormSubmit } from 'hooks';
-import { iconLibrary } from 'config';
+import { iconLibraryConfig } from 'config';
 import './Login.styles.css';
 
 const Login = ({ clickHandler }) => {
@@ -21,7 +21,7 @@ const Login = ({ clickHandler }) => {
       <Title title={'Who are you?'} />
       <form
         id={'login-form'}
-        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/login', method: 'POST', navigateUrl: '/dashboard' }, event)}
+        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/users/login', method: 'POST', navigateUrl: '/dashboard' }, event)}
       >
         <InputField
           id={'login-email'}
@@ -39,7 +39,7 @@ const Login = ({ clickHandler }) => {
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}
           </article> :
-          <FontAwesomeIcon icon={iconLibrary.faCircleNotch} spin className={'loading-icon'} />}
+          <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />}
       </form>
       <article className={'bottom-button-container'}>
         <FormSwapButton buttonName={'reset'} buttonContent={'Forgot password?'} clickHandler={clickHandler} />

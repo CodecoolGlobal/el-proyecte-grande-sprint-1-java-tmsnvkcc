@@ -7,13 +7,12 @@ const useHandleFormSubmit = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleOnSubmit = async ({ apiUrl, method, navigateUrl }, event) => {
+  const handleOnSubmit = async ({ apiUrl, method, navigateUrl }, payload) => {
     event.preventDefault();
 
     try {
       setLoading(true);
 
-      const payload = serialiseFormData(event.target);
       const response = await fetch(apiUrl, {
         method,
         headers: {

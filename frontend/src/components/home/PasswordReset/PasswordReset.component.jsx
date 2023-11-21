@@ -9,7 +9,7 @@ import {
   Title,
 } from 'components/home';
 import { useHandleFormSubmit } from 'hooks';
-import { iconLibrary } from 'config';
+import { iconLibraryConfig } from 'config';
 import './PasswordReset.styles.css';
 
 const PasswordReset = ({ clickHandler }) => {
@@ -20,7 +20,7 @@ const PasswordReset = ({ clickHandler }) => {
       <Title title={'Who are you?'} />
       <form
         id={'reset-form'}
-        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/user/password-reset', method: 'PUT', navigateUrl: '/' }, event)}
+        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/users/password-reset', method: 'PUT', navigateUrl: '/' }, event)}
       >
         <InputField
           id={'reset-email'}
@@ -33,7 +33,7 @@ const PasswordReset = ({ clickHandler }) => {
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}
           </article> :
-          <FontAwesomeIcon icon={iconLibrary.faCircleNotch} spin className={'loading-icon'} />}
+          <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />}
       </form>
       <article className={'bottom-button-container'}>
         <FormSwapButton buttonName={'login'} buttonContent={'Sign in'} clickHandler={clickHandler} />
