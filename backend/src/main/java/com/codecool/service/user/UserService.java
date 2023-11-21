@@ -1,21 +1,39 @@
 package com.codecool.service.user;
 
-import com.codecool.dao.UserDAO;
 import com.codecool.dto.NewUserDTO;
+import com.codecool.entity.Account;
+import com.codecool.entity.User;
+import com.codecool.exception.FormErrorException;
+import com.codecool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
-    private final UserDAO userDAO;
+  private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
+  @Autowired
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    public void createUserAccount(NewUserDTO user){
-        // TODO: hashing password and generating uuid
-        userDAO.addUser(user.email(), user.username(), false);
+  @Transactional
+  public void addUser(NewUserDTO user, String hashedPassword) {
+    Account account = new Account();
+    User newUser = new User(user.registerEmail(), hashedPassword, account, false);
+    account.setUser(newUser);
+
+    userRepository.save(newUser);
+  }
+
+  public void findUserByEmail(String email) throws FormErrorException {
+    Optional<User> foundUser = userRepository.findByEmail(email);
+
+    if (foundUser.isPresent()) {
+      throw new FormErrorException("Email is already registered.");
     }
+  }
 }

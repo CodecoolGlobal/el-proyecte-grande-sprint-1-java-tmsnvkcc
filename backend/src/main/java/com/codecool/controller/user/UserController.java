@@ -1,12 +1,14 @@
 package com.codecool.controller.user;
 
 import com.codecool.dto.NewUserDTO;
+import com.codecool.exception.FormErrorException;
 import com.codecool.postgresDb.PsqlConnectorImpl;
 import com.codecool.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(
+  path = "/api/users",
+  consumes = MediaType.APPLICATION_JSON_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
     // TODO: delete userId from all endpoint because it will be in token
     private final UserService userService;
@@ -33,7 +38,7 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<String> getUserInformation(){
         try{
             return new ResponseEntity<>(HttpStatus.OK);
@@ -53,28 +58,18 @@ public class UserController {
         }
     }
 
-    @PostMapping(path = "/register")
-    public ResponseEntity<Object> registerUser(@RequestBody NewUserDTO user) {
-      try {
-        userService.createUserAccount(user);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "User was successfully created.");
-
-        return ResponseEntity
-          .status(HttpStatus.CREATED)
-          .body(map);
-      } catch (Exception exception) {
-        logger.error(exception.getMessage());
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", exception.getMessage());
-
-        return ResponseEntity
-          .status(HttpStatus.NOT_ACCEPTABLE)
-          .body(map);
-      }
+  @PostMapping(path = "/register")
+  public ResponseEntity<Object> registerUser(@RequestBody NewUserDTO user) throws FormErrorException {
+    if (user == null || user.registerEmail().isEmpty() || user.registerPassword().isEmpty()) {
+      throw new FormErrorException("The registration was unsuccessful, please try again.");
     }
+
+    userService.findUserByEmail(user.registerEmail());
+    userService.addUser(user, "fakehashedpassword");
+
+    Map<String, String> message = new HashMap<>(){{ put("message", "success" ); }};
+    return new ResponseEntity<>(message, HttpStatus.CREATED);
+  }
 
     @PutMapping("/password-reset")
     public ResponseEntity<String> resetPassword(){
