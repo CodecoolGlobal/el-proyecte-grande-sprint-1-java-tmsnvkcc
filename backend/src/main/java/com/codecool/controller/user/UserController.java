@@ -1,5 +1,6 @@
 package com.codecool.controller.user;
 
+import com.codecool.dto.ForgottenPasswordDTO;
 import com.codecool.dto.LoginUserDTO;
 import com.codecool.dto.NewUserDTO;
 import com.codecool.dto.UserDataAfterLoginDTO;
@@ -83,13 +84,15 @@ public class UserController {
   }
 
   @PutMapping("/password-reset")
-  public ResponseEntity<String> resetPassword() {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+  public ResponseEntity<Object> resetPassword(@RequestBody ForgottenPasswordDTO user) throws FormErrorException {
+    if (user == null || user.email().isEmpty()) {
+      throw new FormErrorException("The form submission was unsuccessful, please try again.");
     }
+
+    // TODO - finish method
+    // TODO - implement email reset stuff
+    Map<String, String> message = new HashMap<>() {{ put("message", "Reset email sent."); }};
+    return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
   @PutMapping("/changeUsername/{userId}")

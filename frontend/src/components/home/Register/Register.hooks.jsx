@@ -8,24 +8,9 @@ const useHandleFormOnSubmit = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const { mutate, reset } = useMutation({
-    mutationKey: ['registerUser'],
-    mutationFn: async (event) => {
+    mutationKey: ['registerForm'],
+    mutationFn: async ({ payload }) => {
       setLoading(true);
-      const payload = serialiseFormData(event.target);
-
-      if (payload.registerEmail === '' || payload.registerPassword === '' || payload.registerPasswordRepeat === '') {
-        setErrorMessage('Make sure to fill in all fields before submitting the form.');
-
-        return;
-      }
-
-      if (payload.registerPassword !== payload.registerPasswordRepeat) {
-        setErrorMessage('Make sure that you have entered the same password twice.');
-
-        return;
-      }
-
-      delete payload.registerPasswordRepeat;
 
       const response = await axiosConfig.request({
         method: 'POST',
@@ -48,7 +33,23 @@ const useHandleFormOnSubmit = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    mutate(event);
+    const payload = serialiseFormData(event.target);
+
+    if (payload.registerEmail === '' || payload.registerPassword === '' || payload.registerPasswordRepeat === '') {
+      setErrorMessage('Make sure to fill in all fields before submitting the form.');
+
+      return;
+    }
+
+    if (payload.registerPassword !== payload.registerPasswordRepeat) {
+      setErrorMessage('Make sure that you have entered the same password twice.');
+
+      return;
+    }
+
+    delete payload.registerPasswordRepeat;
+
+    mutate({ payload });
   };
 
   return {

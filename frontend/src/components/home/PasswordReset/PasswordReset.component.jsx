@@ -8,22 +8,22 @@ import {
   FormSwapButton,
   Title,
 } from 'components/home';
-import { useHandleFormSubmit } from 'hooks';
+import { useHandleFormOnSubmit } from './PasswordReset.hooks.jsx';
 import { iconLibraryConfig } from 'config';
 import './PasswordReset.styles.css';
 
 const PasswordReset = ({ clickHandler }) => {
-  const { loading, errorMessage, handleOnSubmit } = useHandleFormSubmit();
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
 
   return (
     <>
       <Title title={'Who are you?'} />
       <form
-        id={'reset-form'}
-        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/users/password-reset', method: 'PUT', navigateUrl: '/' }, event)}
+        id={'resetForm'}
+        onSubmit={(event) => onSubmit(event)}
       >
         <InputField
-          id={'reset-email'}
+          id={'resetEmail'}
           labelContent={'Email'}
           type={'email'}
           placeholder={'Enter your email address...'}
