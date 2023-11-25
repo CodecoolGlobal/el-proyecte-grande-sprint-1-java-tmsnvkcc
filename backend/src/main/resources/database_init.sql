@@ -10,13 +10,14 @@ drop table if exists users;
 
 -- Create users table
 CREATE TABLE users (
-    id  SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     uuid UUID NOT NULL,
+    registered_at TIMESTAMP DEFAULT NOW(),
     user_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE,
     hashed_password VARCHAR(255) NOT NULL,
-    account_id INT,
-    is_admin BOOLEAN
+    is_admin BOOLEAN,
+    account_id INT
 );
 
 -- Create accounts table

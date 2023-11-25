@@ -9,19 +9,19 @@ import {
   PasswordInputField,
   SubmitButton,
 } from 'components/form-related';
-import { useHandleFormSubmit } from './Register.hooks.jsx';
+import { useHandleFormOnSubmit } from './Register.hooks.jsx';
 import { iconLibraryConfig } from 'config';
 import './Register.styles.css';
 
 const Register = ({ clickHandler }) => {
-  const { loading, errorMessage, handleOnSubmit } = useHandleFormSubmit();
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
 
   return (
     <>
       <Title title={'Who are you?'} />
       <form
         id={'registerForm'}
-        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/users/register', method: 'POST' }, event)}
+        onSubmit={(event) => onSubmit(event)}
       >
         <InputField
           id={'registerEmail'}

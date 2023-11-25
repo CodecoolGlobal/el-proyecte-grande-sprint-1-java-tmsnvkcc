@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -21,7 +22,10 @@ public class User {
   private int id;
 
   @Column(name = "uuid")
-  private UUID uuid = UUID.randomUUID();
+  private UUID uuid;
+
+  @Column(name = "registered_at")
+  private Timestamp dateOfRegistration;
 
   @Column(name = "user_name")
   private String userName;
@@ -42,6 +46,8 @@ public class User {
   public User() {}
 
   public User(String email, String hashedPassword, Account accountId, boolean isAdmin) {
+    this.uuid = UUID.randomUUID();
+    this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
     this.userName = "CHANGE ME!";
     this.email = email;
     this.hashedPassword = hashedPassword;
@@ -63,6 +69,14 @@ public class User {
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
+  }
+
+  public Timestamp getDateOfRegistration() {
+    return dateOfRegistration;
+  }
+
+  public void setDateOfRegistration(Timestamp dateOfRegistration) {
+    this.dateOfRegistration = dateOfRegistration;
   }
 
   public String getUserName() {

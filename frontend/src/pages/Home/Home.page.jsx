@@ -17,13 +17,10 @@ const Home = () => {
     switch (activeForm) {
     case 'login':
       return <Login clickHandler={handleOnClick} />;
-
     case 'register':
       return <Register clickHandler={handleOnClick} />;
-
     case 'reset':
       return <PasswordReset clickHandler={handleOnClick} />;
-
     default:
       return <Login clickHandler={handleOnClick} />;
     }

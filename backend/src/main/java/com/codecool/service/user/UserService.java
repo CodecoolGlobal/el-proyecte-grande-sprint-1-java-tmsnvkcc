@@ -33,7 +33,7 @@ public class UserService {
     Optional<User> foundUser = userRepository.findByEmail(email);
 
     if (foundUser.isPresent()) {
-      throw new FormErrorException("Email is already registered.");
+      throw new FormErrorException("This email is already registered in our system. Choose another one.");
     }
   }
 }
