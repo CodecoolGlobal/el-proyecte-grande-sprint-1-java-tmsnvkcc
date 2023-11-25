@@ -1,5 +1,7 @@
 package com.codecool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,20 +40,21 @@ public class User {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "account_id", referencedColumnName = "id")
-  private Account accountId;
+  @JsonManagedReference
+  private Account account;
 
   @Column(name = "is_admin")
   private boolean isAdmin;
 
   public User() {}
 
-  public User(String email, String hashedPassword, Account accountId, boolean isAdmin) {
+  public User(String email, String hashedPassword, Account account, boolean isAdmin) {
     this.uuid = UUID.randomUUID();
     this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
     this.userName = "CHANGE ME!";
     this.email = email;
     this.hashedPassword = hashedPassword;
-    this.accountId = accountId;
+    this.account = account;
     this.isAdmin = isAdmin;
   }
 
@@ -103,12 +106,12 @@ public class User {
     this.hashedPassword = hashedPassword;
   }
 
-  public Account getAccountId() {
-    return accountId;
+  public Account getAccount() {
+    return account;
   }
 
-  public void setAccountId(Account accountId) {
-    this.accountId = accountId;
+  public void setAccount(Account account) {
+    this.account = account;
   }
 
   public boolean isAdmin() {
@@ -117,5 +120,10 @@ public class User {
 
   public void setAdmin(boolean admin) {
     isAdmin = admin;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("[ENTITY]: User | [Id]: %s | [UUId]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s", id, uuid, dateOfRegistration, userName, email, account, isAdmin);
   }
 }

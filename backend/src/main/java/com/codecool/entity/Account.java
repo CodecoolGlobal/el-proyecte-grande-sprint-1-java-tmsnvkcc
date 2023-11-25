@@ -1,12 +1,12 @@
 package com.codecool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -21,10 +21,10 @@ public class Account {
   private int id;
 
   @Column(name = "uuid")
-  private UUID uuid = UUID.randomUUID();
+  private UUID uuid;
 
-  @OneToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "account", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+  @JsonBackReference
   private User user;
 
   @Column(name = "name")
@@ -42,15 +42,13 @@ public class Account {
   @Column(name = "savings_balance")
   private double savingsBalance;
 
-  public Account() {}
-
-  public Account(User user, String name, String description, String currency, double actualBalance, double savingsBalance) {
-    this.user = user;
-    this.name = name;
-    this.description = description;
-    this.currency = currency;
-    this.actualBalance = actualBalance;
-    this.savingsBalance = savingsBalance;
+  public Account() {
+    this.uuid = UUID.randomUUID();
+    this.name = "CHANGE ME";
+    this.description = "FILL ME IN";
+    this.currency = "HUF";
+    this.actualBalance = 0.0;
+    this.savingsBalance = 0.0;
   }
 
   public int getId() {

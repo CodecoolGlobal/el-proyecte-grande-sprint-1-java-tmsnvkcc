@@ -1,6 +1,9 @@
 package com.codecool.controller.user;
 
+import com.codecool.dto.LoginUserDTO;
 import com.codecool.dto.NewUserDTO;
+import com.codecool.dto.UserDataAfterLoginDTO;
+import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
 import com.codecool.postgresDb.PsqlConnectorImpl;
 import com.codecool.service.user.UserService;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -28,35 +31,38 @@ import java.util.UUID;
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
-    // TODO: delete userId from all endpoint because it will be in token
-    private final UserService userService;
+  // TODO: delete userId from all endpoint because it will be in token
+  private final UserService userService;
+  private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+  @Autowired
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO user) throws FormErrorException {
+    if (user == null || user.loginEmail().isEmpty() || user.loginPassword().isEmpty()) {
+      throw new FormErrorException("The login was unsuccessful, please try again.");
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
+    Optional<User> foundUser = userService.findUserByEmail(user.loginEmail());
 
-    @GetMapping("")
-    public ResponseEntity<String> getUserInformation(){
-        try{
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch(Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
+    if (foundUser.isEmpty()) {
+      throw new FormErrorException("The login was unsuccessful, please try again.");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(){
-        try{
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
+    User userDetails = foundUser.get();
+    UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
+      userDetails.getUuid(),
+      userDetails.getDateOfRegistration(),
+      userDetails.getUserName(),
+      userDetails.getEmail(),
+      userDetails.getAccount()
+    );
+
+    return new ResponseEntity<>(userData, HttpStatus.OK);
+  }
 
   @PostMapping(path = "/register")
   public ResponseEntity<Object> registerUser(@RequestBody NewUserDTO user) throws FormErrorException {
@@ -64,50 +70,55 @@ public class UserController {
       throw new FormErrorException("The registration was unsuccessful, please try again.");
     }
 
-    userService.findUserByEmail(user.registerEmail());
-    userService.addUser(user, "fakehashedpassword");
+    boolean isEmailPresent = userService.isEmailAlreadyInDatabase(user.registerEmail());
 
-    Map<String, String> message = new HashMap<>(){{ put("message", "success" ); }};
+    if (isEmailPresent) {
+      throw new FormErrorException("This email is already registered in our system. Choose another one.");
+    }
+
+    userService.addUser(user, "fakehashedpassword");
+    Map<String, String> message = new HashMap<>() {{ put("message", "success"); }};
+
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
-    @PutMapping("/password-reset")
-    public ResponseEntity<String> resetPassword(){
-        try{
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+  @PutMapping("/password-reset")
+  public ResponseEntity<String> resetPassword() {
+    try {
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+  }
 
-    @PutMapping("/changeUsername/{userId}")
-    public ResponseEntity<String> changeUsername(@PathVariable UUID userId){
-        try{
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
+  @PutMapping("/changeUsername/{userId}")
+  public ResponseEntity<String> changeUsername(@PathVariable UUID userId) {
+    try {
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
+  }
 
-    @PutMapping("/changePassword/{userId}")
-    public ResponseEntity<String> changePassword(@PathVariable UUID userId){
-        try{
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
+  @PutMapping("/changePassword/{userId}")
+  public ResponseEntity<String> changePassword(@PathVariable UUID userId) {
+    try {
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
+  }
 
-    @PutMapping("/changeEmail/{userId}")
-    public ResponseEntity<String> changeEmail(@PathVariable UUID userId){
-        try{
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
+  @PutMapping("/changeEmail/{userId}")
+  public ResponseEntity<String> changeEmail(@PathVariable UUID userId) {
+    try {
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
     }
+  }
 }

@@ -3,7 +3,6 @@ package com.codecool.service.user;
 import com.codecool.dto.NewUserDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.User;
-import com.codecool.exception.FormErrorException;
 import com.codecool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +28,13 @@ public class UserService {
     userRepository.save(newUser);
   }
 
-  public void findUserByEmail(String email) throws FormErrorException {
+  public Optional<User> findUserByEmail(String email) {
+    return userRepository.findByEmail(email);
+  }
+
+  public boolean isEmailAlreadyInDatabase(String email) {
     Optional<User> foundUser = userRepository.findByEmail(email);
 
-    if (foundUser.isPresent()) {
-      throw new FormErrorException("This email is already registered in our system. Choose another one.");
-    }
+    return foundUser.isPresent();
   }
 }

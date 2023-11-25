@@ -9,28 +9,28 @@ import {
   FormSwapButton,
   Title,
 } from 'components/home';
-import { useHandleFormSubmit } from 'hooks';
+import { useHandleFormOnSubmit } from './Login.hooks.jsx';
 import { iconLibraryConfig } from 'config';
 import './Login.styles.css';
 
 const Login = ({ clickHandler }) => {
-  const { loading, errorMessage, handleOnSubmit } = useHandleFormSubmit();
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
 
   return (
     <>
       <Title title={'Who are you?'} />
       <form
-        id={'login-form'}
-        onSubmit={(event) => handleOnSubmit({ apiUrl: '/api/users/login', method: 'POST', navigateUrl: '/dashboard' }, event)}
+        id={'loginForm'}
+        onSubmit={(event) => onSubmit(event)}
       >
         <InputField
-          id={'login-email'}
+          id={'loginEmail'}
           labelContent={'Email'}
           type={'email'}
           placeholder={'Enter your email address...'}
         />
         <PasswordInputField
-          id={'login-password'}
+          id={'loginPassword'}
           labelContent={'Password'}
           placeholder={'Enter your password...'}
         />
