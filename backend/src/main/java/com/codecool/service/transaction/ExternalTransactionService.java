@@ -16,7 +16,7 @@ public class ExternalTransactionService {
     this.externalTransactionRepository = externalTransactionRepository;
   }
 
-  public List<ExternalTransaction> findTransactionsByMonthAndYear(int userId, int currentYear, int currentMonth) {
+  public List<ExternalTransaction> findTransactionsByYearAndMonth(int userId, int currentYear, int currentMonth) {
     return externalTransactionRepository.findAllByYearAndMonth(userId, currentYear, currentMonth);
   }
 }

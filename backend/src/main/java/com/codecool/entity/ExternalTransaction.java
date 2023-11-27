@@ -27,4 +27,11 @@ public class ExternalTransaction extends Transaction {
     public String getCategoryName() {
         return categoryName;
     }
+
+    @Override
+    public String toString() {
+        return "ExternalTransaction{" +
+          "dateOfTransaction=" + dateOfTransaction +
+          '}';
+    }
 }

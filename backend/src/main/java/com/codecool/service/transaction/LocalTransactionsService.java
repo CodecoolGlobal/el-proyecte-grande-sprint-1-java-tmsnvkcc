@@ -14,7 +14,7 @@ public class LocalTransactionsService {
     this.localTransactionRepository = localTransactionRepository;
   }
 
-  public List<LocalTransaction> findTransactionsByMonthAndYear(int userId, int currentYear, int currentMonth) {
+  public List<LocalTransaction> findTransactionsByYearAndMonth(int userId, int currentYear, int currentMonth) {
     return localTransactionRepository.findAllByYearAndMonth(userId, currentYear, currentMonth);
   }
 }

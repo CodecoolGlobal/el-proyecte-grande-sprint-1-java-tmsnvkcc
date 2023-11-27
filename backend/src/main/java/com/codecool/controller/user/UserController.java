@@ -71,13 +71,12 @@ public class UserController {
     int currentMonth = LocalDate.now().getMonthValue();
 
     User userDetails = foundUser.get();
-    Optional<Account> userAccount = accountService.getAccountByUserId(userDetails.getId());
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByMonthAndYear(userDetails.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByMonthAndYear(userDetails.getId(), currentYear, currentMonth);
-
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-      userAccount.get().getName(),
-      userAccount.get().getDescription(),
+      userAccount.get().get(0).getName(),
+      userAccount.get().get(0).getDescription(),
       externalTransactions,
       localTransactions
     );

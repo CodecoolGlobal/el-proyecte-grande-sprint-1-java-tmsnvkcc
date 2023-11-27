@@ -35,7 +35,7 @@ public class Account {
   private String description;
 
   @Column(name = "currency")
-  private String currency; // TODO should be updated to be an enum;
+  private String currency; // TODO should be updated to be an enum; OR better - create a table for currencies with id and reference that
 
   @Column(name = "actual_balance")
   private double actualBalance;
