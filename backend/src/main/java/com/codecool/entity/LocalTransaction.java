@@ -1,18 +1,13 @@
-package com.codecool.model.transaction;
+package com.codecool.entity;
 
-import com.codecool.entity.Account;
-import com.codecool.entity.User;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity(name = "local_transactions")
 public class LocalTransaction extends Transaction {
-
     @ManyToOne
     @JoinColumn(name = "account_id")
     protected Account account;

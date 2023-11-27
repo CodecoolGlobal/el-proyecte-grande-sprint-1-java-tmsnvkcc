@@ -24,7 +24,6 @@ CREATE TABLE users (
 CREATE TABLE accounts (
     id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(id),
-    uuid UUID NOT NULL,
     name VARCHAR(255),
     description TEXT,
     currency VARCHAR(3),
@@ -32,44 +31,13 @@ CREATE TABLE accounts (
     savings_balance DECIMAL(10, 2)
 );
 
--- Create spendings table
-CREATE TABLE spendings (
+-- Create external trans table
+CREATE TABLE external_transactions (
     id SERIAL PRIMARY KEY,
     accountId INT,
     userId INT,
     uuid UUID NOT NULL,
     categoryName VARCHAR(255) NOT NULL,
-    description TEXT,
-    dateOfTransaction DATE,
-    amount DECIMAL(10,2),
-    isPlanned BOOLEAN,
-    isRecurring BOOLEAN,
-    FOREIGN KEY (accountId) REFERENCES accounts(id),
-    FOREIGN KEY (userId) REFERENCES users(id)
-);
-
--- Create income table
-CREATE TABLE income (
-    id SERIAL PRIMARY KEY,
-    accountId INT,
-    userId INT,
-    uuid UUID NOT NULL,
-    categoryName VARCHAR(255) NOT NULL,
-    description TEXT,
-    dateOfTransaction DATE,
-    amount DECIMAL(10,2),
-    isPlanned BOOLEAN,
-    isRecurring BOOLEAN,
-    FOREIGN KEY (accountId) REFERENCES accounts(id),
-    FOREIGN KEY (userId) REFERENCES users(id)
-);
-
--- Create savings table
-CREATE TABLE savings (
-    id SERIAL PRIMARY KEY,
-    accountId INT,
-    userId INT,
-    uuid UUID NOT NULL,
     description TEXT,
     dateOfTransaction DATE,
     amount DECIMAL(10,2),
@@ -91,20 +59,5 @@ VALUES
     (1, gen_random_uuid(), 'Account 1', 'Main account', 'USD', 1000.00, 500.00),
     (2, gen_random_uuid(), 'Account 2', 'Savings account', 'EUR', 2000.00, 1000.00);
 
--- Insert dummy data into spendings table
-INSERT INTO spendings (accountId, userId, uuid, categoryName, description, dateOfTransaction, amount, isPlanned, isRecurring)
-VALUES
-    (1, 1, gen_random_uuid(), 'Groceries', 'Monthly grocery shopping', '2023-01-15', 15000.00, true, true),
-    (2, 2, gen_random_uuid(), 'Dining out', 'Weekly dinner with friends', '2023-01-10', 5000.00, false, false);
---
--- Insert dummy data into income table
-INSERT INTO income (accountId, userId, uuid, categoryName, description, dateOfTransaction, amount)
-VALUES
-    (1, 1, gen_random_uuid(), 'Salary', 'Monthly salary', '2023-01-01', 30000.00),
-    (2, 2, gen_random_uuid(), 'Freelance', 'Project payment', '2023-01-05', 5000.00);
---
--- Insert dummy data into savings table
-INSERT INTO savings (accountId, userId, uuid, description, dateOfTransaction, amount)
-VALUES
-    (1, 1, gen_random_uuid(), 'Emergency fund', '2023-01-20', 20000.00),
-    (2, 2, gen_random_uuid(), 'Vacation fund', '2023-01-15', 30000.00);
+INSERT INTO external_transactions(account_id, amount, id, dateOfTransaction, is_planned, is_recurring, user_id)
+VALUES (1, 100.0, 1, TO_DATE('01/11/2023', 'DD/MM/YYYY'), false, false, 1);

@@ -19,6 +19,17 @@ const useHandleFormOnSubmit = () => {
         url: '/api/users/login',
         data: payload,
       });
+      console.log(response);
+
+      const userData = {
+        userId: response.data.id,
+        userName: response.data.userName,
+        email: response.data.email,
+        dateOfReg: response.data.dateOfRegistration,
+        account: response.data.accountData,
+      };
+
+      localStorage.setItem('userData', JSON.stringify(userData));
 
       return response;
     },
