@@ -1,6 +1,5 @@
 package com.codecool.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,7 +12,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -22,9 +20,6 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
-
-  @Column(name = "uuid")
-  private UUID uuid;
 
   @Column(name = "registered_at")
   private Timestamp dateOfRegistration;
@@ -48,14 +43,13 @@ public class User {
 
   public User() {}
 
-  public User(String email, String hashedPassword, Account account, boolean isAdmin) {
-    this.uuid = UUID.randomUUID();
+  public User(String email, String hashedPassword, Account account) {
     this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
     this.userName = "CHANGE ME!";
     this.email = email;
     this.hashedPassword = hashedPassword;
     this.account = account;
-    this.isAdmin = isAdmin;
+    this.isAdmin = false;
   }
 
   public int getId() {
@@ -64,14 +58,6 @@ public class User {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public UUID getUuid() {
-    return uuid;
-  }
-
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
   }
 
   public Timestamp getDateOfRegistration() {
@@ -124,6 +110,6 @@ public class User {
 
   @Override
   public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [UUId]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s", id, uuid, dateOfRegistration, userName, email, account, isAdmin);
+    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s", id, dateOfRegistration, userName, email, account, isAdmin);
   }
 }

@@ -1,14 +1,11 @@
 package com.codecool.controller.account;
 
 import com.codecool.dto.GetAccountDTO;
-import com.codecool.model.Account;
 import com.codecool.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/account")
@@ -17,10 +14,5 @@ private final AccountService accountService;
     @Autowired
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
-    }
-
-    @GetMapping("")
-    public GetAccountDTO getAccount(){
-        return accountService.getAccount();
     }
 }

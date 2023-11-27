@@ -1,4 +1,4 @@
-package com.codecool.postgresDb;
+package com.codecool.config.postgreSQL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 @Component
-public class PsqlConnectorImpl implements PsqlConnector {
-  private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
+public class PostgreSQLImpl implements PostgreSQL {
+  private static final Logger logger = LoggerFactory.getLogger(PostgreSQLImpl.class);
 
   public Connection getConnection() {
     Connection conn = null;

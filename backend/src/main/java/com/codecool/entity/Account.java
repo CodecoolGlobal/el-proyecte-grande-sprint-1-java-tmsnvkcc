@@ -10,8 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -19,9 +17,6 @@ public class Account {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
-
-  @Column(name = "uuid")
-  private UUID uuid;
 
   @OneToOne(mappedBy = "account", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
   @JsonBackReference
@@ -43,7 +38,6 @@ public class Account {
   private double savingsBalance;
 
   public Account() {
-    this.uuid = UUID.randomUUID();
     this.name = "CHANGE ME";
     this.description = "FILL ME IN";
     this.currency = "HUF";
@@ -57,14 +51,6 @@ public class Account {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public UUID getUuid() {
-    return uuid;
-  }
-
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
   }
 
   public User getUser() {

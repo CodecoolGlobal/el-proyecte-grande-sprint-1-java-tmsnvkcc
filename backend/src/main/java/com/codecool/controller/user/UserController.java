@@ -1,12 +1,12 @@
 package com.codecool.controller.user;
 
+import com.codecool.config.postgreSQL.PostgreSQLImpl;
 import com.codecool.dto.ForgottenPasswordDTO;
 import com.codecool.dto.LoginUserDTO;
 import com.codecool.dto.NewUserDTO;
 import com.codecool.dto.UserDataAfterLoginDTO;
 import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
-import com.codecool.postgresDb.PsqlConnectorImpl;
 import com.codecool.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ import java.util.UUID;
 public class UserController {
   // TODO: delete userId from all endpoint because it will be in token
   private final UserService userService;
-  private static final Logger logger = LoggerFactory.getLogger(PsqlConnectorImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(PostgreSQLImpl.class);
 
   @Autowired
   public UserController(UserService userService) {
@@ -55,7 +55,7 @@ public class UserController {
 
     User userDetails = foundUser.get();
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-      userDetails.getUuid(),
+      userDetails.getId(),
       userDetails.getDateOfRegistration(),
       userDetails.getUserName(),
       userDetails.getEmail(),

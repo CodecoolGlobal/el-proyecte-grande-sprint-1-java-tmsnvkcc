@@ -22,7 +22,7 @@ public class UserService {
   @Transactional
   public void addUser(NewUserDTO user, String hashedPassword) {
     Account account = new Account();
-    User newUser = new User(user.registerEmail(), hashedPassword, account, false);
+    User newUser = new User(user.registerEmail(), hashedPassword, account);
     account.setUser(newUser);
 
     userRepository.save(newUser);
