@@ -1,3 +1,5 @@
+import "./TrackDateSelector.styles.css";
+
 const TrackDateSelector = ({ year, everyMonth, months, handleYear, handleMonth }) => {
 
     const parseMonth = (e) => {
@@ -5,10 +7,13 @@ const TrackDateSelector = ({ year, everyMonth, months, handleYear, handleMonth }
     };
 
     return (
-        <div>
+        <div className={"track-date-selector"}>
             <input type="number"
                    defaultValue={year}
-                   onChange={(e) => handleYear(e.target.value)} />
+                   onChange={(e) => handleYear(e.target.value)}
+                   min={new Date().getFullYear() - 100}
+                   max={new Date().getFullYear() + 100}
+            />
 
             <select defaultValue={months} onChange={(e) => parseMonth(e)}>
                 {everyMonth.map((month, i) => {
