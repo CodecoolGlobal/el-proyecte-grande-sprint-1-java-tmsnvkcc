@@ -11,6 +11,7 @@ const TrackDateSelector = ({ year, everyMonth, months, setSelectedYear, setSelec
             <input type="number"
                    defaultValue={year}
                    onChange={(e) => setSelectedYear(e.target.value)}
+                   onKeyDown={(e) => e.preventDefault()}
                    min={new Date().getFullYear() - 100} // basic limit for now
                    max={new Date().getFullYear() + 100} // basic limit for now
             />
