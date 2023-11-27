@@ -41,7 +41,7 @@ const Track = () => {
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
-      <TrackDateSelector year={selectedYear} everyMonth={everyMonth} months={selectedMonth} handleYear={setSelectedYear} handleMonth={setSeletedMonth} />
+      <TrackDateSelector year={selectedYear} everyMonth={everyMonth} months={selectedMonth} setSelectedYear={setSelectedYear} setSeletedMonth={setSeletedMonth} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
         <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />
