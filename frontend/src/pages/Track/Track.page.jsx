@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TrackComponentSelector } from 'components/track';
+import { TrackComponentSelector, TrackDateSelector } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
 import { useGetAccountDetails, useGetTrackPageData } from 'hooks';
@@ -7,6 +7,7 @@ import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
+  const [everyMonth, setEveryMonth] = useState(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
 
@@ -40,6 +41,7 @@ const Track = () => {
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
+      <TrackDateSelector year={selectedYear} everyMonth={everyMonth} months={selectedMonth} handleYear={setSelectedYear} handleMonth={setSeletedMonth} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
         <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />

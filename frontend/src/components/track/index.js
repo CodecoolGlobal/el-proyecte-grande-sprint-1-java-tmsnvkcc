@@ -1,3 +1,4 @@
 import TrackComponentSelector from './TrackComponentSelectorButton/index.js';
+import TrackDateSelector from "./TrackDateSelector/index.js";
 
-export { TrackComponentSelector };
+export { TrackComponentSelector, TrackDateSelector };
