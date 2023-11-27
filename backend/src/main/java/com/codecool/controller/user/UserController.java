@@ -4,9 +4,16 @@ import com.codecool.config.postgreSQL.PostgreSQLImpl;
 import com.codecool.dto.ForgottenPasswordDTO;
 import com.codecool.dto.LoginUserDTO;
 import com.codecool.dto.NewUserDTO;
+import com.codecool.dto.UserAccountAfterLoginDTO;
 import com.codecool.dto.UserDataAfterLoginDTO;
+import com.codecool.entity.Account;
+import com.codecool.entity.ExternalTransaction;
+import com.codecool.entity.LocalTransaction;
 import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
+import com.codecool.service.account.AccountService;
+import com.codecool.service.transaction.ExternalTransactionService;
+import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,17 +41,22 @@ import java.util.UUID;
   consumes = MediaType.APPLICATION_JSON_VALUE,
   produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
-  // TODO: delete userId from all endpoint because it will be in token
   private final UserService userService;
+  private final AccountService accountService;
+  private final ExternalTransactionService externalTransactionService;
+  private final LocalTransactionsService localTransactionsService;
   private static final Logger logger = LoggerFactory.getLogger(PostgreSQLImpl.class);
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, AccountService accountService, ExternalTransactionService externalTransactionService, LocalTransactionsService localTransactionsService) {
     this.userService = userService;
+    this.accountService = accountService;
+    this.externalTransactionService = externalTransactionService;
+    this.localTransactionsService = localTransactionsService;
   }
 
   @PostMapping("/login")
-  public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO user) throws FormErrorException {
+  public ResponseEntity<?> loginUser(@RequestBody LoginUserDTO user) throws FormErrorException {
     if (user == null || user.loginEmail().isEmpty() || user.loginPassword().isEmpty()) {
       throw new FormErrorException("The login was unsuccessful, please try again.");
     }
@@ -54,13 +67,25 @@ public class UserController {
       throw new FormErrorException("The login was unsuccessful, please try again.");
     }
 
+    int currentYear = LocalDate.now().getYear();
+    int currentMonth = LocalDate.now().getMonthValue();
+
     User userDetails = foundUser.get();
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+      userAccount.get().get(0).getName(),
+      userAccount.get().get(0).getDescription(),
+      externalTransactions,
+      localTransactions
+    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
       userDetails.getId(),
       userDetails.getDateOfRegistration(),
       userDetails.getUserName(),
       userDetails.getEmail(),
-      userDetails.getAccount()
+      userAccountAfterLoginDTO
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);

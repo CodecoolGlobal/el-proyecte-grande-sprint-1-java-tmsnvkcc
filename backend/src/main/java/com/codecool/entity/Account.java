@@ -1,8 +1,8 @@
 package com.codecool.entity;
 
-import com.codecool.model.transaction.ExternalTransaction;
-import com.codecool.model.transaction.LocalTransaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,7 +35,7 @@ public class Account {
   private String description;
 
   @Column(name = "currency")
-  private String currency; // TODO should be updated to be an enum;
+  private String currency; // TODO should be updated to be an enum; OR better - create a table for currencies with id and reference that
 
   @Column(name = "actual_balance")
   private double actualBalance;
@@ -43,12 +43,12 @@ public class Account {
   @Column(name = "savings_balance")
   private double savingsBalance;
 
-  @Column(name = "ext_transactions")
   @OneToMany(mappedBy = "account")
+  @JsonIgnore
   private List<ExternalTransaction> externalTransactionList;
 
-  @Column(name = "loc_transactions")
   @OneToMany(mappedBy = "account")
+  @JsonIgnore
   private List<LocalTransaction> localTransactionList;
 
   public Account() {

@@ -1,18 +1,14 @@
-package com.codecool.model.transaction;
+package com.codecool.entity;
 
-import com.codecool.entity.Account;
-import com.codecool.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity(name = "external_transactions")
 public class ExternalTransaction extends Transaction {
-
     @ManyToOne
     @JoinColumn(name = "account_id")
     protected Account account;
@@ -26,10 +22,16 @@ public class ExternalTransaction extends Transaction {
         this.categoryName = categoryName;
     }
 
-    public ExternalTransaction() {
-    }
+    public ExternalTransaction() {}
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    @Override
+    public String toString() {
+        return "ExternalTransaction{" +
+          "dateOfTransaction=" + dateOfTransaction +
+          '}';
     }
 }

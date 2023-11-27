@@ -1,6 +1,5 @@
-package com.codecool.model.transaction;
+package com.codecool.entity;
 
-import com.codecool.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,12 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 import java.time.LocalDate;
 
 @MappedSuperclass
 public abstract class Transaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,6 +27,7 @@ public abstract class Transaction {
     protected String description;
 
     @Column(name = "date_of_transaction")
+    @Temporal(TemporalType.DATE)
     protected LocalDate dateOfTransaction;
 
     @Column(name = "amount")

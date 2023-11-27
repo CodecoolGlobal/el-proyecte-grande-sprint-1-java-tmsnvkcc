@@ -1,10 +1,9 @@
 package com.codecool.service.trackPage;
 
 import com.codecool.dto.ExternalTransactionDTO;
-import com.codecool.dto.GetMonthlyTransactionsDTO;
 import com.codecool.dto.LocalTransactionDTO;
-import com.codecool.model.transaction.ExternalTransaction;
-import com.codecool.model.transaction.LocalTransaction;
+import com.codecool.entity.ExternalTransaction;
+import com.codecool.entity.LocalTransaction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

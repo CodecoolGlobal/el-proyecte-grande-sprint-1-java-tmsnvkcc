@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { axiosConfig } from 'config';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { axiosConfig } from 'config';
 import { serialiseFormData } from 'utilities';
 
 const useHandleFormOnSubmit = () => {
@@ -19,6 +19,16 @@ const useHandleFormOnSubmit = () => {
         url: '/api/users/login',
         data: payload,
       });
+
+      const userData = {
+        userId: response.data.id,
+        userName: response.data.userName,
+        email: response.data.email,
+        dateOfReg: response.data.dateOfRegistration,
+        account: response.data.accountData,
+      };
+
+      localStorage.setItem('userData', JSON.stringify(userData));
 
       return response;
     },
