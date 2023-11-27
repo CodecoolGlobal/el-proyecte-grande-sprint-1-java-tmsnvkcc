@@ -1,11 +1,15 @@
 package com.codecool.model.transaction;
 
-import com.codecool.entity.Account;
 import com.codecool.entity.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MappedSuperclass;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @MappedSuperclass
 public abstract class Transaction {

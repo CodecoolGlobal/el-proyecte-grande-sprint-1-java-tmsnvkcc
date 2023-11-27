@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -74,6 +75,8 @@ public class UserController {
     boolean isEmailPresent = userService.isEmailAlreadyInDatabase(user.registerEmail());
 
     if (isEmailPresent) {
+      // do this check in the service.
+      // do not throw it, just return a ResponseEntity with the correct http status and the message.
       throw new FormErrorException("This email is already registered in our system. Choose another one.");
     }
 
