@@ -1,14 +1,13 @@
 package com.codecool.entity;
 
+import com.codecool.model.transaction.ExternalTransaction;
+import com.codecool.model.transaction.LocalTransaction;
+import com.codecool.model.transaction.Transaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -37,12 +36,22 @@ public class Account {
   @Column(name = "savings_balance")
   private double savingsBalance;
 
+  @Column(name = "ext_transactions")
+  @OneToMany(mappedBy = "account")
+  private List<ExternalTransaction> externalTransactionList;
+
+  @Column(name = "loc_transactions")
+  @OneToMany(mappedBy = "account")
+  private List<LocalTransaction> localTransactionList;
+
   public Account() {
     this.name = "CHANGE ME";
     this.description = "FILL ME IN";
     this.currency = "HUF";
     this.actualBalance = 0.0;
     this.savingsBalance = 0.0;
+    this.externalTransactionList = new ArrayList<>();
+    this.localTransactionList = new ArrayList<>();
   }
 
   public int getId() {
@@ -99,5 +108,21 @@ public class Account {
 
   public void setSavingsBalance(double savingsBalance) {
     this.savingsBalance = savingsBalance;
+  }
+
+  public List<ExternalTransaction> getExternalTransactionList() {
+    return externalTransactionList;
+  }
+
+  public void setExternalTransactionList(List<ExternalTransaction> externalTransactionList) {
+    this.externalTransactionList = externalTransactionList;
+  }
+
+  public List<LocalTransaction> getLocalTransactionList() {
+    return localTransactionList;
+  }
+
+  public void setLocalTransactionList(List<LocalTransaction> localTransactionList) {
+    this.localTransactionList = localTransactionList;
   }
 }

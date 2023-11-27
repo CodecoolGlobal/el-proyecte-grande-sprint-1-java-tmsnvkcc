@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record LocalTransactionDTO(
         String description,
         LocalDate dateOfTransaction,
-        int amount,
+        double amount,
         boolean isPlanned,
         boolean isRecurring
 ) {
