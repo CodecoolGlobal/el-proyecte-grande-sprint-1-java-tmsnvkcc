@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 const fetchMonthlyTransactions = async (year, month) => {
   try {
     const response = await fetch(`/api/transaction/${year}/${month}`);
+    const data = await response.json();
 
-    return await response.json();
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -21,6 +22,7 @@ const useGetMonthlyTransactions = (year, month) => {
     transactionsData: query.data,
     isTransactionLoading: query.isLoading,
     isTransactionError: query.isError,
+    refetch: query.refetch,
   };
 };
 

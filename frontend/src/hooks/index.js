@@ -1,7 +1,5 @@
-import useGetAccountDetails from './useGetAccountDetails.jsx';
-import useGetTrackPageData from './useGetTrackPageData.jsx';
+import UseGetMonthlyTransactions from "./useGetMonthlyTransactions.jsx";
 
 export {
-  useGetAccountDetails,
-  useGetTrackPageData,
+  UseGetMonthlyTransactions
 };

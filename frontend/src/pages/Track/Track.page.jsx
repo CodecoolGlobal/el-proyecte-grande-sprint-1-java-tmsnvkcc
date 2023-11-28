@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { TrackComponentSelector, TrackDateSelector } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
-import { useGetAccountDetails, useGetTrackPageData } from 'hooks';
 import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
   const [everyMonth, setEveryMonth] = useState(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']); //TODO move to calendar
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
-  const [monthlyTransactions, setMonthlyTransactions] = useState({});
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const { transactionsData, isTransactionLoading, isTransactionError, refetch } = useGetMonthlyTransactions(selectedYear, selectedMonth);
 
   useEffect(() => {
-    setMonthlyTransactions(useGetMonthlyTransactions(selectedYear, selectedMonth));
+    refetch()
   }, [selectedYear, selectedMonth]);
 
 
@@ -44,7 +43,7 @@ const Track = () => {
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
-      <TrackDateSelector year={selectedYear} everyMonth={everyMonth} months={selectedMonth} setSelectedYear={setSelectedYear} setSeletedMonth={setSeletedMonth} />
+      <TrackDateSelector year={selectedYear} everyMonth={everyMonth} months={selectedMonth} setSelectedYear={setSelectedYear} setSelectedMonth={setSelectedMonth} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
         <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />
