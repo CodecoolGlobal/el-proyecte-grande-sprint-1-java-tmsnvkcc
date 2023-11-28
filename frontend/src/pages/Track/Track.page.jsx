@@ -27,7 +27,7 @@ const Track = () => {
       return 'Income Component Placeholder';
 
     case 'Savings':
-      return <SavingsComponent />;
+      return <SavingsComponent transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     default:
       return 'Error';
