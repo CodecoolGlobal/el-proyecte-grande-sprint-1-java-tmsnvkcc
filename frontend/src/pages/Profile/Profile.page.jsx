@@ -3,14 +3,14 @@ import {
   PageTitle,
 } from 'components/form-related';
 
-import { 
+import {
   ProfilePageDisplay,
   ProfilePageEdit,
 } from 'components/profile';
 
 import './Profile.styles.css';
 
-const Profile = () =>{
+const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
   const [profileData, setProfileData] = useState({});
 
@@ -24,16 +24,16 @@ const Profile = () =>{
     setEditProfile(!editProfile);
   };
 
-  const renderFormComponent = () =>{
+  const renderFormComponent = () => {
     return editProfile ? <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> : <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} />;
-  }
+  };
 
   return (
     <div className={'profile-page'}>
       <PageTitle title={'Profile'} />
       {renderFormComponent()}
     </div>
-  )
+  );
 };
 
 export default Profile;
