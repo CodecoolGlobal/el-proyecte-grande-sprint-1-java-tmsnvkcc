@@ -18,7 +18,7 @@ const Track = () => {
   const componentRenderHandler = () => {
     switch (currentTile) {
     case 'Overview':
-      return <Overview />;
+      return <Overview transactions={transactionsData} isLoading={isTransactionLoading}/>;
 
     case 'Spendings':
       return 'Spendings Component Placeholder';

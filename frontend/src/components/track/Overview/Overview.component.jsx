@@ -1,9 +1,9 @@
 import './Overview.styles.css';
 import {useEffect, useState} from "react";
 
-const Overview = () => {
-    const [accountDetails, setAccountDetails] = useState("");
+const Overview = ({ transactions, isLoading }) => {
 
+    const [accountDetails, setAccountDetails] = useState("");
     const [spending, setSpending] = useState(null);
     const [income, setIncome] = useState(null);
     const [plannedSpending, setPlannedSpending] = useState(null);
@@ -26,25 +26,33 @@ const Overview = () => {
     }
 
     const calculatePlannedSpending = (exTransactionList) => {
-        return getAmountSumOf(exTransactionList.filter((tr) => tr.amount < 0 && tr.planned));
+        return getAmountSumOf(exTransactionList.filter((tr) => tr.amount < 0 && tr.isPlanned));
     }
 
     const calculatePlannedIncome = (exTransactionList) => {
-        return getAmountSumOf(exTransactionList.filter((tr) => tr.amount > 0 && tr.planned));
+        return getAmountSumOf(exTransactionList.filter((tr) => tr.amount > 0 && tr.isPlanned));
     }
+    //TODO Implement custom hook for helper functions
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("userData"));
+        console.log(isLoading);
+        if(!isLoading){
+          const data = transactions.externalTransactionDTOS;
 
-        setSpending(calculateSpending(data.account.externalTransactions));
-        setIncome(calculateIncome(data.account.externalTransactions));
-        setPlannedSpending(calculatePlannedSpending(data.account.externalTransactions));
-        setPlannedIncome(calculatePlannedIncome(data.account.externalTransactions));
+          setSpending(calculateSpending(data));
+          setIncome(calculateIncome(data));
+          setPlannedSpending(calculatePlannedSpending(data));
+          setPlannedIncome(calculatePlannedIncome(data));
 
-        setAccountDetails(data.account);
-        console.log(data.account);
+          const userData = JSON.parse(localStorage.getItem("userData"));
+          setAccountDetails(userData.account);
+        }
+    }, [transactions, isLoading]);
 
-    }, []);
+    if(isLoading){
+        return (<FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />);
+    }
+    //TODO Implement loading animation component
 
     return (
         <div>
