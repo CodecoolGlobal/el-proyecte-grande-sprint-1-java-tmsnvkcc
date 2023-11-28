@@ -14,9 +14,19 @@ const useHandleFormOnSubmit = () => {
 
       const response = await axiosConfig.request({
         method: 'PUT',
-        url: '',
+        url: '/api/users/update-profile',
         data: payload,
       });
+
+      const userData = {
+        userId: response.data.id,
+        userName: response.data.userName,
+        email: response.data.email,
+        dateOfReg: response.data.dateOfRegistration,
+        account: response.data.accountData,
+      };
+
+      localStorage.setItem('userData', JSON.stringify(userData));
 
       return response;
     },
