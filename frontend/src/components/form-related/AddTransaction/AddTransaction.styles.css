@@ -1,0 +1,14 @@
+.add-transaction {
+  height: 5rem;
+  width: 50%;
+}
+
+.add-transaction-modal {
+  height: 50rem;
+  width: 50rem;
+
+  & input {
+    height: 5rem;
+    width: 25rem;
+  }
+}

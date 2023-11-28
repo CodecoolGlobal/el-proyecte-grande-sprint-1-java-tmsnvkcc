@@ -13,7 +13,7 @@ public interface LocalTransactionRepository extends JpaRepository<LocalTransacti
       SELECT
         *
       FROM
-        external_transactions
+        local_transactions
       WHERE
         user_id = :userId AND
         EXTRACT(YEAR FROM date_of_transaction) = :year AND
