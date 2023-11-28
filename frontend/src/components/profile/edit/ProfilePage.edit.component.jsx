@@ -16,7 +16,7 @@ const ProfilePageEdit = ({ profileData }) => {
   return <>
     <form id='profileEdit' onSubmit={(event) => onSubmit(event)}>
       <InputField
-        id={'userName'}
+        id={'username'}
         labelContent={'Username'}
         type={'text'}
         placeholder={'Enter your username...'}
@@ -24,7 +24,7 @@ const ProfilePageEdit = ({ profileData }) => {
       />
 
       <InputField
-        id={'userEmail'}
+        id={'email'}
         labelContent={'Email'}
         type={'email'}
         placeholder={'Enter your email address...'}
