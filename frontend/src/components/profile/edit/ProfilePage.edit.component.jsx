@@ -14,7 +14,7 @@ const ProfilePageEdit = ({ profileData }) => {
   const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
 
   return <>
-    <form id='userEdit' onSubmit={(event) => onSubmit(event)}>
+    <form id='profileEdit' onSubmit={(event) => onSubmit(event)}>
       <InputField
         id={'userName'}
         labelContent={'Username'}

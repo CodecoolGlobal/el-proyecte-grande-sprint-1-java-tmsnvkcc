@@ -13,7 +13,7 @@ const useHandleFormOnSubmit = () => {
       setLoading(true);
 
       const response = await axiosConfig.request({
-        method: 'PATCH',
+        method: 'PUT',
         url: '',
         data: payload,
       });
