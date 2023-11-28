@@ -53,13 +53,14 @@ const Overview = ({ transactions, isLoading }) => {
         }
     }, [transactions, isLoading]);
 
-    if(isLoading){
-        return (<FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />);
-    }
-    //TODO Implement loading animation component
-
     return (
         <div className={"track-page-overview"}>
+
+            { isLoading &&
+            <div className={'track-page-overview-loading'}>
+                <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />
+            </div> }
+
             <div className={"overview-left"}>
                 {/*<div className={'left-title'}>
                     <h1>Monthly balance</h1>
