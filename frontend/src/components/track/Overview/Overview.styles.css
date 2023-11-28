@@ -41,6 +41,14 @@
             && .information {
                 text-align: center;
                 margin: 2rem;
+
+                && .spending-color {
+                    color: #FF0202;
+                }
+
+                && .income-color {
+                    color: #04A101;
+                }
             }
         }
 

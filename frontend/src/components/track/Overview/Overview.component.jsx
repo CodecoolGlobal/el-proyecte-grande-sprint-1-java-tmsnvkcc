@@ -2,7 +2,6 @@ import './Overview.styles.css';
 import {useEffect, useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {iconLibraryConfig} from "../../../config/index.js";
-import {PageTitle} from "../../form-related/index.js";
 
 const Overview = ({ transactions, isLoading }) => {
 
@@ -69,22 +68,22 @@ const Overview = ({ transactions, isLoading }) => {
                 <div className={'left-content'}>
                     <div className={'information'}>
                         <h2>Total spent this month</h2>
-                        <h3>{spending} {currency}</h3>
+                        <h3 className={'spending-color'}>{spending} {currency}</h3>
                     </div>
 
                     <div className={'information'}>
                         <h2>Planned spending</h2>
-                        <h3>{plannedSpending} {currency}</h3>
+                        <h3 className={'spending-color'}>{plannedSpending} {currency}</h3>
                     </div>
 
                     <div className={'information'}>
                         <h2>Total income this month</h2>
-                        <h3>{income} {currency}</h3>
+                        <h3 className={'income-color'}>{income} {currency}</h3>
                     </div>
 
                     <div className={'information'}>
                         <h2>Planned income</h2>
-                        <h3>{plannedIncome} {currency}</h3>
+                        <h3 className={'income-color'}>{plannedIncome} {currency}</h3>
                     </div>
                 </div>
             </div>
