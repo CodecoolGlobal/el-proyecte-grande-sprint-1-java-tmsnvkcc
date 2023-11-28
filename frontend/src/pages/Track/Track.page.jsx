@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import { TrackComponentSelector, TrackDateSelector, Overview } from 'components/track';
+import { useEffect, useState } from 'react';
+import { TrackComponentSelector, TrackDateSelector } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
-import { useGetAccountDetails, useGetTrackPageData } from 'hooks';
 import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
-  const [everyMonth, setEveryMonth] = useState(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const { transactionsData, isTransactionLoading, isTransactionError, refetch } = useGetMonthlyTransactions(selectedYear, selectedMonth);
 
-  console.log(useGetTrackPageData(selectedYear,selectedMonth));
-  //TODO Implement logic to sort incoming data into different states (account, transactions etc...)
+  useEffect(() => {
+    refetch();
+  }, [selectedYear, selectedMonth]);
+
 
   const componentRenderHandler = () => {
     switch (currentTile) {
@@ -41,7 +42,11 @@ const Track = () => {
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
-      <TrackDateSelector year={selectedYear} everyMonth={everyMonth} months={selectedMonth} setSelectedYear={setSelectedYear} setSeletedMonth={setSeletedMonth} />
+      <TrackDateSelector
+        selectedYear={selectedYear}
+        selectedMonth={selectedMonth}
+        setSelectedYear={setSelectedYear}
+        setSelectedMonth={setSelectedMonth} />
       <div id='track-tile-selector'>
         <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
         <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />
