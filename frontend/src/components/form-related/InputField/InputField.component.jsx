@@ -5,6 +5,7 @@ const InputField = ({ id, labelContent, type, defaultValue, placeholder }) => {
     <article className={'input-component-container'}>
       <label htmlFor={id}>{labelContent}</label>
       <input
+        className={'default-input-field-style'}
         type={type}
         id={id}
         name={id}
