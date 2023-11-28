@@ -1,37 +1,36 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   PageTitle,
 } from 'components/form-related';
+
+import { 
+  ProfilePageDisplay,
+  ProfilePageEdit,
+} from 'components/profile';
+
 import './Profile.styles.css';
 
 const Profile = () =>{
-  const [loading, setLoading] = useState(false);
-  const [profileData, setProfileData] = useState(null);
-
-  if (loading) {
-    return 'load data';
-  }
+  const [editProfile, setEditProfile] = useState(false);
+  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
-    const fetchData = async() =>{
-      await axios.get('/api/user/')
-        .then((response) => {
-          setProfileData(response.data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    fetchData();
+    const profileDataRaw = JSON.parse(localStorage.getItem('userData'));
+    setProfileData(profileDataRaw);
   }, []);
+
+  const onHandleClickEdit = () =>{
+    setEditProfile(true);
+  }
+
+  const renderFormComponent = () =>{
+    return editProfile ? <ProfilePageEdit /> : <ProfilePageDisplay profileData={profileData} clickHandler={onHandleClickEdit} />; 
+  }
 
   return (
     <div className={'profile-page'}>
-      <PageTitle title={"Profile"} />
-      {profileData}
+      <PageTitle title={'Profile'} />
+      {renderFormComponent()}
     </div>
   )
 };
