@@ -1,5 +1,6 @@
 .add-transaction-modal {
-  width: 50rem;
-  height: 70rem;
+  width: 50%;
+  height: 50%;
   background-color: white;
+  margin: 10% auto 0 auto;
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   AddTransaction,
   PageTitle,
@@ -7,7 +8,6 @@ import {
 } from 'components/dashboard';
 import { AddTransactionModal } from 'components/modal';
 import './Dashboard.styles.css';
-import { useState } from 'react';
 
 const Dashboard = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -16,15 +16,17 @@ const Dashboard = () => {
   };
 
   return (
-    <div className={'dashboard-page'}>
-      <PageTitle title={'Dashboard'} />
-      <div className={'dashboard-window-container'}>
-        <Window title={'Aktuális hónap'} text={'Kiadás az előző hónaphoz képest'} button={<AddTransaction onClick={handleOnClick} />} />
-        <Window title={'12 Havi visszatekintés'} text={'Kiadások'} />
-        <Window title={'Test title'} text={'Random test text dev'} />
+    <>
+      <div className={'dashboard-page'}>
+        <PageTitle title={'Dashboard'} />
+        <div className={'dashboard-window-container'}>
+          <Window title={'Current month'} text={'Data...'} button={<AddTransaction handleOnClick={handleOnClick} />} />
+          <Window title={'Last 12 months recap'} text={'Expenses...'} />
+          <Window title={'Test title'} text={'Random test text dev'} />
+        </div>
       </div>
       <AddTransactionModal isModalVisible={isModalVisible} />
-    </div>
+    </>
   );
 };
 

@@ -1,12 +1,14 @@
 import './AddTransaction.styles.css';
 
-const AddTransaction = ({ onClick }) => {
+const AddTransaction = ({ handleOnClick }) => {
   return (
     <button
       className={'add-transaction'}
       type={'button'}
-      onClick={onClick}
-    >ADD TRANSACTION</button>
+      onClick={handleOnClick}
+    >
+      ADD TRANSACTION
+    </button>
   );
 };
 

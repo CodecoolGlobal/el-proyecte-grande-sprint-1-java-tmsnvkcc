@@ -1,13 +1,15 @@
-import { InputField } from 'components/form-related';
 import {
-  useState,
   useEffect,
-  useRef } from 'react';
+  useRef,
+} from 'react';
+import { InputField } from 'components/form-related';
+import './AddTransactionModal.styles.css';
 
 const AddTransactionModal = ({ isModalVisible }) => {
   const dialogRef = useRef(null);
 
   useEffect(() => {
+    console.log(isModalVisible);
     if (dialogRef.current?.open && !isModalVisible) {
       dialogRef.current?.close();
     } else if (!dialogRef.current?.open && isModalVisible) {
@@ -16,13 +18,16 @@ const AddTransactionModal = ({ isModalVisible }) => {
   }, [isModalVisible]);
 
   return (
-    <dialog ref={dialogRef} className={'add-transaction-modal'}>
+    <dialog className={'add-transaction-modal'} ref={dialogRef}>
       <form>
-      <InputField />
-      <InputField />
-      <InputField />
-      <InputField />
-      <InputField />
+        <InputField />
+        <InputField />
+        <InputField />
+        <InputField />
+        <InputField />
+        <InputField />
+        <InputField />
+        <InputField />
       </form>
     </dialog>
   );
