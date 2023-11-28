@@ -122,7 +122,7 @@ public class UserController {
   }
 
   @PutMapping("/update-profile")
-  public ResponseEntity<Object> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
+  public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
     if (profileData == null || profileData.email().isEmpty() || profileData.password().isEmpty() || profileData.username().isEmpty()) {
       throw new FormErrorException("The update was unsuccessful, please try again.");
     }
@@ -136,7 +136,29 @@ public class UserController {
     User userDetails = foundUser.get();
 
     userService.updateUserProfile(profileData, userDetails);
-    Map<String, String> message = new HashMap<>(){{ put("message", "Update successfully"); }};
-    return new ResponseEntity<>(message, HttpStatus.OK);
+
+    int currentYear = LocalDate.now().getYear();
+    int currentMonth = LocalDate.now().getMonthValue();
+
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+            userAccount.get().get(0).getName(),
+            userAccount.get().get(0).getDescription(),
+            userAccount.get().get(0).getActualBalance(),
+            userAccount.get().get(0).getSavingsBalance(),
+            externalTransactions,
+            localTransactions
+    );
+    UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
+            userDetails.getId(),
+            userDetails.getDateOfRegistration(),
+            userDetails.getUserName(),
+            userDetails.getEmail(),
+            userAccountAfterLoginDTO
+    );
+
+    return new ResponseEntity<>(userData, HttpStatus.OK);
   }
 }
