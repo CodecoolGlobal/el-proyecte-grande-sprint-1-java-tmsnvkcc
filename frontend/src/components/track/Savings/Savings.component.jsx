@@ -37,7 +37,7 @@ const SavingsComponent = ({ transactions, isLoading }) => {
                 </div>
             </div>
             <div className={"savings-transactions-container"}>
-
+                <h2> Recent local transactions </h2>
             </div>
         </div>
     );
