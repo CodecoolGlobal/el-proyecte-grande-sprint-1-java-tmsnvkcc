@@ -26,7 +26,6 @@ public class TransactionController {
     @GetMapping("/{year}/{month}")
     public ResponseEntity<MonthlyTransactionsDTO> getTransactionsForMonth(@PathVariable int year, @PathVariable int month){
         MonthlyTransactionsDTO result = mainTransactionService.getMonthlyTransactions(1,year,month);
-        System.out.println(result.externalTransactionDTOS().size() + " " + result.localTransactionDTOS().size());
         return new ResponseEntity<>(result, HttpStatus.OK);
         //TODO Change hard coded user id
     }
