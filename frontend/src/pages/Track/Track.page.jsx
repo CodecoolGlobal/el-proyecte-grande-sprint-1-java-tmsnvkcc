@@ -42,7 +42,6 @@ const Track = () => {
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
-      {/* selectedYear, selectedMonth, setSelectedYear, setSelectedMonth, handleClick */}
       <TrackNavigation
         selectedYear={selectedYear}
         selectedMonth={selectedMonth}
