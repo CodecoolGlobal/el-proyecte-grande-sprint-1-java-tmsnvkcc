@@ -1,27 +1,35 @@
-package com.codecool.service.trackPage;
+package com.codecool.service.transaction;
 
 import com.codecool.dto.ExternalTransactionDTO;
+import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.LocalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class TrackPageService {
-//    public GetMonthlyTransactionsDTO getTransactionForMonth(int year, int month) {
-//        List<ExternalTransaction> incomeTransactions = incomeDAO.getAllTransactionForMonth(year,month);
-//        List<ExternalTransaction> spendingTransactions = spendingsDAO.getAllTransactionForMonth(year, month);
-//        List<LocalTransaction> savingsTransactions = savingsDAO.getAllTransactionForMonth(year, month);
-//
-//        List<ExternalTransactionDTO> incomeDTOList = mapExternalTransactionsToExternalDTOList(incomeTransactions);
-//        List<ExternalTransactionDTO> spendingDTOList = mapExternalTransactionsToExternalDTOList(spendingTransactions);
-//        List<LocalTransactionDTO> savingsDTOList = mapLocalTransactionsToLocalDTOList(savingsTransactions);
-//
-//        return new GetMonthlyTransactionsDTO(incomeDTOList,spendingDTOList,savingsDTOList);
-//    }
+public class MainTransactionService {
+    private final ExternalTransactionService externalTransactionService;
+    private final LocalTransactionsService localTransactionsService;
 
+    @Autowired
+    public MainTransactionService(ExternalTransactionService externalTransactionService, LocalTransactionsService localTransactionsService) {
+        this.externalTransactionService = externalTransactionService;
+        this.localTransactionsService = localTransactionsService;
+    }
+
+    public MonthlyTransactionsDTO getMonthlyTransactions(int userId, int year, int month) {
+        List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userId,year,month);
+        List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userId,year,month);
+
+        return new MonthlyTransactionsDTO(
+                mapExternalTransactionsToExternalDTOList(externalTransactions),
+                mapLocalTransactionsToLocalDTOList(localTransactions)
+        );
+    }
     private LocalTransactionDTO convertTransactionToLocalDTO( LocalTransaction transaction ) {
         return new LocalTransactionDTO(
                 transaction.getDescription(),
@@ -51,5 +59,4 @@ public class TrackPageService {
                 .map(this::convertTransactionToExternalDTO)
                 .toList();
     }
-
 }

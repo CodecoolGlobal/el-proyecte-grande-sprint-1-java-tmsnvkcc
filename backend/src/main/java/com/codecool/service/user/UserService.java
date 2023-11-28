@@ -1,6 +1,7 @@
 package com.codecool.service.user;
 
 import com.codecool.dto.NewUserDTO;
+import com.codecool.dto.UpdateProfileDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.User;
 import com.codecool.repository.UserRepository;
@@ -36,5 +37,13 @@ public class UserService {
     Optional<User> foundUser = userRepository.findByEmail(email);
 
     return foundUser.isPresent();
+  }
+
+  public void updateUserProfile(UpdateProfileDTO profileData, User currentUser){
+    currentUser.setUserName(profileData.username());
+    currentUser.setEmail(profileData.email());
+    currentUser.setHashedPassword(profileData.password());
+
+    userRepository.save(currentUser);
   }
 }
