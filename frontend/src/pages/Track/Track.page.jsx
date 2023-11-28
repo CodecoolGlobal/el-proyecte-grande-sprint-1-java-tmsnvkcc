@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TrackComponentSelector, TrackDateSelector, Overview } from 'components/track';
+import { Overview, TrackNavigation } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
 import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
@@ -42,17 +42,13 @@ const Track = () => {
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
-      <TrackDateSelector
+      {/* selectedYear, selectedMonth, setSelectedYear, setSelectedMonth, handleClick */}
+      <TrackNavigation
         selectedYear={selectedYear}
         selectedMonth={selectedMonth}
         setSelectedYear={setSelectedYear}
-        setSelectedMonth={setSelectedMonth} />
-      <div id='track-tile-selector'>
-        <TrackComponentSelector buttonLabel='Spendings' clickHandler={handleClick} />
-        <TrackComponentSelector buttonLabel='Income' clickHandler={handleClick} />
-        <TrackComponentSelector buttonLabel='Savings' clickHandler={handleClick} />
-        <TrackComponentSelector buttonLabel='Overview' clickHandler={handleClick} />
-      </div>
+        setSelectedMonth={setSelectedMonth}
+        handleClick={handleClick} />
       {componentRenderHandler()}
     </div>
   );
