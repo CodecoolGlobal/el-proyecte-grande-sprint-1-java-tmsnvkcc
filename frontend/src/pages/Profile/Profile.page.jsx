@@ -16,15 +16,16 @@ const Profile = () =>{
 
   useEffect(() => {
     const profileDataRaw = JSON.parse(localStorage.getItem('userData'));
+
     setProfileData(profileDataRaw);
   }, []);
 
-  const onHandleClickEdit = () =>{
-    setEditProfile(true);
-  }
+  const onEditHandler = () => {
+    setEditProfile(!editProfile);
+  };
 
   const renderFormComponent = () =>{
-    return editProfile ? <ProfilePageEdit profileData={profileData} /> : <ProfilePageDisplay profileData={profileData} clickHandler={onHandleClickEdit} />; 
+    return editProfile ? <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> : <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} />;
   }
 
   return (

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosConfig } from 'config';
 import { serialiseFormData } from 'utilities';
 
-const useHandleFormOnSubmit = () => {
+const useHandleFormOnSubmit = (editHandler) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -31,6 +31,7 @@ const useHandleFormOnSubmit = () => {
       return response;
     },
     onSuccess: () => {
+      editHandler();
       reset();
       setLoading(false);
     },

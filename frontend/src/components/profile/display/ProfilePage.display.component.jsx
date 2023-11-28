@@ -2,7 +2,7 @@ import {
   FormSwapButton,
 } from 'components/home';
 
-const ProfilePageDisplay = ({profileData, clickHandler}) =>{
+const ProfilePageDisplay = ({ profileData, onEditHandler }) => {
   return <>
     <div>
       <label>{profileData.userId}</label>
@@ -17,7 +17,7 @@ const ProfilePageDisplay = ({profileData, clickHandler}) =>{
     </div>
 
     <article className={'bottom-button-container'}>
-      <FormSwapButton buttonName={'editProfile'} buttonContent={'Edit'} clickHandler={clickHandler} />
+      <FormSwapButton buttonName={'editProfile'} buttonContent={'Edit'} clickHandler={onEditHandler} />
     </article>
   </>
 };

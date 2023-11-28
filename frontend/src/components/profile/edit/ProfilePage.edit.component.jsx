@@ -10,8 +10,8 @@ import {
 import { useHandleFormOnSubmit } from './ProfilePage.hooks';
 import { iconLibraryConfig } from 'config';
 
-const ProfilePageEdit = ({ profileData }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
+const ProfilePageEdit = ({ profileData, editHandler }) => {
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(editHandler);
 
   return <>
     <form id='profileEdit' onSubmit={(event) => onSubmit(event)}>
