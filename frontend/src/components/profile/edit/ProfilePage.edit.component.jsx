@@ -32,7 +32,7 @@ const ProfilePageEdit = ({ profileData, editHandler }) => {
       />
 
       <PasswordInputField
-        id={"password"}
+        id={'password'}
         labelContent={'Password'}
         placeholder={'Enter your password...'}
       />
@@ -40,6 +40,8 @@ const ProfilePageEdit = ({ profileData, editHandler }) => {
       {!loading ?
         <article>
           <SubmitButton />
+          <br />
+          <button onClick={editHandler}>Back</button>
           {errorMessage && <FormError errorMessage={errorMessage} />}
         </article> :
         <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />
