@@ -15,9 +15,15 @@ const Dashboard = () => {
     setIsModalVisible(!isModalVisible);
   };
 
+  const listenForEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsModalVisible(false);
+    }
+  };
+
   return (
     <>
-      <div className={'dashboard-page'}>
+      <div className={!isModalVisible ? 'dashboard-page' : 'dashboard-page blur'}>
         <PageTitle title={'Dashboard'} />
         <div className={'dashboard-window-container'}>
           <Window title={'Current month'} text={'Data...'} button={<AddTransaction handleOnClick={handleOnClick} />} />
@@ -25,7 +31,7 @@ const Dashboard = () => {
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>
       </div>
-      <AddTransactionModal isModalVisible={isModalVisible} />
+      <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyclose={listenForEscapeKey} />
     </>
   );
 };

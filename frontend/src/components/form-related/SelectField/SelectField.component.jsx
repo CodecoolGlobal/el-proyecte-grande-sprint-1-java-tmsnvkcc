@@ -1,8 +1,9 @@
 import './SelectField.styles.css';
 
-const SelectField = ({ defaultValue, id, options }) => {
+const SelectField = ({ defaultValue, id, options, labelContent }) => {
   return (
     <article className={'select-component-container'}>
+      <label htmlFor={id}>{labelContent}</label>
       <select
         id={id}
         name={id}

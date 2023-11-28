@@ -6,10 +6,11 @@ import {
   InputField,
   SelectField,
   SingleCheckbox,
+  SubmitButton,
 } from 'components/form-related';
 import './AddTransactionModal.styles.css';
 
-const AddTransactionModal = ({ isModalVisible }) => {
+const AddTransactionModal = ({ isModalVisible, handleOnKeyclose }) => {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -21,7 +22,11 @@ const AddTransactionModal = ({ isModalVisible }) => {
   }, [isModalVisible]);
 
   return (
-    <dialog className={'add-transaction-modal'} ref={dialogRef}>
+    <dialog
+      className={'add-transaction-modal'}
+      ref={dialogRef}
+      onKeyDown={(event) => handleOnKeyclose(event)}
+    >
       <form>
         <InputField
           type={'text'}
@@ -42,13 +47,15 @@ const AddTransactionModal = ({ isModalVisible }) => {
         />
         <SingleCheckbox
           id={'isRecurring'}
-          labelContent={'Is it a monthly recurring item?'}
+          labelContent={'Is this a monthly recurring item?'}
         />
         <SelectField
           id={'transactionCategory'}
           defaultValue={''}
-          options={['test2', 'test3']}
+          options={['test2', 'test3']} // TODO - remove hardcoded values with actual data
+          labelContent={'Choose category'}
         />
+        <SubmitButton />
       </form>
     </dialog>
   );

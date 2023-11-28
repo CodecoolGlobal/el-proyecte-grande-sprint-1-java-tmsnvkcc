@@ -1,43 +1,52 @@
 .add-transaction-modal {
   width: 50%;
-  background-color: var(--dark-background);
-  margin: 10% auto 0 auto;
+  margin: 15% auto 0 auto;
   color: var(--primary-main-font-color);
   font-size: 1.4rem;
+  border: 0.1rem solid rgba(201, 198, 198, 0.6);
+  border-radius: 1.5rem;
+  background-color: var(--dark-background);
 
-  & label,
-  & select {
-    font-size: 1.4rem;
-    font-family: inherit;
-  }
+  & form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  & input:not([type='checkbox']) {
-    height: 5rem;
-    width: 35rem;
-    margin: 1rem 0 0 0;
-    padding: 0 0 0 2.5rem;
-    font-size: inherit;
-    font-family: inherit;
-    color: inherit;
-    background-color: var(--primary-main);
-    border-radius: 0.75rem;
 
-    &:hover {
-      background-color: var(--primary-background);
+    & label,
+    & select {
+      font-size: 1.4rem;
+      font-family: inherit;
     }
 
-    &::placeholder {
-      color: var(--primary-main-font-color);
-      font-size: 1.5rem;
-      letter-spacing: 0.15rem;
-    }
+    & input:not([type='checkbox']) {
+      height: 5rem;
+      width: 35rem;
+      margin: 1rem 0 0 0;
+      padding: 0 0 0 2.5rem;
+      font-size: inherit;
+      font-family: inherit;
+      color: inherit;
+      background-color: var(--primary-main);
+      border-radius: 0.75rem;
 
-    &:focus {
-      outline: 0.25rem solid var(--primary-main-font-color);
-    }
+      &:hover {
+        background-color: var(--primary-background);
+      }
 
-    &:focus::placeholder {
-      color: transparent;
+      &::placeholder {
+        color: var(--primary-main-font-color);
+        font-size: 1.5rem;
+        letter-spacing: 0.15rem;
+      }
+
+      &:focus {
+        outline: 0.25rem solid var(--primary-main-font-color);
+      }
+
+      &:focus::placeholder {
+        color: transparent;
+      }
     }
   }
 }
