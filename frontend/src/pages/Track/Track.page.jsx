@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TrackComponentSelector, TrackDateSelector } from 'components/track';
+import { TrackComponentSelector, TrackDateSelector, Overview } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
 import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
@@ -18,7 +18,7 @@ const Track = () => {
   const componentRenderHandler = () => {
     switch (currentTile) {
     case 'Overview':
-      return 'Overview Component Placeholder';
+      return <Overview transactions={transactionsData} isLoading={isTransactionLoading}/>;
 
     case 'Spendings':
       return 'Spendings Component Placeholder';

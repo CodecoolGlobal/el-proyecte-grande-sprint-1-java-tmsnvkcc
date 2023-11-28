@@ -20,7 +20,7 @@ const useGetMonthlyTransactions = (year, month) => {
 
   return {
     transactionsData: query.data,
-    isTransactionLoading: query.isLoading,
+    isTransactionLoading: query.isFetching,
     isTransactionError: query.isError,
     refetch: query.refetch,
   };
