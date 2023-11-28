@@ -9,12 +9,12 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import {
+  Dashboard,
   ErrorPage,
   Home,
-  Dashboard,
-  Track,
   Insights,
   Profile,
+  Track,
 } from 'pages';
 import { Layout } from 'components/layout';
 import './index.css';
