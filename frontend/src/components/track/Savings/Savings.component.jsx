@@ -19,9 +19,15 @@ const SavingsComponent = ({ transactions, isLoading }) => {
 
     return (
         <div className={"savings-page-overview"}>
-            <div className={"savings-actual-balance"}>{actualBalance}</div>
+            <div className={"savings-balance-container"}>
+                <h2>ACTUAL BALANCE</h2>
+                {actualBalance}
+            </div>
             <div className={"savings-arrow-button-container"}>ARROWS</div>
-            <div className={"savings-saved-balance"}>{savingsBalance}</div>
+            <div className={"savings-balance-container"}>
+                <h2>SAVINGS BALANCE</h2>
+                {savingsBalance}
+            </div>
         </div>
     );
 };
