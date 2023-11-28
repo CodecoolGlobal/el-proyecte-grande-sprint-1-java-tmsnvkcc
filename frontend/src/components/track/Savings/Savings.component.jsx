@@ -22,17 +22,22 @@ const SavingsComponent = ({ transactions, isLoading }) => {
 
     return (
         <div className={"savings-page-overview"}>
-            <div className={"savings-balance-container"}>
-                <h2>ACTUAL BALANCE</h2>
-                {actualBalance}
+            <div className={"savings-controls-container"}>
+                <div className={"savings-balance-container"}>
+                    <h2>ACTUAL BALANCE</h2>
+                    {actualBalance}
+                </div>
+                <div className={"savings-arrow-button-container"}>
+                    <FontAwesomeIcon icon={faLeftLong} className={"savings-arrow-left"}/>
+                    <FontAwesomeIcon icon={faRightLong} className={"savings-arrow-right"}/>
+                </div>
+                <div className={"savings-balance-container"}>
+                    <h2>SAVINGS BALANCE</h2>
+                    {savingsBalance}
+                </div>
             </div>
-            <div className={"savings-arrow-button-container"}>
-                <FontAwesomeIcon icon={faLeftLong} className={"savings-arrow-left"}/>
-                <FontAwesomeIcon icon={faRightLong} className={"savings-arrow-right"}/>
-            </div>
-            <div className={"savings-balance-container"}>
-                <h2>SAVINGS BALANCE</h2>
-                {savingsBalance}
+            <div className={"savings-transactions-container"}>
+
             </div>
         </div>
     );
