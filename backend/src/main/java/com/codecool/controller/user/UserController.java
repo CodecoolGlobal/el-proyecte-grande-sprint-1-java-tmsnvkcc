@@ -1,11 +1,7 @@
 package com.codecool.controller.user;
 
 import com.codecool.config.postgreSQL.PostgreSQLImpl;
-import com.codecool.dto.ForgottenPasswordDTO;
-import com.codecool.dto.LoginUserDTO;
-import com.codecool.dto.NewUserDTO;
-import com.codecool.dto.UserAccountAfterLoginDTO;
-import com.codecool.dto.UserDataAfterLoginDTO;
+import com.codecool.dto.*;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
@@ -125,33 +121,9 @@ public class UserController {
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
-  @PutMapping("/changeUsername/{userId}")
-  public ResponseEntity<String> changeUsername(@PathVariable UUID userId) {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-    }
-  }
-
-  @PutMapping("/changePassword/{userId}")
-  public ResponseEntity<String> changePassword(@PathVariable UUID userId) {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-    }
-  }
-
-  @PutMapping("/changeEmail/{userId}")
-  public ResponseEntity<String> changeEmail(@PathVariable UUID userId) {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-    }
+  @PutMapping("/update-profile")
+  public ResponseEntity<Object> updateProfile(@RequestBody UpdateProfileDTO user) throws FormErrorException{
+    Map<String, String> message = new HashMap<>(){{ put("message", "Update successfully"); }};
+    return new ResponseEntity<>(message, HttpStatus.OK);
   }
 }
