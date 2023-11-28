@@ -1,6 +1,10 @@
 import './TrackDateSelector.styles.css';
 
-const TrackDateSelector = ({ year, everyMonth, months, setSelectedYear, setSelectedMonth }) => {
+const TrackDateSelector = ({ year, everyMonth, setSelectedYear, setSelectedMonth }) => {
+
+  const months = Array.from({ length: 12 }, (e, i) => {
+    return new Date(null, i + 1, null).toLocaleDateString('en', { month: 'long' });
+  });
 
   const parseAndSetMonth = (e) => {
     setSelectedMonth(parseInt(e.target.value));
