@@ -54,7 +54,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 //        FROM
 //          accounts AS ACC
 //        INNER JOIN external_transactions AS EXT ON EXT.account_id = ACC.id
-//        INNER JOIN local_transactions AS LOC ON EXT.account_id = ACC.id
+//        INNER JOIN local_transactions AS LOC ON LOC.account_id = ACC.id
 //        WHERE
 //          ACC.user_id = :userId AND
 //          (EXTRACT(YEAR FROM EXT.date_of_transaction) = :year AND
