@@ -12,7 +12,7 @@ const Track = () => {
   const { transactionsData, isTransactionLoading, isTransactionError, refetch } = useGetMonthlyTransactions(selectedYear, selectedMonth);
 
   useEffect(() => {
-    refetch()
+    refetch();
   }, [selectedYear, selectedMonth]);
 
 
