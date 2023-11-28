@@ -1,6 +1,43 @@
 .add-transaction-modal {
   width: 50%;
-  height: 50%;
-  background-color: white;
+  background-color: var(--dark-background);
   margin: 10% auto 0 auto;
+  color: var(--primary-main-font-color);
+  font-size: 1.4rem;
+
+  & label,
+  & select {
+    font-size: 1.4rem;
+    font-family: inherit;
+  }
+
+  & input:not([type='checkbox']) {
+    height: 5rem;
+    width: 35rem;
+    margin: 1rem 0 0 0;
+    padding: 0 0 0 2.5rem;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    background-color: var(--primary-main);
+    border-radius: 0.75rem;
+
+    &:hover {
+      background-color: var(--primary-background);
+    }
+
+    &::placeholder {
+      color: var(--primary-main-font-color);
+      font-size: 1.5rem;
+      letter-spacing: 0.15rem;
+    }
+
+    &:focus {
+      outline: 0.25rem solid var(--primary-main-font-color);
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
 }
