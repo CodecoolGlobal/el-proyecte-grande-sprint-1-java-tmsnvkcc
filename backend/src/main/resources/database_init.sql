@@ -71,5 +71,6 @@ VALUES
     (1, gen_random_uuid(), 'Account 1', 'Main account', 'USD', 1000.00, 500.00),
     (2, gen_random_uuid(), 'Account 2', 'Savings account', 'EUR', 2000.00, 1000.00);
 
-INSERT INTO external_transactions(account_id, amount, id, dateOfTransaction, is_planned, is_recurring, user_id)
+INSERT INTO external_transactions(account_id, amount, id, category_name, dateOfTransaction, is_planned, is_recurring,
+                                  user_id)
 VALUES (1, 100.0, 1, TO_DATE('01/11/2023', 'DD/MM/YYYY'), false, false, 1);

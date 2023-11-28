@@ -15,6 +15,7 @@ const PasswordInputField = ({ id, labelContent, defaultValue, placeholder }) => 
       <label htmlFor={id}>{labelContent}</label>
       <div>
         <input
+          className={'default-input-field-style'}
           type={isRevealed ? 'text' : 'password'}
           id={id}
           name={id}
@@ -22,7 +23,11 @@ const PasswordInputField = ({ id, labelContent, defaultValue, placeholder }) => 
           placeholder={placeholder ?? ''}
         />
         <div>
-          <FontAwesomeIcon className={'reveal-icon'} onClick={handleOnClick} icon={isRevealed ? iconLibraryConfig.faEyeSlash : iconLibraryConfig.faEye} />
+          <FontAwesomeIcon
+            className={'reveal-icon'}
+            onClick={handleOnClick}
+            icon={isRevealed ? iconLibraryConfig.faEyeSlash : iconLibraryConfig.faEye}
+          />
         </div>
       </div>
     </article>

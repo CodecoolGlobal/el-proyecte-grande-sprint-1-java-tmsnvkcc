@@ -2,7 +2,10 @@ import './SubmitButton.styles.css';
 
 const SubmitButton = () => {
   return (
-    <button className={'form-submit-button'}>
+    <button
+      className={'form-submit-button'}
+      type={'submit'}
+    >
       Submit
     </button>
   );
