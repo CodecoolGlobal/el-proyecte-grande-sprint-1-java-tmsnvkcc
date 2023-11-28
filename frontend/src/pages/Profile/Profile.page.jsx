@@ -24,7 +24,7 @@ const Profile = () =>{
   }
 
   const renderFormComponent = () =>{
-    return editProfile ? <ProfilePageEdit /> : <ProfilePageDisplay profileData={profileData} clickHandler={onHandleClickEdit} />; 
+    return editProfile ? <ProfilePageEdit profileData={profileData} /> : <ProfilePageDisplay profileData={profileData} clickHandler={onHandleClickEdit} />; 
   }
 
   return (
