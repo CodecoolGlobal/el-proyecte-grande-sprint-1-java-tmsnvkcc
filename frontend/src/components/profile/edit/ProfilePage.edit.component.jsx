@@ -38,9 +38,8 @@ const ProfilePageEdit = ({ profileData, editHandler }) => {
       />
 
       {!loading ?
-        <article>
+        <article className={'button-component-container'}>
           <SubmitButton />
-          <br />
           <button onClick={editHandler}>Back</button>
           {errorMessage && <FormError errorMessage={errorMessage} />}
         </article> :

@@ -19,7 +19,7 @@ const ProfilePageDisplay = ({ profileData, onEditHandler }) => {
     <article className={'bottom-button-container'}>
       <FormSwapButton buttonName={'editProfile'} buttonContent={'Edit'} clickHandler={onEditHandler} />
     </article>
-  </>
+  </>;
 };
 
 export default ProfilePageDisplay;
