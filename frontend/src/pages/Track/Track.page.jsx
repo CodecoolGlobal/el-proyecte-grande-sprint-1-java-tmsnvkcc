@@ -9,7 +9,7 @@ const Track = () => {
   const [everyMonth, setEveryMonth] = useState(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']); //TODO move to calendar
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const { transactionsData, isTransactionLoading, isTransactionError, refetch } = useGetMonthlyTransactions(selectedYear, selectedMonth);
+  const {transactionsData, isTransactionLoading, isTransactionError, refetch} = useGetMonthlyTransactions(selectedYear, selectedMonth);
 
   useEffect(() => {
     refetch();
