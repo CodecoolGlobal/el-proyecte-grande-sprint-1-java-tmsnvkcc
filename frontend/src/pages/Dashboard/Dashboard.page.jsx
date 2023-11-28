@@ -29,7 +29,7 @@ const Dashboard = () => {
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>
       </div>
-      <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} />
+      <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} handleOnClick={handleOnClick} />
     </>
   );
 };

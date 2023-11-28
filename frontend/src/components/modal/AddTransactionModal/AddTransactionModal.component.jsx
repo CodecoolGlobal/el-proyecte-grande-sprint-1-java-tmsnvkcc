@@ -10,7 +10,7 @@ import {
 } from 'components/form-related';
 import './AddTransactionModal.styles.css';
 
-const AddTransactionModal = ({ isModalVisible, handleOnKeyClose }) => {
+const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }) => {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnKeyClose }) => {
       ref={dialogRef}
       onKeyDown={(event) => handleOnKeyClose(event)}
     >
+      <button className={'close-x-button'} onClick={handleOnClick}>X</button>
       <form>
         <InputField
           type={'text'}
