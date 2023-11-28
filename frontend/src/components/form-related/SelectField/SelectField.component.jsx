@@ -5,6 +5,7 @@ const SelectField = ({ defaultValue, id, options, labelContent }) => {
     <article className={'select-component-container'}>
       <label htmlFor={id}>{labelContent}</label>
       <select
+        className={'default-select-field-style'}
         id={id}
         name={id}
         defaultValue={defaultValue}>

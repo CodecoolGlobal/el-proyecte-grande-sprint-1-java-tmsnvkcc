@@ -3,9 +3,7 @@ import {
   AddTransaction,
   PageTitle,
 } from 'components/form-related';
-import {
-  Window,
-} from 'components/dashboard';
+import { Window } from 'components/dashboard';
 import { AddTransactionModal } from 'components/modal';
 import './Dashboard.styles.css';
 
@@ -31,7 +29,7 @@ const Dashboard = () => {
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>
       </div>
-      <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyclose={listenForEscapeKey} />
+      <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} />
     </>
   );
 };

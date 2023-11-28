@@ -2,9 +2,10 @@
   height: 5rem;
   width: 17.5rem;
   margin: 5rem 0 2.5rem 0;
-  font-size: inherit;
+  font-size: 2rem;
   font-family: inherit;
-  color: inherit;
+  letter-spacing: 0.25rem;
+  color: var(--primary-main-font-color);
   background-color: var(--primary-main);
   border-radius: 0.75rem;
   cursor: pointer;

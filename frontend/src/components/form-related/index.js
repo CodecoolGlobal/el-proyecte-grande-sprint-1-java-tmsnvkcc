@@ -6,6 +6,7 @@ import PasswordInputField from './PasswordInputField';
 import AddTransaction from './AddTransaction';
 import SingleCheckbox from './SingleCheckbox';
 import SelectField from './SelectField';
+import GeneralInputFieldStyles from './InputFieldStyles';
 
 export {
   InputField,
@@ -16,4 +17,5 @@ export {
   AddTransaction,
   SingleCheckbox,
   SelectField,
+  GeneralInputFieldStyles,
 };

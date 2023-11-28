@@ -10,7 +10,7 @@ import {
 } from 'components/form-related';
 import './AddTransactionModal.styles.css';
 
-const AddTransactionModal = ({ isModalVisible, handleOnKeyclose }) => {
+const AddTransactionModal = ({ isModalVisible, handleOnKeyClose }) => {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnKeyclose }) => {
     <dialog
       className={'add-transaction-modal'}
       ref={dialogRef}
-      onKeyDown={(event) => handleOnKeyclose(event)}
+      onKeyDown={(event) => handleOnKeyClose(event)}
     >
       <form>
         <InputField
@@ -38,7 +38,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnKeyclose }) => {
           type={'number'}
           id={'transactionAmount'}
           labelContent={'Transaction amount'}
-          placeholder={'Add the transaction amount'}
+          placeholder={'Add amount'}
         />
         <InputField
           type={'date'}
@@ -53,13 +53,12 @@ const AddTransactionModal = ({ isModalVisible, handleOnKeyclose }) => {
           id={'transactionCategory'}
           defaultValue={''}
           options={['test2', 'test3']} // TODO - remove hardcoded values with actual data
-          labelContent={'Choose category'}
+          labelContent={'Category'}
         />
         <SubmitButton />
       </form>
     </dialog>
   );
 };
-
 
 export default AddTransactionModal;

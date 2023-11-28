@@ -13,9 +13,13 @@
     margin: 2rem 0;
   }
 
-  & hr {
-    background-color: var(--primary-main-font-color);
-    height: 0.1rem;
-    width: 80%;
+  & h2 {
+    width: fit-content;
+  }
+
+  & h2::after {
+    content: '';
+    display: block;
+    border-bottom: 0.2rem solid var(--primary-main-font-color);
   }
 }

@@ -1,6 +1,6 @@
 .add-transaction-modal {
-  width: 50%;
-  margin: 15% auto 0 auto;
+  width: 35%;
+  margin: 5% auto 0 auto;
   color: var(--primary-main-font-color);
   font-size: 1.4rem;
   border: 0.1rem solid rgba(201, 198, 198, 0.6);
@@ -12,41 +12,13 @@
     flex-direction: column;
     align-items: center;
 
-
-    & label,
-    & select {
-      font-size: 1.4rem;
-      font-family: inherit;
+    & input[type='date'],
+    & input[type='number'] {
+      width: 20rem;
     }
 
-    & input:not([type='checkbox']) {
-      height: 5rem;
-      width: 35rem;
-      margin: 1rem 0 0 0;
-      padding: 0 0 0 2.5rem;
-      font-size: inherit;
-      font-family: inherit;
-      color: inherit;
-      background-color: var(--primary-main);
-      border-radius: 0.75rem;
-
-      &:hover {
-        background-color: var(--primary-background);
-      }
-
-      &::placeholder {
-        color: var(--primary-main-font-color);
-        font-size: 1.5rem;
-        letter-spacing: 0.15rem;
-      }
-
-      &:focus {
-        outline: 0.25rem solid var(--primary-main-font-color);
-      }
-
-      &:focus::placeholder {
-        color: transparent;
-      }
+    & input[type='checkbox'] {
+      margin: 5rem 0 0 0;
     }
   }
 }
