@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TrackComponentSelector, TrackDateSelector } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
@@ -7,12 +7,15 @@ import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
-  const [everyMonth, setEveryMonth] = useState(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])
+  const [everyMonth, setEveryMonth] = useState(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']); //TODO move to calendar
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSeletedMonth] = useState(new Date().getMonth());
+  const [monthlyTransactions, setMonthlyTransactions] = useState({});
 
-  console.log(useGetTrackPageData(selectedYear,selectedMonth));
-  //TODO Implement logic to sort incoming data into different states (account, transactions etc...)
+  useEffect(() => {
+    setMonthlyTransactions(useGetMonthlyTransactions(selectedYear, selectedMonth));
+  }, [selectedYear, selectedMonth]);
+
 
   const componentRenderHandler = () => {
     switch (currentTile) {
