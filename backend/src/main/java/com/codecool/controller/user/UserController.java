@@ -77,6 +77,8 @@ public class UserController {
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
       userAccount.get().get(0).getName(),
       userAccount.get().get(0).getDescription(),
+      userAccount.get().get(0).getActualBalance(),
+      userAccount.get().get(0).getSavingsBalance(),
       externalTransactions,
       localTransactions
     );

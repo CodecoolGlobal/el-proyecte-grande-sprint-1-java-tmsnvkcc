@@ -3,6 +3,7 @@ import SubmitButton from './SubmitButton';
 import FormError from './FormError';
 import PageTitle from './PageTitle';
 import PasswordInputField from './PasswordInputField';
+import AddTransaction from './AddTransaction';
 
 export {
   InputField,
@@ -10,4 +11,5 @@ export {
   FormError,
   PageTitle,
   PasswordInputField,
+  AddTransaction
 };

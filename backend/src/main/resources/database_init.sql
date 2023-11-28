@@ -11,7 +11,6 @@ drop table if exists users;
 -- Create users table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    uuid UUID NOT NULL,
     registered_at TIMESTAMP DEFAULT NOW(),
     user_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE,
@@ -34,17 +33,30 @@ CREATE TABLE accounts (
 -- Create external trans table
 CREATE TABLE external_transactions (
     id SERIAL PRIMARY KEY,
-    accountId INT,
-    userId INT,
-    uuid UUID NOT NULL,
-    categoryName VARCHAR(255) NOT NULL,
+    account_id INT,
+    user_id INT,
+    category_name VARCHAR(255) NOT NULL,
     description TEXT,
-    dateOfTransaction DATE,
+    date_of_transaction DATE,
     amount DECIMAL(10,2),
-    isPlanned BOOLEAN,
-    isRecurring BOOLEAN,
-    FOREIGN KEY (accountId) REFERENCES accounts(id),
-    FOREIGN KEY (userId) REFERENCES users(id)
+    is_planned BOOLEAN,
+    is_recurring BOOLEAN,
+    FOREIGN KEY (account_id) REFERENCES accounts(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Create external trans table
+CREATE TABLE local_transactions (
+    id SERIAL PRIMARY KEY,
+    account_id INT,
+    user_id INT,
+    description TEXT,
+    date_of_transaction DATE,
+    amount DECIMAL(10,2),
+    is_planned BOOLEAN,
+    is_recurring BOOLEAN,
+    FOREIGN KEY (account_id) REFERENCES accounts(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- Insert dummy data into users table
