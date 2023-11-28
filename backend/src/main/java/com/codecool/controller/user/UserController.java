@@ -1,11 +1,7 @@
 package com.codecool.controller.user;
 
 import com.codecool.config.postgreSQL.PostgreSQLImpl;
-import com.codecool.dto.ForgottenPasswordDTO;
-import com.codecool.dto.LoginUserDTO;
-import com.codecool.dto.NewUserDTO;
-import com.codecool.dto.UserAccountAfterLoginDTO;
-import com.codecool.dto.UserDataAfterLoginDTO;
+import com.codecool.dto.*;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
@@ -125,33 +121,44 @@ public class UserController {
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
-  @PutMapping("/changeUsername/{userId}")
-  public ResponseEntity<String> changeUsername(@PathVariable UUID userId) {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+  @PutMapping("/update-profile")
+  public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
+    if (profileData == null || profileData.email().isEmpty() || profileData.password().isEmpty() || profileData.username().isEmpty()) {
+      throw new FormErrorException("The update was unsuccessful, please try again.");
     }
-  }
 
-  @PutMapping("/changePassword/{userId}")
-  public ResponseEntity<String> changePassword(@PathVariable UUID userId) {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-    }
-  }
+    Optional<User> foundUser = userService.findUserByEmail(profileData.email());
 
-  @PutMapping("/changeEmail/{userId}")
-  public ResponseEntity<String> changeEmail(@PathVariable UUID userId) {
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+    if (foundUser.isEmpty()) {
+      throw new FormErrorException("The update was unsuccessful, please try again.");
     }
+
+    User userDetails = foundUser.get();
+
+    userService.updateUserProfile(profileData, userDetails);
+
+    int currentYear = LocalDate.now().getYear();
+    int currentMonth = LocalDate.now().getMonthValue();
+
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+            userAccount.get().get(0).getName(),
+            userAccount.get().get(0).getDescription(),
+            userAccount.get().get(0).getActualBalance(),
+            userAccount.get().get(0).getSavingsBalance(),
+            externalTransactions,
+            localTransactions
+    );
+    UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
+            userDetails.getId(),
+            userDetails.getDateOfRegistration(),
+            userDetails.getUserName(),
+            userDetails.getEmail(),
+            userAccountAfterLoginDTO
+    );
+
+    return new ResponseEntity<>(userData, HttpStatus.OK);
   }
 }
