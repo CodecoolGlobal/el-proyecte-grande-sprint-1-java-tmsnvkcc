@@ -48,7 +48,9 @@ const Track = () => {
         setSelectedYear={setSelectedYear}
         setSelectedMonth={setSelectedMonth}
         handleClick={handleClick} />
-      {componentRenderHandler()}
+      <div className={'track-content'}>
+        {componentRenderHandler()}
+      </div>
     </div>
   );
 };

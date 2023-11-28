@@ -2,6 +2,7 @@ import './Overview.styles.css';
 import {useEffect, useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {iconLibraryConfig} from "../../../config/index.js";
+import {PageTitle} from "../../form-related/index.js";
 
 const Overview = ({ transactions, isLoading }) => {
 
@@ -10,6 +11,7 @@ const Overview = ({ transactions, isLoading }) => {
     const [income, setIncome] = useState(null);
     const [plannedSpending, setPlannedSpending] = useState(null);
     const [plannedIncome, setPlannedIncome] = useState(null);
+    const [currency, setCurrency] = useState("HUF");
 
     const getAmountSumOf = (list) => {
         let sum = 0;
@@ -57,20 +59,53 @@ const Overview = ({ transactions, isLoading }) => {
     //TODO Implement loading animation component
 
     return (
-        <div>
-            <h2>Overview component</h2>
-            <p>Account name: <strong>{accountDetails.name}</strong></p>
-            <p>Account description: <strong>{accountDetails.description}</strong></p>
-            <br/>
-            <p>SPENDING this month: <strong>{spending} Ft</strong></p>
-            <p>INCOME this month: <strong>{income} Ft</strong></p>
-            <br/>
-            <p>PLANNED spending this month: <strong>{plannedSpending} Ft</strong></p>
-            <p>PLANNED income this month: <strong>{plannedIncome} Ft</strong></p>
-            <br/>
-            <p>Actual BALANCE: <strong>{accountDetails.actualBalance}</strong></p>
-            <p>Savings BALANCE: <strong>{accountDetails.savingsBalance}</strong></p>
+        <div className={"track-page-overview"}>
+            <div className={"overview-left"}>
+                {/*<div className={'left-title'}>
+                    <h1>Monthly balance</h1>
+                    <hr />
+                </div>*/}
+                <div className={'left-content'}>
+                    <div className={'information'}>
+                        <h2>Total spent this month</h2>
+                        <h3>{spending} {currency}</h3>
+                    </div>
 
+                    <div className={'information'}>
+                        <h2>Planned spending</h2>
+                        <h3>{plannedSpending} {currency}</h3>
+                    </div>
+
+                    <div className={'information'}>
+                        <h2>Total income this month</h2>
+                        <h3>{income} {currency}</h3>
+                    </div>
+
+                    <div className={'information'}>
+                        <h2>Planned income</h2>
+                        <h3>{plannedIncome} {currency}</h3>
+                    </div>
+                </div>
+            </div>
+            <div className={'overview-split'}>
+                <hr className={'hr-stand'}/>
+            </div>
+            <div className={"overview-right"}>
+                {/*<div className={'right-title'}>
+                    <h1>Total</h1>
+                    <hr />
+                </div>*/}
+                <div className={'right-content'}>
+                    <div className={'information'}>
+                        <h2>Actual Balance</h2>
+                        <h3>{accountDetails.actualBalance} {currency}</h3>
+                    </div>
+                    <div className={'information'}>
+                        <h2>Savings Balance</h2>
+                        <h3>{accountDetails.savingsBalance} {currency}</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
