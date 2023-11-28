@@ -122,7 +122,20 @@ public class UserController {
   }
 
   @PutMapping("/update-profile")
-  public ResponseEntity<Object> updateProfile(@RequestBody UpdateProfileDTO user) throws FormErrorException{
+  public ResponseEntity<Object> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
+    if (profileData == null || profileData.email().isEmpty() || profileData.password().isEmpty() || profileData.username().isEmpty()) {
+      throw new FormErrorException("The update was unsuccessful, please try again.");
+    }
+
+    Optional<User> foundUser = userService.findUserByEmail(profileData.email());
+
+    if (foundUser.isEmpty()) {
+      throw new FormErrorException("The update was unsuccessful, please try again.");
+    }
+
+    User userDetails = foundUser.get();
+
+    userService.updateUserProfile(profileData, userDetails);
     Map<String, String> message = new HashMap<>(){{ put("message", "Update successfully"); }};
     return new ResponseEntity<>(message, HttpStatus.OK);
   }
