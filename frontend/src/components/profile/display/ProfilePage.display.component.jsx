@@ -12,6 +12,10 @@ const ProfilePageDisplay = ({profileData, clickHandler}) =>{
       <label>{profileData.userName}</label>
     </div>
 
+    <div>
+      <label>{profileData.email}</label>
+    </div>
+
     <article className={'bottom-button-container'}>
       <FormSwapButton buttonName={'editProfile'} buttonContent={'Edit'} clickHandler={clickHandler} />
     </article>
