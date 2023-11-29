@@ -13,19 +13,25 @@ import './Profile.styles.css';
 const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
   const [profileData, setProfileData] = useState({});
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const profileDataRaw = JSON.parse(localStorage.getItem('userData'));
+    const loadData = () =>{
+      const profileDataRaw = JSON.parse(localStorage.getItem('userData'));
 
-    setProfileData(profileDataRaw);
-  }, []);
+      setLoading(false);
+      setProfileData(profileDataRaw);
+    };
+
+    loadData();
+  }, [editProfile, isLoading]);
 
   const onEditHandler = () => {
     setEditProfile(!editProfile);
   };
 
   const renderFormComponent = () => {
-    return editProfile ? <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> : <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} />;
+    return editProfile ? <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> : <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isLoading} />;
   };
 
   return (
