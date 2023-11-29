@@ -1,19 +1,19 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormError } from 'components/form-related';
 import {
   useEffect,
   useRef,
   useState,
 } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  FormError,
   InputField,
   SelectField,
   SingleCheckbox,
   SubmitButton,
 } from 'components/form-related';
-import './AddTransactionModal.styles.css';
-import { iconLibraryConfig } from '../../../config/index.js';
+import { iconLibraryConfig } from 'config';
 import { useHandleFormOnSubmit } from './AddTransactionModal.hooks.jsx';
+import './AddTransactionModal.styles.css';
 
 const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }) => {
   const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
@@ -37,8 +37,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
       ref={dialogRef}
       onKeyDown={(event) => handleOnKeyClose(event)}
     >
-      <button className={'close-x-button'} onClick={handleOnClick}>X
-      </button>
+      <button className={'close-x-button'} onClick={handleOnClick}>X</button>
       <form
         id={'addTransactionForm'}
         onSubmit={(event) => onSubmit(event)}

@@ -49,24 +49,21 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> loginUser(@RequestBody LoginUserDTO user) throws FormErrorException {
+  public ResponseEntity<?> loginUser(@RequestBody LoginUserDTO user) {
     if (user == null || user.loginEmail().isEmpty() || user.loginPassword().isEmpty()) {
       throw new FormErrorException("The login was unsuccessful, please try again.");
     }
 
-    Optional<User> foundUser = userService.findUserByEmail(user.loginEmail());
-
-    if (foundUser.isEmpty()) {
-      throw new FormErrorException("The login was unsuccessful, please try again.");
-    }
+    User foundUser = userService.findUserByEmail(user.loginEmail());
 
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
 
-    User userDetails = foundUser.get();
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    // the login endpoint shouldn't return anything else other than the user information.
+    // datafetching should be driven by the frontend.
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
       userAccount.get().get(0).getId(),
       userAccount.get().get(0).getName(),
@@ -77,11 +74,11 @@ public class UserController {
       localTransactions
     );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-      userDetails.getId(),
-      userDetails.getDateOfRegistration(),
-      userDetails.getUserName(),
-      userDetails.getEmail(),
-      userDetails.getCategories(),
+      foundUser.getId(),
+      foundUser.getDateOfRegistration(),
+      foundUser.getUserName(),
+      foundUser.getEmail(),
+      foundUser.getCategories(),
       userAccountAfterLoginDTO
     );
 
@@ -124,10 +121,10 @@ public class UserController {
   public ResponseEntity<?> getProfileAccounts(){
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
-    Optional<User> foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
-    User userDetails = foundUser.get();
+    User foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+//    User userDetails = foundUser.get();
 
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId(), currentYear, currentMonth);
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
@@ -138,23 +135,23 @@ public class UserController {
     }
 
 
-    Optional<User> foundUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
+    User foundUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
 
-    if (foundUser.isEmpty()) {
-      throw new FormErrorException("The update was unsuccessful, please try again.");
-    }
+//    if (foundUser.isEmpty()) {
+//      throw new FormErrorException("The update was unsuccessful, please try again.");
+//    }
+//
+//    User userDetails = foundUser.get();
 
-    User userDetails = foundUser.get();
-
-    userService.updateUserProfile(profileData, userDetails);
+    userService.updateUserProfile(profileData, foundUser);
 
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
 
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId(), currentYear, currentMonth);
     System.out.println(userAccount);
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
             userAccount.get().get(0).getId(),
             userAccount.get().get(0).getName(),
@@ -165,11 +162,11 @@ public class UserController {
             localTransactions
     );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-            userDetails.getId(),
-            userDetails.getDateOfRegistration(),
-            userDetails.getUserName(),
-            userDetails.getEmail(),
-            userDetails.getCategories(),
+            foundUser.getId(),
+            foundUser.getDateOfRegistration(),
+            foundUser.getUserName(),
+            foundUser.getEmail(),
+            foundUser.getCategories(),
             userAccountAfterLoginDTO
     );
 

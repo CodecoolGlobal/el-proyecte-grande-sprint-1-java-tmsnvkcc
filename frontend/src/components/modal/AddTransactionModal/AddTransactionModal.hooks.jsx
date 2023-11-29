@@ -12,17 +12,16 @@ const useHandleFormOnSubmit = () => {
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      const response = await axiosConfig.request({
+      await axiosConfig.request({
         method: 'POST',
         url: '/api/transaction/add/external-transaction',
         data: payload,
       });
-
-      return response;
     },
     onSuccess: () => {
       reset();
       setLoading(false);
+      window.location.reload();
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
@@ -35,19 +34,16 @@ const useHandleFormOnSubmit = () => {
     const userData = JSON.parse(localStorage.getItem('userData')); // TODO - update this once userContext has been set up.
     const payload = serialiseFormData(event.target);
 
-    if (payload.amount === '' || payload.categoryId === '' || payload.dateOfTransaction === '') {
-      setErrorMessage('Make sure to fill in all mandatory fields (amount, category, date) before submitting the form.');
+    if (payload.amount === '' || payload.dateOfTransaction === '' || payload.categoryId === '') {
+      setErrorMessage('Make sure to fill in all mandatory fields (amount, date, category) before submitting the form.');
 
       return;
     }
 
     payload.userId = userData.userId;
     payload.accountId = userData.account.id;
-    payload.categoryId = parseInt(payload.categoryId);
     payload.isRecurring = payload.isRecurring === 'on';
     payload.isPlanned = Date.parse(payload.dateOfTransaction) > Date.now();
-
-    console.log(payload);
 
     mutate({ payload });
   };

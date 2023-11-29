@@ -4,6 +4,7 @@ import com.codecool.dto.NewUserDTO;
 import com.codecool.dto.UpdateProfileDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.User;
+import com.codecool.exception.FormErrorException;
 import com.codecool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,14 @@ public class UserService {
     userRepository.save(newUser);
   }
 
-  public Optional<User> findUserByEmail(String email) {
-    return userRepository.findByEmail(email);
+  public User findUserByEmail(String email) {
+    Optional<User> user = userRepository.findByEmail(email);
+
+    if (user.isEmpty()) {
+      throw new FormErrorException("This email address is not registered in our database.");
+    }
+
+    return user.get();
   }
 
   public boolean isEmailAlreadyInDatabase(String email) {
