@@ -13,6 +13,7 @@ const SavingsComponent = ({ transactions, isLoading }) => {
     return storedData.account;
     //TODO Replace temporary implementation of account retrieval
   };
+  //TODO add loading state handler
 
   useEffect(() => {
     const retrievedBalances = getAccountBalance();
@@ -21,6 +22,7 @@ const SavingsComponent = ({ transactions, isLoading }) => {
     setSavingsBalance(retrievedBalances.savingsBalance);
   }, []);
 
+  //TODO Add conditional text rendering for no transactions case
   return (
     <div className={'savings-page-overview'}>
       <div className={'savings-controls-container'}>
