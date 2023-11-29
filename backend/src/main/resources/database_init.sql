@@ -94,4 +94,4 @@ INSERT INTO transaction_categories(id, user_id, name)
 VALUES (1, 1, '');
 
 INSERT INTO categories_users_join(category_id, user_id)
-VALUES(1, 2);
+VALUES(1, 1);
