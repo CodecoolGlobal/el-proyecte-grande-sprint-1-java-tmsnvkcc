@@ -10,8 +10,11 @@
     align-items: flex-start;
     position: relative;
 
-
     & .spending-left, & .spending-right {
+
+        && .spending-color {
+            color: #FF0202;
+        }
 
         & .left-title, & .right-title {
             padding: 0 2rem;
@@ -75,20 +78,30 @@
             }
         }
 
-        && .left-content {
+        & .left-content {
             float: left !important;
             width: 40rem;
             padding: 0; /*0 3rem*/
-            border-right: 1px solid var(--primary-background);
         }
 
-        && .right-content {
+        & .right-content {
             float: right !important;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-
+            border-left: 1px solid var(--primary-background);
             padding: 0;
+
+            & .balance-content {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+
+                & h2 {
+                    text-decoration: underline;
+                }
+            }
         }
     }
 

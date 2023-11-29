@@ -23,7 +23,7 @@ const Spendings = ({ transactions, isLoading }) => {
     }
 
     const getSpendings = (exTransactionList) => {
-        return exTransactionList.filter((tr) => tr.amount < 0);
+        return exTransactionList.filter((tr) => tr.amount < 0).reverse();
     }
 
     const getCategoryNames = (exTransactionList) => {
@@ -61,7 +61,8 @@ const Spendings = ({ transactions, isLoading }) => {
             const categorynames = getCategoryNames(data);
             setCategories(calculateSumForCategories(categorynames, data));
 
-            setAccountDetails(data);
+            const userData = JSON.parse(localStorage.getItem("userData"));
+            setAccountDetails(userData.account);
             console.log(data);
         }
     }, [transactions, isLoading]);
@@ -98,11 +99,25 @@ const Spendings = ({ transactions, isLoading }) => {
                         return (
                           <div key={cat.name} className={'information'}>
                             <h3 className={'category-name'}>{cat.name}</h3>
-                            <h3 className={'category-amount'}>{cat.sum * -1}</h3>
+                              <h3 className={'category-amount spending-color'}>{cat.sum * -1} {currency}</h3>
                           </div>
                         )
                       })
                     }
+                </div>
+            </div>
+            <div className={"spending-right"}>
+                <div className={'right-content'}>
+                    <div className={'balance-content'}>
+                        <div className={'information'}>
+                            <h2>Actual Balance</h2>
+                            <h3>{accountDetails.actualBalance} {currency}</h3>
+                        </div>
+                        <div className={'information'}>
+                            <h2>Savings Balance</h2>
+                            <h3>{accountDetails.savingsBalance} {currency}</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
