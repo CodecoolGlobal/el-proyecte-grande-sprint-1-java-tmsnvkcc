@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record NewExternalTransactionDTO(
   int accountId,
   int userId,
-  int categoryId,
+  String category,
   String description,
   double amount,
   LocalDate dateOfTransaction,

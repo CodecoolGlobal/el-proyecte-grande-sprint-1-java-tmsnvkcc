@@ -39,7 +39,7 @@ public abstract class Transaction {
     @Column(name = "is_recurring")
     protected boolean isRecurring;
 
-    public Transaction( User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring) {
+    public Transaction(User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring) {
         this.user = user;
         this.description = description;
         this.dateOfTransaction = dateOfTransaction;

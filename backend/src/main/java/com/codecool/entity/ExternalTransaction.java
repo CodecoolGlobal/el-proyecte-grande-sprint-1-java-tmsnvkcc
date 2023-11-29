@@ -25,7 +25,7 @@ public class ExternalTransaction extends Transaction {
     public ExternalTransaction() {}
 
     public String getCategoryName() {
-        return category.getName();
+        return "test";
     }
 
     @Override
