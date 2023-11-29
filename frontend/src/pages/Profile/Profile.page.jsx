@@ -18,13 +18,13 @@ import './Profile.styles.css';
 const Profile = () => {
   const [isEditing, setEditing] = useState(false);
   const [profileData, setProfileData] = useState({});
-  const [isLoading, setLoading] = useState(true);
   const [currentTile, setCurrentTile] = useState('Profile');
 
-  const { accountData, isAccountLoading, isAccountError, refetch } = getProfileAccounts();
+  const { accountData, isAccountDataLoading, isAccountDataError, refetch } = getProfileAccounts();
 
   useEffect(() => {
     refetch();
+    setProfileData(JSON.parse(localStorage.getItem('userData')));
   }, []);
 
   const onEditHandler = () => {
@@ -42,7 +42,7 @@ const Profile = () => {
     case 'Profile':
       return isEditing ?
         <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> :
-        <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isLoading} />;
+        <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isAccountDataLoading} />;
 
     case 'Account':
       return isEditing ?

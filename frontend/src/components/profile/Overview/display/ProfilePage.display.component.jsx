@@ -6,7 +6,6 @@ import './ProfilePage.display.styles.css';
 
 const ProfilePageDisplay = ({ profileData, onEditHandler, loading }) => {
   //console.log(profileData);
-
   return <>
     {!loading &&
       <div className={'profile-page-overview'}>
