@@ -6,6 +6,7 @@ import {
 import {
   ProfilePageDisplay,
   ProfilePageEdit,
+  ProfileNavigationComponent,
 } from 'components/profile';
 
 import './Profile.styles.css';
@@ -37,6 +38,7 @@ const Profile = () => {
   return (
     <div className={'profile-page'}>
       <PageTitle title={'Profile'} />
+      <ProfileNavigationComponent />
       {renderFormComponent()}
     </div>
   );

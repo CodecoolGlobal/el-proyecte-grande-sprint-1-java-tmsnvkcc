@@ -1,4 +1,5 @@
-import ProfilePageDisplay from "./display";
-import ProfilePageEdit from "./edit";
+import ProfilePageDisplay from "./Overview/display/";
+import ProfilePageEdit from "./Overview/edit/";
+import ProfileNavigationComponent from "./Navigation";
 
-export { ProfilePageDisplay, ProfilePageEdit };
+export { ProfilePageDisplay, ProfilePageEdit, ProfileNavigationComponent };
