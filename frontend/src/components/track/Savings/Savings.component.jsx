@@ -48,4 +48,5 @@ const SavingsComponent = ({ transactions, isLoading }) => {
   );
 };
 
+//TODO Implement fade out mask to transaction card list
 export default SavingsComponent;
