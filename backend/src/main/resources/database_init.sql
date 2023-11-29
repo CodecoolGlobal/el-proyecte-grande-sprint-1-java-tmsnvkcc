@@ -35,7 +35,7 @@ CREATE TABLE external_transactions (
     id SERIAL PRIMARY KEY,
     account_id INT,
     user_id INT,
-    category_name VARCHAR(255) NOT NULL,
+    category_name INT REFERENCES transaction_categories(id),
     description TEXT,
     date_of_transaction DATE,
     amount DECIMAL(10,2),
@@ -59,6 +59,13 @@ CREATE TABLE local_transactions (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE transaction_categories (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    external_transaction_id INT REFERENCES external_transactions(id),
+    name VARCHAR(255),
+);
+
 -- Insert dummy data into users table
 INSERT INTO users (uuid, user_name, email, hashed_password, account_id, is_admin)
 VALUES
@@ -74,3 +81,6 @@ VALUES
 INSERT INTO external_transactions(account_id, amount, id, category_name, dateOfTransaction, is_planned, is_recurring,
                                   user_id)
 VALUES (1, 100.0, 1, TO_DATE('01/11/2023', 'DD/MM/YYYY'), false, false, 1);
+
+INSERT INTO transaction_categories(id, user_id, name)
+VALUES (1, 1, '');

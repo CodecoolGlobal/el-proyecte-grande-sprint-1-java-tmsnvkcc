@@ -8,10 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -41,6 +44,10 @@ public class User {
   @Column(name = "is_admin")
   private boolean isAdmin;
 
+  @OneToMany
+  @JoinColumn(name = "category_id")
+  private List<TransactionCategory> categories;
+
   public User() {}
 
   public User(String email, String hashedPassword, Account account) {
@@ -50,6 +57,7 @@ public class User {
     this.hashedPassword = hashedPassword;
     this.account = account;
     this.isAdmin = false;
+    this.categories = new ArrayList<>();
   }
 
   public int getId() {

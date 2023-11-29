@@ -70,6 +70,7 @@ public class UserController {
     Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
+    System.out.println(externalTransactions.toString());
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
       userAccount.get().get(0).getName(),
       userAccount.get().get(0).getDescription(),
@@ -127,7 +128,8 @@ public class UserController {
       throw new FormErrorException("The update was unsuccessful, please try again.");
     }
 
-    Optional<User> foundUser = userService.findUserByEmail(profileData.email());
+
+    Optional<User> foundUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
 
     if (foundUser.isEmpty()) {
       throw new FormErrorException("The update was unsuccessful, please try again.");
