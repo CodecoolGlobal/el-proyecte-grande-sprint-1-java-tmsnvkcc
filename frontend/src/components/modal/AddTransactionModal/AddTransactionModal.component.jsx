@@ -65,9 +65,10 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
           labelContent={'Is this a monthly recurring item?'}
         />
         <SelectField
-          id={'categoryName'}
+          id={'categoryId'}
           options={options}
           labelContent={'Category'}
+          defaultValue={'select a category'}
         />
         {!loading ?
           <article>
