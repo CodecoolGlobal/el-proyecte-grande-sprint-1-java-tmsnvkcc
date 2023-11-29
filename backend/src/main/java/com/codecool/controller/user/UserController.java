@@ -131,7 +131,8 @@ public class UserController {
       throw new FormErrorException("The update was unsuccessful, please try again.");
     }
 
-    Optional<User> foundUser = userService.findUserByEmail(profileData.email());
+
+    Optional<User> foundUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
 
     if (foundUser.isEmpty()) {
       throw new FormErrorException("The update was unsuccessful, please try again.");

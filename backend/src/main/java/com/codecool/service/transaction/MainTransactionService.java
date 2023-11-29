@@ -33,6 +33,7 @@ public class MainTransactionService {
     }
     private LocalTransactionDTO convertTransactionToLocalDTO( LocalTransaction transaction ) {
         return new LocalTransactionDTO(
+                transaction.getId(),
                 transaction.getDescription(),
                 transaction.getDateOfTransaction(),
                 transaction.getAmount(),
@@ -41,6 +42,7 @@ public class MainTransactionService {
         );}
     private ExternalTransactionDTO convertTransactionToExternalDTO( ExternalTransaction transaction ){
         return new ExternalTransactionDTO(
+                transaction.getId(),
                 transaction.getDescription(),
                 transaction.getDateOfTransaction(),
                 transaction.getAmount(),

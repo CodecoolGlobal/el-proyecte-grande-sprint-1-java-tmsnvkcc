@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Overview, TrackNavigation } from 'components/track';
+import {Overview, SavingsComponent, TrackNavigation} from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
 import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
@@ -27,7 +27,7 @@ const Track = () => {
       return 'Income Component Placeholder';
 
     case 'Savings':
-      return 'Savings Component Placeholder';
+      return <SavingsComponent transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     default:
       return 'Error';
