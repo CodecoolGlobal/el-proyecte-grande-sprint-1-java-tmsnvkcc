@@ -18,12 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -125,6 +120,17 @@ public class UserController {
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
+  @GetMapping("/get-accounts")
+  public ResponseEntity<?> getProfileAccounts(){
+    int currentYear = LocalDate.now().getYear();
+    int currentMonth = LocalDate.now().getMonthValue();
+    Optional<User> foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+    User userDetails = foundUser.get();
+
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    return new ResponseEntity<>(userAccount, HttpStatus.OK);
+  }
+
   @PutMapping("/update-profile")
   public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
     if (profileData == null || profileData.email().isEmpty() || profileData.password().isEmpty() || profileData.username().isEmpty()) {
@@ -146,6 +152,7 @@ public class UserController {
     int currentMonth = LocalDate.now().getMonthValue();
 
     Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    System.out.println(userAccount);
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
