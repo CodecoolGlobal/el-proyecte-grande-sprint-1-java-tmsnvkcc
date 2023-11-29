@@ -10,7 +10,7 @@ const SelectField = ({ id, options, labelContent }) => {
         name={id}
       >
         <option disabled selected value>select a category</option>
-        {options.map((element) => <option key={element.id} value={element.id}>{element.name}</option>)}
+        {options.map((element) => <option key={element.id} value={element.name}>{element.name}</option>)}
       </select>
     </article>
   );
