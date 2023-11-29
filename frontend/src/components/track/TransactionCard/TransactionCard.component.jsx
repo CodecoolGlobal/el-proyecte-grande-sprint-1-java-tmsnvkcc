@@ -5,7 +5,7 @@ const provideAmountColor = (amount) => {
 };
 
 const provideAmountSign = (amount) => {
-  return amount > 0 ? '+' : '-';
+  return amount > 0 ? '+ ' : '- ';
 };
 
 const TransactionCardComponent = ({ transaction }) => {
