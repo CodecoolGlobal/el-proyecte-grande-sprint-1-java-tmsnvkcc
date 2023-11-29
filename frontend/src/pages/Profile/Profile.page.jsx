@@ -7,16 +7,19 @@ import {
   ProfilePageDisplay,
   ProfilePageEdit,
   ProfileNavigationComponent,
+  ProfileAccountDisplay,
+  ProfileAccountEdit,
 } from 'components/profile';
 
 import './Profile.styles.css';
 
 const Profile = () => {
-  const [editProfile, setEditProfile] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [profileData, setProfileData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [currentTile, setCurrentTile] = useState('Profile');
 
+  // TODO: fetch accounts
   useEffect(() => {
     const loadData = () =>{
       const profileDataRaw = JSON.parse(localStorage.getItem('userData'));
@@ -26,32 +29,35 @@ const Profile = () => {
     };
 
     loadData();
-  }, [editProfile, currentTile, isLoading]);
+  }, [isEditing, currentTile, isLoading]);
 
   const onEditHandler = () => {
-    setEditProfile(!editProfile);
+    setEditing(!isEditing);
   };
+
+  const handleClick = (tileName) => {
+    setCurrentTile(tileName);
+    setEditing(false);
+  };
+
 
   const renderFormComponent = () => {
     switch (currentTile) {
     case 'Profile':
-      return editProfile ?
+      return isEditing ?
         <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> :
         <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isLoading} />;
 
     case 'Account':
-      return 'account';
+      return isEditing ?
+        <ProfileAccountEdit /> :
+        <ProfileAccountDisplay account={profileData.account} />;
 
     default:
       return 'error';
     }
 
   };
-
-  const handleClick = (tileName) => {
-    setCurrentTile(tileName);
-  };
-
 
   return (
     <div className={'profile-page'}>
