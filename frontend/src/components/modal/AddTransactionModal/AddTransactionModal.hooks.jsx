@@ -35,7 +35,7 @@ const useHandleFormOnSubmit = () => {
     const userData = JSON.parse(localStorage.getItem('userData')); // TODO - update this once userContext has been set up.
     const payload = serialiseFormData(event.target);
 
-    if (payload.amount === '' || payload.category === '' || payload.dateOfTransaction === '') {
+    if (payload.amount === '' || payload.categoryId === '' || payload.dateOfTransaction === '') {
       setErrorMessage('Make sure to fill in all mandatory fields (amount, category, date) before submitting the form.');
 
       return;
@@ -43,6 +43,7 @@ const useHandleFormOnSubmit = () => {
 
     payload.userId = userData.userId;
     payload.accountId = userData.account.id;
+    payload.categoryId = parseInt(payload.categoryId);
     payload.isRecurring = payload.isRecurring === 'on';
     payload.isPlanned = Date.parse(payload.dateOfTransaction) > Date.now();
 

@@ -2,7 +2,9 @@ package com.codecool.controller.transaction;
 
 import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
+import com.codecool.entity.TransactionCategory;
 import com.codecool.service.transaction.MainTransactionService;
+import com.codecool.service.transactionCategory.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
-
     private final MainTransactionService mainTransactionService;
+    private final TransactionCategoryService transactionCategoryService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService) {
+    public TransactionController(MainTransactionService mainTransactionService, TransactionCategoryService transactionCategoryService) {
         this.mainTransactionService = mainTransactionService;
+        this.transactionCategoryService = transactionCategoryService;
     }
 
     @GetMapping("/{year}/{month}")
@@ -33,8 +36,6 @@ public class TransactionController {
 
     @PostMapping("/add/external-transaction")
     public ResponseEntity<?> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
-        System.out.println(newExternalTransaction);
-
         mainTransactionService.addExternalTransaction(newExternalTransaction);
         return new ResponseEntity<>("ok", HttpStatus.CREATED);
     }
