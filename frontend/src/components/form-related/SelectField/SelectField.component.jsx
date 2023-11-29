@@ -1,6 +1,6 @@
 import './SelectField.styles.css';
 
-const SelectField = ({ id, options, labelContent }) => {
+const SelectField = ({ id, options, labelContent, defaultValue }) => {
   return (
     <article className={'select-component-container'}>
       <label htmlFor={id}>{labelContent}</label>
@@ -8,9 +8,10 @@ const SelectField = ({ id, options, labelContent }) => {
         className={'default-select-field-style'}
         id={id}
         name={id}
+        defaultValue={defaultValue}
       >
-        <option disabled selected value>select a category</option>
-        {options.map((element) => <option key={element.id} value={element.name}>{element.name}</option>)}
+        {/*<option disabled selected>select a category</option>*/}
+        {options.map((element) => <option key={element.id} value={element.id}>{element.name}</option>)}
       </select>
     </article>
   );

@@ -6,6 +6,7 @@ import com.codecool.dto.LocalTransactionDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
+import com.codecool.entity.TransactionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
