@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import './Savings.styles.css';
-import { iconLibraryConfig } from 'config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import { TransactionCardComponent } from '../index.js'; //FIXME change individual import to icon library config
@@ -48,5 +47,4 @@ const SavingsComponent = ({ transactions, isLoading }) => {
   );
 };
 
-//TODO Implement fade out mask to transaction card list
 export default SavingsComponent;
