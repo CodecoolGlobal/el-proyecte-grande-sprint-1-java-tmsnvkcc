@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import './Savings.styles.css';
 import { iconLibraryConfig } from 'config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faDownLong, faUpLong} from '@fortawesome/free-solid-svg-icons'; //FIXME change individual import to icon library config
+import {faDownLong, faUpLong} from '@fortawesome/free-solid-svg-icons';
+import {TransactionCardComponent} from "../index.js"; //FIXME change individual import to icon library config
 
 const SavingsComponent = ({ transactions, isLoading }) => {
   const [actualBalance, setActualBalance] = useState(0);
@@ -39,6 +40,7 @@ const SavingsComponent = ({ transactions, isLoading }) => {
       </div>
       <div className={'savings-transactions-container'}>
         <h2> Recent local transactions </h2>
+        <TransactionCardComponent transaction={transactions.localTransactionDTOS[0]}/>
       </div>
     </div>
   );
