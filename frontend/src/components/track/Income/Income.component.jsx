@@ -80,14 +80,14 @@ const Income = ({ transactions, isLoading }) => {
                 <div className={'left-content'}>
                     <div className={'information'}>
                         <div className={"title"}>
-                            <span>{income * -1} {currency}</span>
+                            <span>{income} {currency}</span>
                             <button>
                                 <FontAwesomeIcon icon={iconLibraryConfig.faPlus} />
                                 <span>Add new transaction</span>
                             </button>
                         </div>
                         { incomeList && incomeList.map((income) => {
-                            return <p>{income.amount * -1} {currency}</p>
+                            return <p>{income.amount} {currency}</p>
                         })
                         }
                     </div>
@@ -99,7 +99,7 @@ const Income = ({ transactions, isLoading }) => {
                         return (
                             <div key={cat.name} className={'information'}>
                                 <h3 className={'category-name'}>{cat.name}</h3>
-                                <h3 className={'category-amount income-color'}>{cat.sum * -1} {currency}</h3>
+                                <h3 className={'category-amount income-color'}>{cat.sum} {currency}</h3>
                             </div>
                         )
                     })
