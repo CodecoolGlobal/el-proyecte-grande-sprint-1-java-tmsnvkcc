@@ -40,7 +40,7 @@ const SavingsComponent = ({ transactions, isLoading }) => {
       </div>
       <div className={'savings-transactions-container'}>
         <h2> Recent local transactions </h2>
-        <TransactionCardComponent transaction={transactions.localTransactionDTOS[0]}/>
+        {transactions.localTransactionDTOS.map(transaction => <TransactionCardComponent key={transaction.id} transaction={transaction} /> )}
       </div>
     </div>
   );
