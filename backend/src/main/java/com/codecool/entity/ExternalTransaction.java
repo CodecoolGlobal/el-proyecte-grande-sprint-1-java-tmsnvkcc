@@ -17,15 +17,15 @@ public class ExternalTransaction extends Transaction {
     @JoinColumn(name = "category_id")
     protected TransactionCategory category;
 
-    public ExternalTransaction(int id, User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring, Account account) {
-        super(id, user, description, dateOfTransaction, amount, isPlanned, isRecurring);
+    public ExternalTransaction(User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring, Account account) {
+        super(user, description, dateOfTransaction, amount, isPlanned, isRecurring);
         this.account = account;
     }
 
     public ExternalTransaction() {}
 
     public String getCategoryName() {
-        return category.getName();
+        return "test";
     }
 
     @Override
