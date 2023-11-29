@@ -17,7 +17,7 @@ public class AccountService {
     this.accountRepository = accountRepository;
   }
 
-  public Optional<List<Account>> getAccountsByUserId(int userId, int year, int month) {
+  public Optional<List<Account>> getAccountsByUserId(int userId) {
     return accountRepository.findByUserId(userId);
   }
 }

@@ -1,11 +1,15 @@
 package com.codecool.controller.user;
 
 import com.codecool.config.postgreSQL.PostgreSQLImpl;
-import com.codecool.dto.*;
+import com.codecool.dto.ForgottenPasswordDTO;
+import com.codecool.dto.LoginUserDTO;
+import com.codecool.dto.NewUserDTO;
+import com.codecool.dto.UpdateProfileDTO;
+import com.codecool.dto.UserAccountAfterLoginDTO;
+import com.codecool.dto.UserDataAfterLoginDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
-import com.codecool.entity.TransactionCategory;
 import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
 import com.codecool.service.account.AccountService;
@@ -20,13 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(
@@ -59,17 +61,17 @@ public class UserController {
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
 
-    // the login endpoint shouldn't return anything else other than the user information.
+    // TODO the login endpoint shouldn't return anything else other than the user information.
     // datafetching should be driven by the frontend.
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId(), currentYear, currentMonth);
+    // TODO an extra level of "domain service" layer could be implemented here that collects these various transaction service calls, so the upper-level methods don't look that cluttered.
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-      userAccount.get().get(0).getId(),
-      userAccount.get().get(0).getName(),
-      userAccount.get().get(0).getDescription(),
-      userAccount.get().get(0).getActualBalance(),
-      userAccount.get().get(0).getSavingsBalance(),
+      foundUser.getAccount().getId(),
+      foundUser.getAccount().getName(),
+      foundUser.getAccount().getDescription(),
+      foundUser.getAccount().getActualBalance(),
+      foundUser.getAccount().getSavingsBalance(),
       externalTransactions,
       localTransactions
     );
@@ -91,13 +93,7 @@ public class UserController {
       throw new FormErrorException("The registration was unsuccessful, please try again.");
     }
 
-    boolean isEmailPresent = userService.isEmailAlreadyInDatabase(user.registerEmail());
-
-    if (isEmailPresent) {
-      // do this check in the service.
-      // do not throw it, just return a ResponseEntity with the correct http status and the message.
-      throw new FormErrorException("This email is already registered in our system. Choose another one.");
-    }
+    userService.checkEmailInDatabase(user.registerEmail());
 
     userService.addUser(user, "fakehashedpassword");
     Map<String, String> message = new HashMap<>() {{ put("message", "success"); }};
@@ -112,19 +108,17 @@ public class UserController {
     }
 
     // TODO - finish method
-    // TODO - implement email reset stuff
+    // TODO - implement email reset stuff, e.g. nodemailer or something similar.
     Map<String, String> message = new HashMap<>() {{ put("message", "Reset email sent."); }};
     return new ResponseEntity<>(message, HttpStatus.CREATED);
   }
 
   @GetMapping("/get-accounts")
-  public ResponseEntity<?> getProfileAccounts(){
-    int currentYear = LocalDate.now().getYear();
-    int currentMonth = LocalDate.now().getMonthValue();
+  public ResponseEntity<?> getProfileAccounts() {
     User foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
-//    User userDetails = foundUser.get();
 
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId(), currentYear, currentMonth);
+    // userid is not stored in accounts anymore. a user's accounts can be retrieved by using user.getAccount(). This currently allows for having one account.
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId());
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
@@ -134,40 +128,31 @@ public class UserController {
       throw new FormErrorException("The update was unsuccessful, please try again.");
     }
 
-
     User foundUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
-
-//    if (foundUser.isEmpty()) {
-//      throw new FormErrorException("The update was unsuccessful, please try again.");
-//    }
-//
-//    User userDetails = foundUser.get();
 
     userService.updateUserProfile(profileData, foundUser);
 
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
 
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId(), currentYear, currentMonth);
-    System.out.println(userAccount);
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-            userAccount.get().get(0).getId(),
-            userAccount.get().get(0).getName(),
-            userAccount.get().get(0).getDescription(),
-            userAccount.get().get(0).getActualBalance(),
-            userAccount.get().get(0).getSavingsBalance(),
-            externalTransactions,
-            localTransactions
+      foundUser.getAccount().getId(),
+      foundUser.getAccount().getName(),
+      foundUser.getAccount().getDescription(),
+      foundUser.getAccount().getActualBalance(),
+      foundUser.getAccount().getSavingsBalance(),
+      externalTransactions,
+      localTransactions
     );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-            foundUser.getId(),
-            foundUser.getDateOfRegistration(),
-            foundUser.getUserName(),
-            foundUser.getEmail(),
-            foundUser.getCategories(),
-            userAccountAfterLoginDTO
+      foundUser.getId(),
+      foundUser.getDateOfRegistration(),
+      foundUser.getUserName(),
+      foundUser.getEmail(),
+      foundUser.getCategories(),
+      userAccountAfterLoginDTO
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);

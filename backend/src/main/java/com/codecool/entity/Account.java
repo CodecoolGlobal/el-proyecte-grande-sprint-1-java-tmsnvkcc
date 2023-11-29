@@ -24,7 +24,7 @@ public class Account {
   @Column(name = "id")
   private int id;
 
-  @OneToOne(mappedBy = "account", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
   @JsonBackReference
   private User user;
 

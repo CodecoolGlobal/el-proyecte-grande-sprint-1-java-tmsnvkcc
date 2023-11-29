@@ -3,10 +3,8 @@ package com.codecool.service.transaction;
 import com.codecool.dto.ExternalTransactionDTO;
 import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.LocalTransactionDTO;
-import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
-import com.codecool.entity.TransactionCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,9 +60,5 @@ public class MainTransactionService {
                 .stream()
                 .map(this::convertTransactionToExternalDTO)
                 .toList();
-    }
-
-    public void addExternalTransaction(NewExternalTransactionDTO newExternalTransaction) {
-        externalTransactionService.addTransaction(newExternalTransaction);
     }
 }

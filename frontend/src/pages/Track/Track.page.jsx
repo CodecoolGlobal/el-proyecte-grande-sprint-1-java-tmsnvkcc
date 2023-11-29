@@ -38,7 +38,6 @@ const Track = () => {
     setCurrentTile(tileName);
   };
 
-
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />

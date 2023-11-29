@@ -66,6 +66,14 @@ CREATE TABLE transaction_categories (
     name VARCHAR(255),
 );
 
+CREATE TABLE categories_users_join(
+    category_id INT,
+    user_id INT,
+    PRIMARY KEY (category_id, user_id),
+    FOREIGN KEY (category_id) REFERENCES transaction_categories(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+);
+
 -- Insert dummy data into users table
 INSERT INTO users (uuid, user_name, email, hashed_password, account_id, is_admin)
 VALUES
@@ -84,3 +92,6 @@ VALUES (1, 100.0, 1, TO_DATE('01/11/2023', 'DD/MM/YYYY'), false, false, 1);
 
 INSERT INTO transaction_categories(id, user_id, name)
 VALUES (1, 1, '');
+
+INSERT INTO categories_users_join(category_id, user_id)
+VALUES(1, 2);

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosConfig } from 'config';
 import { serialiseFormData } from 'utilities';
 
-const useHandleFormOnSubmit = () => {
+const useHandleFormOnSubmit = (handleOnClick) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -21,7 +21,7 @@ const useHandleFormOnSubmit = () => {
     onSuccess: () => {
       reset();
       setLoading(false);
-      window.location.reload();
+      handleOnClick();
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
@@ -31,17 +31,14 @@ const useHandleFormOnSubmit = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const userData = JSON.parse(localStorage.getItem('userData')); // TODO - update this once userContext has been set up.
     const payload = serialiseFormData(event.target);
 
-    if (payload.amount === '' || payload.dateOfTransaction === '' || payload.categoryId === '') {
+    if (payload.amount === '' || payload.dateOfTransaction === '' || payload.categoryId === undefined) {
       setErrorMessage('Make sure to fill in all mandatory fields (amount, date, category) before submitting the form.');
 
       return;
     }
 
-    payload.userId = userData.userId;
-    payload.accountId = userData.account.id;
     payload.isRecurring = payload.isRecurring === 'on';
     payload.isPlanned = Date.parse(payload.dateOfTransaction) > Date.now();
 
