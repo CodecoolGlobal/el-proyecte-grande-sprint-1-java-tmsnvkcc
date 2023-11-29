@@ -3,6 +3,8 @@ import {
   PageTitle,
 } from 'components/form-related';
 
+import getProfileAccounts from './Profile.page.hooks';
+
 import {
   ProfilePageDisplay,
   ProfilePageEdit,
@@ -19,17 +21,12 @@ const Profile = () => {
   const [isLoading, setLoading] = useState(true);
   const [currentTile, setCurrentTile] = useState('Profile');
 
+  const { accountData, isAccountLoading, isAccountError, refetch } = getProfileAccounts();
+
   // TODO: fetch accounts
   useEffect(() => {
-    const loadData = () =>{
-      const profileDataRaw = JSON.parse(localStorage.getItem('userData'));
-
-      setLoading(false);
-      setProfileData(profileDataRaw);
-    };
-
-    loadData();
-  }, [isEditing, currentTile, isLoading]);
+    refetch();
+  }, []);
 
   const onEditHandler = () => {
     setEditing(!isEditing);
@@ -51,7 +48,7 @@ const Profile = () => {
     case 'Account':
       return isEditing ?
         <ProfileAccountEdit /> :
-        <ProfileAccountDisplay account={profileData.account} />;
+        <ProfileAccountDisplay account={accountData} />;
 
     default:
       return 'error';
