@@ -1,7 +1,10 @@
-import './Overview.styles.css';
-import {useEffect, useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {iconLibraryConfig} from "../../../config/index.js";
+import {
+    useEffect,
+    useState
+} from "react";
+import { iconLibraryConfig } from "config";
+import './Overview.styles.css';
 
 const Overview = ({ transactions, isLoading }) => {
 

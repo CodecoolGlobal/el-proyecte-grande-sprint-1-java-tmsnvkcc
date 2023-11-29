@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import './Savings.styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import { TransactionCardComponent } from '../index.js'; //FIXME change individual import to icon library config
+import './Savings.styles.css';
 
 const SavingsComponent = ({ transactions, isLoading }) => {
   const [actualBalance, setActualBalance] = useState(0);

@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -37,15 +39,20 @@ public class User {
   private String hashedPassword;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "account_id", referencedColumnName = "id")
+  @JoinColumn(name = "account_id")
   @JsonManagedReference
   private Account account;
 
   @Column(name = "is_admin")
   private boolean isAdmin;
 
-  @OneToMany()
-  @JoinColumn(name = "user_id")
+  @ManyToMany
+  @JoinTable(
+    name = "categories_users_join",
+    joinColumns = { @JoinColumn(name = "user_id") },
+    inverseJoinColumns = { @JoinColumn(name = "category_id") }
+  )
+  @JsonManagedReference
   private List<TransactionCategory> categories;
 
   public User() {}
