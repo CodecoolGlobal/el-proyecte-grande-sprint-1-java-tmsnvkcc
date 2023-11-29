@@ -17,12 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -120,6 +115,17 @@ public class UserController {
     // TODO - implement email reset stuff
     Map<String, String> message = new HashMap<>() {{ put("message", "Reset email sent."); }};
     return new ResponseEntity<>(message, HttpStatus.CREATED);
+  }
+
+  @GetMapping("/get-accounts")
+  public ResponseEntity<?> getProfileAccounts(){
+    int currentYear = LocalDate.now().getYear();
+    int currentMonth = LocalDate.now().getMonthValue();
+    Optional<User> foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+    User userDetails = foundUser.get();
+
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
+    return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
   @PutMapping("/update-profile")
