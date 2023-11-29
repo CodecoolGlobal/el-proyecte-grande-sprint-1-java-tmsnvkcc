@@ -85,7 +85,7 @@
     scrollbar-color: currentColor transparent;
     -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%);
 
-    padding: 2.6vh 0 2.6vh 0;
+    padding: 2.6vh 0.9vh 2.6vh 0;
 
     & .transaction-card-container{
         margin: 2vh 0 0 0;
