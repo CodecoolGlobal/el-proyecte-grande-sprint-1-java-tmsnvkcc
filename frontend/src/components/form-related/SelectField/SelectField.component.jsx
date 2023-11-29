@@ -9,7 +9,7 @@ const SelectField = ({ defaultValue, id, options, labelContent }) => {
         id={id}
         name={id}
         defaultValue={defaultValue}>
-        {options.map((element) => <option key={element} value={element}>{element}</option>)}
+        {options.map((element) => <option key={element.id} value={element.name}>{element.name}</option>)}
       </select>
     </article>
   );

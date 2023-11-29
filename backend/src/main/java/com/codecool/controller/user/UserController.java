@@ -5,6 +5,7 @@ import com.codecool.dto.*;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
+import com.codecool.entity.TransactionCategory;
 import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
 import com.codecool.service.account.AccountService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +72,6 @@ public class UserController {
     Optional<List<Account>> userAccount = accountService.getAccountsByUserId(userDetails.getId(), currentYear, currentMonth);
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
-    System.out.println(externalTransactions.toString());
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
       userAccount.get().get(0).getName(),
       userAccount.get().get(0).getDescription(),
@@ -84,6 +85,7 @@ public class UserController {
       userDetails.getDateOfRegistration(),
       userDetails.getUserName(),
       userDetails.getEmail(),
+      userDetails.getCategories(),
       userAccountAfterLoginDTO
     );
 
@@ -157,6 +159,7 @@ public class UserController {
             userDetails.getDateOfRegistration(),
             userDetails.getUserName(),
             userDetails.getEmail(),
+            userDetails.getCategories(),
             userAccountAfterLoginDTO
     );
 

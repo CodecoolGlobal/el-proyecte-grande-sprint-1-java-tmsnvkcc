@@ -1,6 +1,7 @@
 import {
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import {
   InputField,
@@ -12,8 +13,12 @@ import './AddTransactionModal.styles.css';
 
 const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }) => {
   const dialogRef = useRef(null);
+  const [options, setOptions] = useState([]);
 
   useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    setOptions(userData.category);
     if (dialogRef.current?.open && !isModalVisible) {
       dialogRef.current?.close();
     } else if (!dialogRef.current?.open && isModalVisible) {
@@ -27,7 +32,8 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
       ref={dialogRef}
       onKeyDown={(event) => handleOnKeyClose(event)}
     >
-      <button className={'close-x-button'} onClick={handleOnClick}>X</button>
+      <button className={'close-x-button'} onClick={handleOnClick}>X
+      </button>
       <form>
         <InputField
           type={'text'}
@@ -53,7 +59,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
         <SelectField
           id={'transactionCategory'}
           defaultValue={''}
-          options={['test2', 'test3']} // TODO - remove hardcoded values with actual data
+          options={options}
           labelContent={'Category'}
         />
         <SubmitButton />

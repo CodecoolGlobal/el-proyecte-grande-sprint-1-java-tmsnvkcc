@@ -25,6 +25,7 @@ const useHandleFormOnSubmit = () => {
         userName: response.data.userName,
         email: response.data.email,
         dateOfReg: response.data.dateOfRegistration,
+        category: response.data.categories,
         account: response.data.accountData,
       };
 
