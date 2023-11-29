@@ -15,6 +15,7 @@ const Profile = () => {
   const [editProfile, setEditProfile] = useState(false);
   const [profileData, setProfileData] = useState({});
   const [isLoading, setLoading] = useState(true);
+  const [currentTile, setCurrentTile] = useState('Profile');
 
   useEffect(() => {
     const loadData = () =>{
@@ -25,20 +26,37 @@ const Profile = () => {
     };
 
     loadData();
-  }, [editProfile, isLoading]);
+  }, [editProfile, currentTile, isLoading]);
 
   const onEditHandler = () => {
     setEditProfile(!editProfile);
   };
 
   const renderFormComponent = () => {
-    return editProfile ? <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> : <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isLoading} />;
+    switch (currentTile) {
+    case 'Profile':
+      return editProfile ?
+        <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> :
+        <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isLoading} />;
+
+    case 'Account':
+      return 'account';
+
+    default:
+      return 'error';
+    }
+
   };
+
+  const handleClick = (tileName) => {
+    setCurrentTile(tileName);
+  };
+
 
   return (
     <div className={'profile-page'}>
       <PageTitle title={'Profile'} />
-      <ProfileNavigationComponent />
+      <ProfileNavigationComponent clickHandler={handleClick} />
       {renderFormComponent()}
     </div>
   );

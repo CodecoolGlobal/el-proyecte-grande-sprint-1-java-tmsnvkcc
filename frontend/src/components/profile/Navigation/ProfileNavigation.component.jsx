@@ -1,20 +1,19 @@
 import './ProfileNavigation.styles.css';
 
+const NavigationButton = ({ label, clickHandler }) => {
+  return (<button
+    className={'profile-page-selector'}
+    onClick={() => clickHandler(label)}
+    type='button'
+  >{label}</button>);
+};
 
-const ProfileNavigationComponent = () => {
-
+const ProfileNavigationComponent = ({clickHandler}) => {
   return (
     <>
       <div className={'profile-navigation'}>
-        <button
-          className={'profile-page-selector'}
-          type='button'
-        >Profile</button>
-
-        <button
-          className={'profile-page-selector'}
-          type='button'
-        >Account</button>
+        <NavigationButton label={'Profile'} clickHandler={clickHandler} />
+        <NavigationButton label={'Account'} clickHandler={clickHandler} />
       </div>
     </>
   );
