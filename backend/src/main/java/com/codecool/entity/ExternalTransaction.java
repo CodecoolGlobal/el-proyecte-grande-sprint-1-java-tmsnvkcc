@@ -1,9 +1,9 @@
 package com.codecool.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import java.time.LocalDate;
 
@@ -13,25 +13,25 @@ public class ExternalTransaction extends Transaction {
     @JoinColumn(name = "account_id")
     protected Account account;
 
-    @Column(name = "category_name")
-    protected String categoryName;
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    protected TransactionCategory category;
 
-    public ExternalTransaction(int id, User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring, Account account, String categoryName) {
+    public ExternalTransaction(int id, User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring, Account account) {
         super(id, user, description, dateOfTransaction, amount, isPlanned, isRecurring);
         this.account = account;
-        this.categoryName = categoryName;
     }
 
     public ExternalTransaction() {}
 
     public String getCategoryName() {
-        return categoryName;
+        return category.getName();
     }
 
     @Override
     public String toString() {
         return "ExternalTransaction{" +
-          "dateOfTransaction=" + dateOfTransaction +
+          "category=" + category +
           '}';
     }
 }
