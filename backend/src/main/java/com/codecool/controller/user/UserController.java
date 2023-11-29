@@ -73,6 +73,7 @@ public class UserController {
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+      userAccount.get().get(0).getId(),
       userAccount.get().get(0).getName(),
       userAccount.get().get(0).getDescription(),
       userAccount.get().get(0).getActualBalance(),
@@ -147,6 +148,7 @@ public class UserController {
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userDetails.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+            userAccount.get().get(0).getId(),
             userAccount.get().get(0).getName(),
             userAccount.get().get(0).getDescription(),
             userAccount.get().get(0).getActualBalance(),

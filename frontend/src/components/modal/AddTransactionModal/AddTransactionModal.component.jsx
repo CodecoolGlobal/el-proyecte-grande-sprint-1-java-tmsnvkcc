@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormError } from 'components/form-related';
 import {
   useEffect,
   useRef,
@@ -10,10 +12,13 @@ import {
   SubmitButton,
 } from 'components/form-related';
 import './AddTransactionModal.styles.css';
+import { iconLibraryConfig } from '../../../config/index.js';
+import { useHandleFormOnSubmit } from './AddTransactionModal.hooks.jsx';
 
 const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }) => {
-  const dialogRef = useRef(null);
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
   const [options, setOptions] = useState([]);
+  const dialogRef = useRef(null);
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -34,22 +39,25 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
     >
       <button className={'close-x-button'} onClick={handleOnClick}>X
       </button>
-      <form>
+      <form
+        id={'addTransactionForm'}
+        onSubmit={(event) => onSubmit(event)}
+      >
         <InputField
           type={'text'}
-          id={'transactionDescription'}
+          id={'description'}
           labelContent={'Description'}
           placeholder={'Add a short optional description'}
         />
         <InputField
           type={'number'}
-          id={'transactionAmount'}
+          id={'amount'}
           labelContent={'Transaction amount'}
           placeholder={'Add amount'}
         />
         <InputField
           type={'date'}
-          id={'transactionDate'}
+          id={'dateOfTransaction'}
           labelContent={'Date of Transaction'}
         />
         <SingleCheckbox
@@ -57,12 +65,16 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
           labelContent={'Is this a monthly recurring item?'}
         />
         <SelectField
-          id={'transactionCategory'}
-          defaultValue={''}
+          id={'categoryId'}
           options={options}
           labelContent={'Category'}
         />
-        <SubmitButton />
+        {!loading ?
+          <article>
+            <SubmitButton />
+            {errorMessage && <FormError errorMessage={errorMessage} />}
+          </article> :
+          <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'transaction-loading-icon'} />}
       </form>
     </dialog>
   );
