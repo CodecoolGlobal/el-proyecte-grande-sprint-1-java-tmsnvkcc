@@ -16,6 +16,7 @@
     position: relative;
 
     width: 85%;
+    height: 70vh;
 }
 .savings-controls-container {
     display: flex;
@@ -73,5 +74,13 @@
     flex-direction: column;
 
     align-items: center;
-    justify-content: center;
+
+    max-height: 65vh;
+}
+
+.savings-transactions-scroll-bar {
+    overflow-y: scroll;
+}
+.savings-transactions-scroll-bar::-webkit-scrollbar {
+    display: none;
 }
