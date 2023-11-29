@@ -6,6 +6,7 @@ import com.codecool.entity.LocalTransaction;
 import java.util.List;
 
 public record UserAccountAfterLoginDTO(
+  int id,
   String name,
   String description,
   double actualBalance,

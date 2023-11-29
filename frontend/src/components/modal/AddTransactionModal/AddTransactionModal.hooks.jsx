@@ -1,43 +1,28 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { axiosConfig } from 'config';
 import { serialiseFormData } from 'utilities';
 
 const useHandleFormOnSubmit = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const { mutate, reset } = useMutation({
-    mutationKey: ['loginForm'],
+    mutationKey: ['addTransactionForm'],
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
       const response = await axiosConfig.request({
         method: 'POST',
-        url: '/api/users/login',
+        url: '/api/transaction/add/external-transaction',
         data: payload,
       });
-
-      const userData = {
-        userId: response.data.id,
-        userName: response.data.userName,
-        email: response.data.email,
-        dateOfReg: response.data.dateOfRegistration,
-        category: response.data.categories,
-        account: response.data.accountData,
-      };
-
-      localStorage.setItem('userData', JSON.stringify(userData));
 
       return response;
     },
     onSuccess: () => {
-      // TODO - add userData to userContext for persistent login
       reset();
       setLoading(false);
-      navigate('/dashboard');
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
@@ -47,13 +32,22 @@ const useHandleFormOnSubmit = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    const userData = JSON.parse(localStorage.getItem('userData')); // TODO - update this once userContext has been set up.
     const payload = serialiseFormData(event.target);
 
-    if (payload.loginEmail === '' || payload.loginPassword === '') {
-      setErrorMessage('Make sure to fill in all fields before submitting the form.');
+    if (payload.amount === '' || payload.categoryId === '' || payload.dateOfTransaction === '') {
+      setErrorMessage('Make sure to fill in all mandatory fields (amount, category, date) before submitting the form.');
 
       return;
     }
+
+    payload.userId = userData.userId;
+    payload.accountId = userData.account.id;
+    // payload.categoryId = parseInt(payload.categoryId);
+    payload.isRecurring = payload.isRecurring === 'on';
+    payload.isPlanned = Date.parse(payload.dateOfTransaction) > Date.now();
+
+    console.log(payload);
 
     mutate({ payload });
   };

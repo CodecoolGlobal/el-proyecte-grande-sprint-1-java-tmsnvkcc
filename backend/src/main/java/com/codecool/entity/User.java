@@ -44,8 +44,8 @@ public class User {
   @Column(name = "is_admin")
   private boolean isAdmin;
 
-  @OneToMany
-  @JoinColumn(name = "category_id")
+  @OneToMany()
+  @JoinColumn(name = "user_id")
   private List<TransactionCategory> categories;
 
   public User() {}
@@ -116,8 +116,16 @@ public class User {
     isAdmin = admin;
   }
 
+  public List<TransactionCategory> getCategories() {
+    return categories;
+  }
+
+  public void setCategories(List<TransactionCategory> categories) {
+    this.categories = categories;
+  }
+
   @Override
   public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s", id, dateOfRegistration, userName, email, account, isAdmin);
+    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories);
   }
 }
