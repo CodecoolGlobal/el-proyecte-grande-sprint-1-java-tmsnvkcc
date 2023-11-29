@@ -23,7 +23,6 @@ const Profile = () => {
 
   const { accountData, isAccountLoading, isAccountError, refetch } = getProfileAccounts();
 
-  // TODO: fetch accounts
   useEffect(() => {
     refetch();
   }, []);

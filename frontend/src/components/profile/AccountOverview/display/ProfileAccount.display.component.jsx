@@ -1,7 +1,7 @@
 import './ProfileAccount.display.styles.css';
 
 const ProfileAccountDisplay = ({ account }) => {
-  console.log(account)
+  console.log(account);
 
   return (<>
     <div className={'profile-page-overview'}>

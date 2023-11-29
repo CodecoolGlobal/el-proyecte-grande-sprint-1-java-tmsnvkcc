@@ -4,7 +4,11 @@ const getProfileAccounts = () => {
   const query = useQuery({
     queryKey:['getUserAccounts'],
     queryFn: async () => {
-      const response = await fetch('/api/users/get-accounts');
+      const response = await fetch('/api/users/get-accounts', {
+        headers:{
+          'Content-type': 'application/json',
+        },
+      });
       const data = await response.json();
 
       return data;
