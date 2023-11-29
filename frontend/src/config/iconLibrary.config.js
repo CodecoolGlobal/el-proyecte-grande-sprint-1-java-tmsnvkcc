@@ -4,6 +4,8 @@ const iconLibraryConfig = {
   faEye: { prefix: 'fas', iconName: 'eye' },
   faEyeSlash: { prefix: 'fas', iconName: 'eye-slash' },
   faPlus: { prefix: 'fas', iconName: 'plus' },
+  faLeftLong: { prefix: 'fas', iconName:'arrow-left-long'},
+  faRightLong: { prefix: 'fas', iconName:'arrow-right-long'}
 };
 
 export default iconLibraryConfig;

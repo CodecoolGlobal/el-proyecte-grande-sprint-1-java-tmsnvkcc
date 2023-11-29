@@ -5,8 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Entity(name = "transaction_categories")
+@Entity()
+@Table(name = "transaction_categories")
 public class TransactionCategory {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
