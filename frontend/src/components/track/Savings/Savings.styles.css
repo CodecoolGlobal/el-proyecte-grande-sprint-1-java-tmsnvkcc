@@ -19,7 +19,8 @@
     height: 70vh;
 
     & button {
-        background: transparent;
+        background: inherit;
+        color: inherit;
     }
 }
 .savings-controls-container {
