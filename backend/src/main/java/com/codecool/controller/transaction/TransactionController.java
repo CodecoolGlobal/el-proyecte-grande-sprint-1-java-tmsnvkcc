@@ -55,6 +55,6 @@ public class TransactionController {
     public ResponseEntity<LocalTransaction> deleteLocalTransaction(@RequestBody int transactionId){
         LocalTransaction localTransaction = localTransactionsService.deleteTransaction( transactionId );
 
-        return new ResponseEntity<>(localTransaction,HttpStatus.GONE);
+        return new ResponseEntity<>(localTransaction,HttpStatus.ACCEPTED);
     }
 }
