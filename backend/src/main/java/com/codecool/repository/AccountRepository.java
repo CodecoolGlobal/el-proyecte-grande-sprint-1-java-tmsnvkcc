@@ -2,6 +2,7 @@ package com.codecool.repository;
 
 import com.codecool.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,4 +22,18 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
       """, nativeQuery = true
   )
   Optional<List<Account>> findByUserId(@Param("userId") int userId);
+
+  @Modifying
+  @Query(
+    value =
+      """
+        UPDATE
+          accounts
+        SET
+          actual_balance = actual_balance + :amount
+        WHERE
+          id = :accountId
+      """, nativeQuery = true
+  )
+  void updateAccountBalanceById(@Param("accountId") int accountId, @Param("amount") double amount);
 }
