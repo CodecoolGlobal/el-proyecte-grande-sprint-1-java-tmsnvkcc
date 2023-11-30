@@ -1,10 +1,10 @@
 package com.codecool.controller.transaction;
-
 import com.codecool.dto.LocalTransactionDTO;
 import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
+import com.codecool.service.account.AccountService;
 import com.codecool.service.transaction.ExternalTransactionService;
 import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.transaction.MainTransactionService;
@@ -21,12 +21,14 @@ public class TransactionController {
     private final ExternalTransactionService externalTransactionService;
     private final TransactionCategoryService transactionCategoryService;
     private final LocalTransactionsService localTransactionsService;
+    private final AccountService accountService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService, LocalTransactionsService localTransactionsService) {
+    public TransactionController(MainTransactionService mainTransactionService,LocalTransactionsService localTransactionsService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService, AccountService accountService) {
         this.mainTransactionService = mainTransactionService;
         this.externalTransactionService = externalTransactionService;
         this.transactionCategoryService = transactionCategoryService;
+        this.accountService = accountService;
         this.localTransactionsService = localTransactionsService;
     }
 
@@ -40,6 +42,7 @@ public class TransactionController {
     @PostMapping("/add/external-transaction")
     public ResponseEntity<ExternalTransaction> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
         ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
+        accountService.updateBalance(newExternalTransaction.accountId(), newExternalTransaction.amount());
 
         return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
     }

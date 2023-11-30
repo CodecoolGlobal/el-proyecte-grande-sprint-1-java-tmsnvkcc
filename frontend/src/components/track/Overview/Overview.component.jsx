@@ -25,19 +25,19 @@ const Overview = ({ transactions, isLoading }) => {
 
     const calculateSpending = (exTransactionList) => {
         return getAmountSumOf(exTransactionList.filter((tr) => tr.amount < 0));
-    }
+    };
 
     const calculateIncome = (exTransactionList) => {
         return getAmountSumOf(exTransactionList.filter((tr) => tr.amount > 0));
-    }
+    };
 
     const calculatePlannedSpending = (exTransactionList) => {
         return getAmountSumOf(exTransactionList.filter((tr) => tr.amount < 0 && tr.isPlanned));
-    }
+    };
 
     const calculatePlannedIncome = (exTransactionList) => {
         return getAmountSumOf(exTransactionList.filter((tr) => tr.amount > 0 && tr.isPlanned));
-    }
+    };
     //TODO Implement custom hook for helper functions
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const Overview = ({ transactions, isLoading }) => {
                 </div>*/}
                 <div className={'left-content'}>
                     <div className={'information'}>
-                        <h2>Total spent this month</h2>
+                        <h2>Total amount of spending this month</h2>
                         <h3 className={'spending-color'}>{spending} {currency}</h3>
                     </div>
 
@@ -80,7 +80,7 @@ const Overview = ({ transactions, isLoading }) => {
                     </div>
 
                     <div className={'information'}>
-                        <h2>Total income this month</h2>
+                        <h2>Total amount of income this month</h2>
                         <h3 className={'income-color'}>{income} {currency}</h3>
                     </div>
 
