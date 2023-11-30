@@ -25,7 +25,7 @@ const UseDeleteTransaction = (transactionId, canFetch) => {
   return {
     responseData: query.data,
     responseStatus: query.status,
-    isTransactionLoading: query.isFetching,
+    isTransactionLoading: query.isLoading,
     isTransactionError: query.isError,
   };
 };
