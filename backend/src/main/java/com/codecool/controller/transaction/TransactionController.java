@@ -3,6 +3,7 @@ package com.codecool.controller.transaction;
 import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
+import com.codecool.service.account.AccountService;
 import com.codecool.service.transaction.ExternalTransactionService;
 import com.codecool.service.transaction.MainTransactionService;
 import com.codecool.service.transactionCategory.TransactionCategoryService;
@@ -22,12 +23,14 @@ public class TransactionController {
     private final MainTransactionService mainTransactionService;
     private final ExternalTransactionService externalTransactionService;
     private final TransactionCategoryService transactionCategoryService;
+    private final AccountService accountService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService) {
+    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService, AccountService accountService) {
         this.mainTransactionService = mainTransactionService;
         this.externalTransactionService = externalTransactionService;
         this.transactionCategoryService = transactionCategoryService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/{year}/{month}")
@@ -40,6 +43,7 @@ public class TransactionController {
     @PostMapping("/add/external-transaction")
     public ResponseEntity<ExternalTransaction> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
         ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
+        accountService.updateBalance(newExternalTransaction.accountId(), newExternalTransaction.amount());
 
         return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
     }
