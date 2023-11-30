@@ -5,7 +5,7 @@ import { TransactionCardComponent } from '../index.js'; //FIXME change individua
 import './Savings.styles.css';
 import { AddLocalTransactionModal } from '../../modal/index.js';
 
-const SavingsComponent = ({ transactions, isLoading }) => {
+const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   const [actualBalance, setActualBalance] = useState(0);
   const [savingsBalance, setSavingsBalance] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,6 +33,7 @@ const SavingsComponent = ({ transactions, isLoading }) => {
   const handleOnClick = (directionOfButton) => {
     setIsModalVisible(!isModalVisible);
     setTransactionDirection(directionOfButton);
+    refetch();
   };
 
   //TODO Add conditional text rendering for no transactions case

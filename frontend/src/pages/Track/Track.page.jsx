@@ -27,7 +27,7 @@ const Track = () => {
       return <IncomeComponent transactions={transactionsData} isLoading={isTransactionLoading} />
 
     case 'Savings':
-      return <SavingsComponent transactions={transactionsData} isLoading={isTransactionLoading} />;
+      return <SavingsComponent transactions={transactionsData} isLoading={isTransactionLoading} refetch={refetch} />;
 
     default:
       return 'Error';
