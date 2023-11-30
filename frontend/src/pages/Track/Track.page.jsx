@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {Overview, SavingsComponent, TrackNavigation} from 'components/track';
+import { Overview, SavingsComponent, Spendings, IncomeComponent, TrackNavigation } from 'components/track';
 import { PageTitle } from 'components/form-related';
 import './Track.styles.css';
 import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
@@ -21,10 +21,10 @@ const Track = () => {
       return <Overview transactions={transactionsData} isLoading={isTransactionLoading}/>;
 
     case 'Spendings':
-      return 'Spendings Component Placeholder';
+      return <Spendings transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     case 'Income':
-      return 'Income Component Placeholder';
+      return <IncomeComponent transactions={transactionsData} isLoading={isTransactionLoading} />
 
     case 'Savings':
       return <SavingsComponent transactions={transactionsData} isLoading={isTransactionLoading} />;
@@ -37,7 +37,6 @@ const Track = () => {
   const handleClick = (tileName) => {
     setCurrentTile(tileName);
   };
-
 
   return (
     <div className={'track-page'}>

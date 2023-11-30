@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -37,15 +39,20 @@ public class User {
   private String hashedPassword;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "account_id", referencedColumnName = "id")
+  @JoinColumn(name = "account_id")
   @JsonManagedReference
   private Account account;
 
   @Column(name = "is_admin")
   private boolean isAdmin;
 
-  @OneToMany
-  @JoinColumn(name = "category_id")
+  @ManyToMany
+  @JoinTable(
+    name = "categories_users_join",
+    joinColumns = { @JoinColumn(name = "user_id") },
+    inverseJoinColumns = { @JoinColumn(name = "category_id") }
+  )
+  @JsonManagedReference
   private List<TransactionCategory> categories;
 
   public User() {}
@@ -116,8 +123,16 @@ public class User {
     isAdmin = admin;
   }
 
+  public List<TransactionCategory> getCategories() {
+    return categories;
+  }
+
+  public void setCategories(List<TransactionCategory> categories) {
+    this.categories = categories;
+  }
+
   @Override
   public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s", id, dateOfRegistration, userName, email, account, isAdmin);
+    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories);
   }
 }

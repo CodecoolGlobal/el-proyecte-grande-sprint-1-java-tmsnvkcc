@@ -1,8 +1,19 @@
-import TrackComponentSelector from './TrackComponentSelectorButton/index.js';
-import TrackDateSelector from "./TrackDateSelector/index.js";
-import Overview from "./Overview/index.js";
-import TrackNavigation from "./TrackNavigation/index.js";
-import SavingsComponent from "./Savings/index.js";
-import TransactionCardComponent from "./TransactionCard/index.js";
+import TrackComponentSelector from './TrackComponentSelectorButton';
+import TrackDateSelector from './TrackDateSelector';
+import Overview from './Overview';
+import TrackNavigation from './TrackNavigation';
+import Spendings from './Spendings';
+import IncomeComponent from './Income';
+import SavingsComponent from './Savings';
+import TransactionCardComponent from './TransactionCard/';
 
-export { TrackComponentSelector, TrackDateSelector, Overview, TrackNavigation, SavingsComponent, TransactionCardComponent };
+export {
+  TrackComponentSelector,
+  TrackDateSelector,
+  Overview,
+  TrackNavigation,
+  Spendings,
+  IncomeComponent,
+  SavingsComponent,
+  TransactionCardComponent,
+};

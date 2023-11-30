@@ -19,8 +19,8 @@ import {
 import { Layout } from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCircleExclamation, faCircleNotch, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-library.add(faCircleExclamation, faCircleNotch, faEye, faEyeSlash);
+import { faCircleExclamation, faCircleNotch, faEye, faEyeSlash, faPlus } from '@fortawesome/free-solid-svg-icons';
+library.add(faCircleExclamation, faCircleNotch, faEye, faEyeSlash, faPlus);
 
 const queryClient = new QueryClient({
   defaultOptions: {

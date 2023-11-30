@@ -1,3 +1,3 @@
-import TrackComponentSelector from './Track.Component.Selector.component.jsx';
+import TrackComponentSelector from './TrackComponentSelector.component.jsx';
 
 export default TrackComponentSelector;

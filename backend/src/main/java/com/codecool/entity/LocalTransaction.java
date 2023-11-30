@@ -12,8 +12,8 @@ public class LocalTransaction extends Transaction {
     @JoinColumn(name = "account_id")
     protected Account account;
 
-    public LocalTransaction(int id, User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring, Account account) {
-        super(id, user, description, dateOfTransaction, amount, isPlanned, isRecurring);
+    public LocalTransaction(User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring, Account account) {
+        super(user, description, dateOfTransaction, amount, isPlanned, isRecurring);
         this.account = account;
     }
 

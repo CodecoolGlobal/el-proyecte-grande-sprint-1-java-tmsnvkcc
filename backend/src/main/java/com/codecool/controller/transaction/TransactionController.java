@@ -1,26 +1,33 @@
 package com.codecool.controller.transaction;
 
 import com.codecool.dto.MonthlyTransactionsDTO;
+import com.codecool.dto.transactions.NewExternalTransactionDTO;
+import com.codecool.entity.ExternalTransaction;
 import com.codecool.service.transaction.ExternalTransactionService;
-import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.transaction.MainTransactionService;
+import com.codecool.service.transactionCategory.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
-
     private final MainTransactionService mainTransactionService;
+    private final ExternalTransactionService externalTransactionService;
+    private final TransactionCategoryService transactionCategoryService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService) {
+    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService) {
         this.mainTransactionService = mainTransactionService;
+        this.externalTransactionService = externalTransactionService;
+        this.transactionCategoryService = transactionCategoryService;
     }
 
     @GetMapping("/{year}/{month}")
@@ -28,5 +35,12 @@ public class TransactionController {
         MonthlyTransactionsDTO result = mainTransactionService.getMonthlyTransactions(1,year,month);
         return new ResponseEntity<>(result, HttpStatus.OK);
         //TODO Change hard coded user id
+    }
+
+    @PostMapping("/add/external-transaction")
+    public ResponseEntity<ExternalTransaction> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
+        ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
+
+        return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
     }
 }
