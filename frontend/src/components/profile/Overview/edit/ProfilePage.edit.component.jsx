@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
@@ -13,8 +14,13 @@ import { iconLibraryConfig } from 'config';
 import './ProfilePage.edit.styles.css';
 
 
-const ProfilePageEdit = ({ profileData, editHandler }) => {
+const ProfilePageEdit = ({ editHandler }) => {
+  const [profileData, setProfileData] = useState({});
   const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(editHandler);
+
+  useEffect(() => {
+    setProfileData(JSON.parse(localStorage.getItem('userData')));
+  }, []);
 
   return <>
     <div className={'profile-page-edit'}>

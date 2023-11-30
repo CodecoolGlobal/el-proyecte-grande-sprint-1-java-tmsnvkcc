@@ -17,14 +17,12 @@ import './Profile.styles.css';
 
 const Profile = () => {
   const [isEditing, setEditing] = useState(false);
-  const [profileData, setProfileData] = useState({});
   const [currentTile, setCurrentTile] = useState('Profile');
 
   const { accountData, isAccountDataLoading, isAccountDataError, refetch } = getProfileAccounts();
 
   useEffect(() => {
     refetch();
-    setProfileData(JSON.parse(localStorage.getItem('userData')));
   }, []);
 
   const onEditHandler = () => {
@@ -41,13 +39,13 @@ const Profile = () => {
     switch (currentTile) {
     case 'Profile':
       return isEditing ?
-        <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> :
-        <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isAccountDataLoading} />;
+        <ProfilePageEdit editHandler={onEditHandler} /> :
+        <ProfilePageDisplay onEditHandler={onEditHandler} loading={isAccountDataLoading} />;
 
     case 'Account':
       return isEditing ?
         <ProfileAccountEdit /> :
-        <ProfileAccountDisplay account={accountData} />;
+        <ProfileAccountDisplay account={accountData} loading={isAccountDataLoading} />;
 
     default:
       return 'error';

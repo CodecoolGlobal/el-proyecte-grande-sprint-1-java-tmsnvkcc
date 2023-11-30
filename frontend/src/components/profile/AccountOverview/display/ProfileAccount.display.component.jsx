@@ -1,12 +1,18 @@
 import { useState } from 'react';
+
+import {
+  FormSwapButton,
+} from 'components/home';
 import './ProfileAccount.display.styles.css';
+
 
 // TODO implement account selector
 
-const ProfileAccountDisplay = ({ account }) => {
+const ProfileAccountDisplay = ({ account, loading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (<>
+    {!loading &&
     <div className={'profile-page-overview'}>
       <div className={'overview-content'}>
         <h2>Account name</h2>
@@ -29,8 +35,13 @@ const ProfileAccountDisplay = ({ account }) => {
         <h2>Savings balance</h2>
         {account[currentIndex].savingsBalance} {account[currentIndex].currency}
       </div>
+
+      <article className={'bottom-button-container'}>
+        <FormSwapButton buttonName={'editProfile'} buttonContent={'Edit'} />
+      </article>
     </div>
-  </>)
+    }
+  </>);
 };
 
 export default ProfileAccountDisplay;

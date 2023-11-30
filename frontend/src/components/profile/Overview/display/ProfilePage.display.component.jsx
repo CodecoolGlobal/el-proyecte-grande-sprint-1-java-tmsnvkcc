@@ -3,8 +3,17 @@ import {
 } from 'components/home';
 
 import './ProfilePage.display.styles.css';
+import { useEffect, useState } from 'react';
 
-const ProfilePageDisplay = ({ profileData, onEditHandler, loading }) => {
+const ProfilePageDisplay = ({ onEditHandler, loading }) => {
+  const [profileData, setProfileData] = useState({});
+
+  useEffect(() => {
+    if (loading) {
+      setProfileData(JSON.parse(localStorage.getItem('userData')));
+    }
+  }, [loading]);
+
   //console.log(profileData);
   return <>
     {!loading &&
