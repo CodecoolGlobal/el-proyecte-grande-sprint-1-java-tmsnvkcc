@@ -3,10 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import { TransactionCardComponent } from '../index.js'; //FIXME change individual import to icon library config
 import './Savings.styles.css';
+import { AddLocalTransactionModal } from '../../modal/index.js';
+import { iconLibraryConfig } from '../../../config/index.js';
 
-const SavingsComponent = ({ transactions, isLoading }) => {
+const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   const [actualBalance, setActualBalance] = useState(0);
   const [savingsBalance, setSavingsBalance] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [transactionDirection, setTransactionDirection] = useState('expense');
   const getAccountBalance = () => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
 
@@ -22,6 +26,33 @@ const SavingsComponent = ({ transactions, isLoading }) => {
     setSavingsBalance(retrievedBalances.savingsBalance);
   }, []);
 
+  const provideTransactionCards = () => {
+    const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
+
+    return reversedTransactionArray.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} refetch={refetch}/>);
+  };
+
+  const listenForEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsModalVisible(false);
+    }
+  };
+  const handleOnClick = (directionOfButton) => {
+    setIsModalVisible(!isModalVisible);
+    setTransactionDirection(directionOfButton);
+
+    if (isModalVisible) {
+      refetch();
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className={'savings-page-overview'}>
+        <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />
+      </div>);
+  }
+
   //TODO Add conditional text rendering for no transactions case
   return (
     <div className={'savings-page-overview'}>
@@ -31,8 +62,8 @@ const SavingsComponent = ({ transactions, isLoading }) => {
           {actualBalance}
         </div>
         <div className={'savings-arrow-button-container'}>
-          <FontAwesomeIcon icon={faUpLong} className={'savings-arrow-left'}/>
-          <FontAwesomeIcon icon={faDownLong} className={'savings-arrow-right'}/>
+          <button type={'button'} onClick={() => handleOnClick('expense')}><FontAwesomeIcon icon={faUpLong} className={'savings-arrow-left'}/></button>
+          <button type={'button'} onClick={() => handleOnClick('income')}><FontAwesomeIcon icon={faDownLong} className={'savings-arrow-right'}/></button>
         </div>
         <div className={'savings-balance-container'}>
           <h2>SAVINGS BALANCE</h2>
@@ -42,9 +73,10 @@ const SavingsComponent = ({ transactions, isLoading }) => {
       <div className={'savings-transactions-container'}>
         <div className={'savings-transactions-title'}><h2> Recent local transactions </h2></div>
         <div className={'savings-transactions-scroll-bar'}>
-          {transactions.localTransactionDTOS.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} />)}
+          {provideTransactionCards()}
         </div>
       </div>
+      <AddLocalTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} handleOnClick={handleOnClick} transactionDirection={transactionDirection} />
     </div>
   );
 };

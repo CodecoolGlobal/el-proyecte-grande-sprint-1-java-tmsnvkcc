@@ -17,6 +17,11 @@
 
     width: 85%;
     height: 70vh;
+
+    & button {
+        background: inherit;
+        color: inherit;
+    }
 }
 .savings-controls-container {
     display: flex;
@@ -102,5 +107,9 @@
 
 .savings-transactions-scroll-bar::-webkit-scrollbar-track {
     background-color: transparent;
+}
+
+.loading-icon {
+    font-size: 5vw;
 }
 
