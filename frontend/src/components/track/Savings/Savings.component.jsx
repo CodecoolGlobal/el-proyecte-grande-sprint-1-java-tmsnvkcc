@@ -29,7 +29,7 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   const provideTransactionCards = () => {
     const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
 
-    return reversedTransactionArray.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} />);
+    return reversedTransactionArray.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} refetch={refetch}/>);
   };
 
   const listenForEscapeKey = (event) => {

@@ -9,14 +9,19 @@ const provideAmountSign = (amount) => {
   return amount > 0 ? '+' : '';
 };
 
-const TransactionCardComponent = ({ transaction }) => {
+const handleClick = (transactionId, refetch) => {
+  UseDeleteTransaction(transactionId);
+  refetch();
+};
+
+const TransactionCardComponent = ({ transaction, refetch }) => {
 
   return (
     <div className={'transaction-card-container'}>
       <div className={'transaction-card-upper-container'}>
         <h2 className={provideAmountColor(transaction.amount)}>{provideAmountSign(transaction.amount)}{transaction.amount}</h2>
         <h2>{transaction.dateOfTransaction}</h2>
-        <button type={'button'} onClick={() => UseDeleteTransaction(transaction.id)}> X </button>
+        <button type={'button'} onClick={() => handleClick(transaction.id, refetch)}> X </button>
       </div>
       <div className={'transaction-card-bottom-container'}>
         <h3>{transaction.description}</h3>
