@@ -1,22 +1,23 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormError } from 'components/form-related';
 import {
   useEffect,
   useRef,
   useState,
 } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  FormError,
   InputField,
   SelectField,
   SingleCheckbox,
   SubmitButton,
 } from 'components/form-related';
-import './AddTransactionModal.styles.css';
-import { iconLibraryConfig } from '../../../config/index.js';
+import { iconLibraryConfig } from 'config';
 import { useHandleFormOnSubmit } from './AddTransactionModal.hooks.jsx';
+import './AddTransactionModal.styles.css';
 
 const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(handleOnClick);
+  const [ids, setIds] = useState({ userId: 0, accountId: 0 });
   const [options, setOptions] = useState([]);
   const dialogRef = useRef(null);
 
@@ -24,6 +25,8 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     setOptions(userData.category);
+    setIds({ userId: userData.userId, accountId: userData.account.id });
+
     if (dialogRef.current?.open && !isModalVisible) {
       dialogRef.current?.close();
     } else if (!dialogRef.current?.open && isModalVisible) {
@@ -37,12 +40,21 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
       ref={dialogRef}
       onKeyDown={(event) => handleOnKeyClose(event)}
     >
-      <button className={'close-x-button'} onClick={handleOnClick}>X
-      </button>
+      <button className={'close-x-button'} onClick={handleOnClick}>X</button>
       <form
         id={'addTransactionForm'}
         onSubmit={(event) => onSubmit(event)}
       >
+        <InputField
+          type={'hidden'}
+          id={'userId'}
+          defaultValue={ids.userId}
+        />
+        <InputField
+          type={'hidden'}
+          id={'accountId'}
+          defaultValue={ids.accountId}
+        />
         <InputField
           type={'text'}
           id={'description'}

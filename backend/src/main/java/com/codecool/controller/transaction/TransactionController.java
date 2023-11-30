@@ -2,7 +2,8 @@ package com.codecool.controller.transaction;
 
 import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
-import com.codecool.entity.TransactionCategory;
+import com.codecool.entity.ExternalTransaction;
+import com.codecool.service.transaction.ExternalTransactionService;
 import com.codecool.service.transaction.MainTransactionService;
 import com.codecool.service.transactionCategory.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/transaction")
 public class TransactionController {
     private final MainTransactionService mainTransactionService;
+    private final ExternalTransactionService externalTransactionService;
     private final TransactionCategoryService transactionCategoryService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService, TransactionCategoryService transactionCategoryService) {
+    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService) {
         this.mainTransactionService = mainTransactionService;
+        this.externalTransactionService = externalTransactionService;
         this.transactionCategoryService = transactionCategoryService;
     }
 
@@ -35,8 +38,9 @@ public class TransactionController {
     }
 
     @PostMapping("/add/external-transaction")
-    public ResponseEntity<?> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
-        mainTransactionService.addExternalTransaction(newExternalTransaction);
-        return new ResponseEntity<>("ok", HttpStatus.CREATED);
+    public ResponseEntity<ExternalTransaction> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
+        ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
+
+        return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
     }
 }

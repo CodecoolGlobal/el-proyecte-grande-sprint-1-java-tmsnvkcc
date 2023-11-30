@@ -30,8 +30,7 @@ public class ExternalTransactionService {
     return externalTransactionRepository.findAllByYearAndMonth(userId, currentYear, currentMonth);
   }
 
-  public void addTransaction(NewExternalTransactionDTO newExternalTransactionDTO) {
-    System.out.println(newExternalTransactionDTO);
+  public ExternalTransaction addTransaction(NewExternalTransactionDTO newExternalTransactionDTO) {
     Optional<User> user = userRepository.findById(newExternalTransactionDTO.userId());
     Optional<TransactionCategory> transactionCategory = transactionCategoryRepository.findById(newExternalTransactionDTO.categoryId());
 
@@ -47,5 +46,7 @@ public class ExternalTransactionService {
     );
 
     externalTransactionRepository.save(externalTransaction);
+
+    return externalTransaction;
   }
 }
