@@ -15,10 +15,11 @@ const deleteTransaction = async (transactionId) => {
     console.log(err);
   }
 };
-const UseDeleteTransaction = (transactionId) => {
+const UseDeleteTransaction = (transactionId, canFetch) => {
   const query = useQuery({
     queryKey:['deleteTransaction'],
     queryFn:() => deleteTransaction(transactionId),
+    enabled:canFetch,
   });
 
   return {
