@@ -1,30 +1,33 @@
+import { useState } from 'react';
 import './ProfileAccount.display.styles.css';
 
+// TODO implement account selector
+
 const ProfileAccountDisplay = ({ account }) => {
-  console.log(account);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   return (<>
     <div className={'profile-page-overview'}>
       <div className={'overview-content'}>
         <h2>Account name</h2>
-        {account.name}
+        {account[currentIndex].name}
       </div>
 
       <div className={'overview-content'}>
         <h2>Description</h2>
-        {account.description}
+        {account[currentIndex].description}
       </div>
 
       <div className={'line'}></div>
 
       <div className={'overview-content'}>
         <h2>Actual balance</h2>
-        {account.actualBalance /* // TODO: change hard coded currency */} HUF
+        {account[currentIndex].actualBalance} {account[currentIndex].currency}
       </div>
 
       <div className={'overview-content'}>
         <h2>Savings balance</h2>
-        {account.savingsBalance /* // TODO: change hard coded currency */} HUF
+        {account[currentIndex].savingsBalance} {account[currentIndex].currency}
       </div>
     </div>
   </>)
