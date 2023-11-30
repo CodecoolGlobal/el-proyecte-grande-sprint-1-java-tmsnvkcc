@@ -4,6 +4,7 @@ import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import { TransactionCardComponent } from '../index.js'; //FIXME change individual import to icon library config
 import './Savings.styles.css';
 import { AddLocalTransactionModal } from '../../modal/index.js';
+import { iconLibraryConfig } from '../../../config/index.js';
 
 const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   const [actualBalance, setActualBalance] = useState(0);
@@ -25,6 +26,12 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
     setSavingsBalance(retrievedBalances.savingsBalance);
   }, []);
 
+  const provideTransactionCards = () => {
+    const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
+
+    return reversedTransactionArray.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} />);
+  };
+
   const listenForEscapeKey = (event) => {
     if (event.key === 'Escape') {
       setIsModalVisible(false);
@@ -33,8 +40,18 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   const handleOnClick = (directionOfButton) => {
     setIsModalVisible(!isModalVisible);
     setTransactionDirection(directionOfButton);
-    refetch();
+
+    if (isModalVisible) {
+      refetch();
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className={'savings-page-overview'}>
+        <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />
+      </div>);
+  }
 
   //TODO Add conditional text rendering for no transactions case
   return (
@@ -56,7 +73,7 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
       <div className={'savings-transactions-container'}>
         <div className={'savings-transactions-title'}><h2> Recent local transactions </h2></div>
         <div className={'savings-transactions-scroll-bar'}>
-          {transactions.localTransactionDTOS.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} />)}
+          {provideTransactionCards()}
         </div>
       </div>
       <AddLocalTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} handleOnClick={handleOnClick} transactionDirection={transactionDirection} />
