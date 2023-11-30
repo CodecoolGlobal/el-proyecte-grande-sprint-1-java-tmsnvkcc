@@ -17,6 +17,10 @@
 
     width: 85%;
     height: 70vh;
+
+    & button {
+        background: transparent;
+    }
 }
 .savings-controls-container {
     display: flex;

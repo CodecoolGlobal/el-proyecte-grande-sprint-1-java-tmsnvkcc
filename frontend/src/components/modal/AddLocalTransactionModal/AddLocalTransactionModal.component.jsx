@@ -22,7 +22,6 @@ const AddLocalTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyCl
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('userData'));
-    
     setIds({ userId: userData.userId, accountId: userData.account.id });
 
     if (dialogRef.current?.open && !isModalVisible) {
