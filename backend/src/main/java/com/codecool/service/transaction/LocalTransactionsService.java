@@ -41,4 +41,12 @@ public class LocalTransactionsService {
 
     return localTransaction;
   }
+
+  public LocalTransaction deleteTransaction(int transactionId) {
+    LocalTransaction localTransaction = localTransactionRepository.findLocalTransactionById(transactionId);
+
+    localTransactionRepository.delete(localTransaction);
+
+    return localTransaction;
+  }
 }
