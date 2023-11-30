@@ -1,9 +1,12 @@
 package com.codecool.controller.transaction;
 
+import com.codecool.dto.LocalTransactionDTO;
 import com.codecool.dto.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
+import com.codecool.entity.LocalTransaction;
 import com.codecool.service.transaction.ExternalTransactionService;
+import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.transaction.MainTransactionService;
 import com.codecool.service.transactionCategory.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,14 @@ public class TransactionController {
     private final MainTransactionService mainTransactionService;
     private final ExternalTransactionService externalTransactionService;
     private final TransactionCategoryService transactionCategoryService;
+    private final LocalTransactionsService localTransactionsService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService) {
+    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService, LocalTransactionsService localTransactionsService) {
         this.mainTransactionService = mainTransactionService;
         this.externalTransactionService = externalTransactionService;
         this.transactionCategoryService = transactionCategoryService;
+        this.localTransactionsService = localTransactionsService;
     }
 
     @GetMapping("/{year}/{month}")
@@ -42,5 +47,12 @@ public class TransactionController {
         ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
 
         return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add/local-transaction")
+    public ResponseEntity<LocalTransaction> addLocalTransaction(@RequestBody LocalTransactionDTO localTransactionDTO) {
+        LocalTransaction localTransaction = localTransactionsService.addTransaction( localTransactionDTO );
+
+        return new ResponseEntity<>(localTransaction,HttpStatus.CREATED);
     }
 }
