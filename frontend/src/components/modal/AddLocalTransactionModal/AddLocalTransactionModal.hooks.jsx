@@ -14,9 +14,9 @@ const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
 
       await axiosConfig.request({
         method: 'POST',
-        url: '/api/transaction/add/external-transaction',
+        url: '/api/transaction/',
         data: payload,
-      });
+      }); //TODO implement new endpoint for local transactions
     },
     onSuccess: () => {
       reset();
