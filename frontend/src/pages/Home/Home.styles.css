@@ -2,7 +2,7 @@ body {
   background-image: url('/src/assets/login_background.png');
 }
 
-main {
+.home-main-container {
   width: 50rem;
   margin: 5rem auto 0 auto;
   border-radius: 2rem;

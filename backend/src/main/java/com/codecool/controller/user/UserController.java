@@ -1,18 +1,21 @@
 package com.codecool.controller.user;
 
 import com.codecool.config.postgreSQL.PostgreSQLImpl;
-import com.codecool.dto.ForgottenPasswordDTO;
-import com.codecool.dto.LoginUserDTO;
-import com.codecool.dto.NewUserDTO;
-import com.codecool.dto.UpdateProfileDTO;
-import com.codecool.dto.UserAccountAfterLoginDTO;
-import com.codecool.dto.UserDataAfterLoginDTO;
+import com.codecool.dto.access.ForgottenPasswordDTO;
+import com.codecool.dto.access.LoginUserDTO;
+import com.codecool.dto.access.NewUserDTO;
+import com.codecool.dto.access.ResetPasswordDTO;
+import com.codecool.dto.user.UpdateProfileDTO;
+import com.codecool.dto.user.UserAccountAfterLoginDTO;
+import com.codecool.dto.user.UserDataAfterLoginDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
 import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
 import com.codecool.service.account.AccountService;
+import com.codecool.service.email.EmailService;
+import com.codecool.dto.access.EmailDetailsDTO;
 import com.codecool.service.transaction.ExternalTransactionService;
 import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.user.UserService;
@@ -22,12 +25,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -38,28 +48,32 @@ import java.util.Optional;
 public class UserController {
   private final UserService userService;
   private final AccountService accountService;
+  private final EmailService emailService;
   private final ExternalTransactionService externalTransactionService;
   private final LocalTransactionsService localTransactionsService;
+  private final UserMessages userMessages;
   private static final Logger logger = LoggerFactory.getLogger(PostgreSQLImpl.class);
 
   @Autowired
-  public UserController(UserService userService, AccountService accountService, ExternalTransactionService externalTransactionService, LocalTransactionsService localTransactionsService) {
+  public UserController(UserService userService, AccountService accountService, EmailService emailService, ExternalTransactionService externalTransactionService, LocalTransactionsService localTransactionsService, UserMessages userMessages) {
     this.userService = userService;
     this.accountService = accountService;
+    this.emailService = emailService;
     this.externalTransactionService = externalTransactionService;
     this.localTransactionsService = localTransactionsService;
+    this.userMessages = userMessages;
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> loginUser(@RequestBody LoginUserDTO user) {
+  public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO user) {
     if (user == null || user.loginEmail().isEmpty() || user.loginPassword().isEmpty()) {
-      throw new FormErrorException("The login was unsuccessful, please try again.");
+      throw new FormErrorException(userMessages.LOGIN_ERROR_MESSAGE);
     }
 
     User foundUser = userService.findUserByEmail(user.loginEmail());
 
-    int currentYear = LocalDate.now().getYear();
-    int currentMonth = LocalDate.now().getMonthValue();
+    int currentYear = getCurrentYear();
+    int currentMonth = getCurrentMonthValue();
 
     // TODO the login endpoint shouldn't return anything else other than the user information.
     // datafetching should be driven by the frontend.
@@ -88,29 +102,53 @@ public class UserController {
   }
 
   @PostMapping(path = "/register")
-  public ResponseEntity<Object> registerUser(@RequestBody NewUserDTO user) throws FormErrorException {
+  @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<HttpStatus> registerUser(@RequestBody NewUserDTO user) {
     if (user == null || user.registerEmail().isEmpty() || user.registerPassword().isEmpty()) {
-      throw new FormErrorException("The registration was unsuccessful, please try again.");
+      throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
     }
 
     userService.checkEmailInDatabase(user.registerEmail());
 
     userService.addUser(user, "fakehashedpassword");
-    Map<String, String> message = new HashMap<>() {{ put("message", "success"); }};
 
-    return new ResponseEntity<>(message, HttpStatus.CREATED);
+    String subject = userMessages.WELCOME_EMAIL_SUBJECT;
+    String body = userMessages.WELCOME_EMAIL_BODY;
+    EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(user.registerEmail(), subject, body);
+    emailService.sendEmail(emailDetailsDTO);
+
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
-  @PutMapping("/password-reset")
-  public ResponseEntity<Object> resetPassword(@RequestBody ForgottenPasswordDTO user) throws FormErrorException {
-    if (user == null || user.email().isEmpty()) {
-      throw new FormErrorException("The form submission was unsuccessful, please try again.");
+  @PostMapping("/password-reset")
+  public ResponseEntity<HttpStatus> sendResetPasswordEmail(@RequestBody ForgottenPasswordDTO userData) {
+    if (userData == null || userData.resetEmail().isEmpty()) {
+      throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
     }
 
-    // TODO - finish method
-    // TODO - implement email reset stuff, e.g. nodemailer or something similar.
-    Map<String, String> message = new HashMap<>() {{ put("message", "Reset email sent."); }};
-    return new ResponseEntity<>(message, HttpStatus.CREATED);
+    User foundUser = userService.findUserByEmail(userData.resetEmail());
+    String subject = userMessages.PASSWORD_RESET_SUBJECT;
+    // TODO send the email in hashed form.
+    String body = MessageFormat.format(userMessages.PASSWORD_RESET_BODY, foundUser.getEmail());
+    EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(foundUser.getEmail(), subject, body);
+    emailService.sendEmail(emailDetailsDTO);
+
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping("/password-reset/{hashedUserEmail}")
+  public ResponseEntity<HttpStatus> resetPassword(@PathVariable("hashedUserEmail") String email, @RequestBody ResetPasswordDTO userData) {
+    if (email == null || userData == null || userData.resetPassword().isEmpty()) {
+      throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
+    }
+
+    User foundUser = userService.findUserByEmail(email);
+
+    // TODO - check the hashed string once it is set like that
+    UpdateProfileDTO updatedData = new UpdateProfileDTO(foundUser.getUserName(), email, userData.resetPassword());
+    userService.updateUserProfile(updatedData, foundUser);
+
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping("/get-accounts")
@@ -132,8 +170,8 @@ public class UserController {
 
     userService.updateUserProfile(profileData, foundUser);
 
-    int currentYear = LocalDate.now().getYear();
-    int currentMonth = LocalDate.now().getMonthValue();
+    int currentYear = getCurrentYear();
+    int currentMonth = getCurrentMonthValue();
 
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
@@ -156,5 +194,13 @@ public class UserController {
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);
+  }
+
+  private int getCurrentYear() {
+    return LocalDate.now().getYear();
+  }
+
+  private int getCurrentMonthValue() {
+    return LocalDate.now().getMonthValue();
   }
 }

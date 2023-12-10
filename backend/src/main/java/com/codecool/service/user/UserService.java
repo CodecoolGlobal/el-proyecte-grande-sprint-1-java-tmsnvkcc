@@ -1,13 +1,15 @@
 package com.codecool.service.user;
 
-import com.codecool.dto.NewUserDTO;
-import com.codecool.dto.UpdateProfileDTO;
+import com.codecool.dto.access.NewUserDTO;
+import com.codecool.dto.user.UpdateProfileDTO;
 import com.codecool.entity.Account;
+import com.codecool.entity.Currency;
 import com.codecool.entity.TransactionCategory;
 import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
 import com.codecool.repository.TransactionCategoryRepository;
 import com.codecool.repository.UserRepository;
+import com.codecool.service.currency.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,29 +22,32 @@ import java.util.Optional;
 public class UserService {
   private final UserRepository userRepository;
   private final TransactionCategoryRepository transactionCategoryRepository;
+  private final CurrencyService currencyService;
 
   @Autowired
-  public UserService(UserRepository userRepository, TransactionCategoryRepository transactionCategoryRepository) {
+  public UserService(UserRepository userRepository, TransactionCategoryRepository transactionCategoryRepository, CurrencyService currencyService) {
     this.userRepository = userRepository;
     this.transactionCategoryRepository = transactionCategoryRepository;
+    this.currencyService = currencyService;
   }
 
   @Transactional
   public void addUser(NewUserDTO user, String hashedPassword) {
-    Account account = new Account();
+    Currency currency = currencyService.findCurrencyByCode("HUF");
+    Account account = new Account(currency);
     TransactionCategory defaultCategoryOne = transactionCategoryRepository.findById(1).get();
     TransactionCategory defaultCategoryTwo = transactionCategoryRepository.findById(2).get();
     TransactionCategory defaultCategoryThree = transactionCategoryRepository.findById(3).get();
     TransactionCategory defaultCategoryFour = transactionCategoryRepository.findById(4).get();
 
-    List<TransactionCategory> transactionCategories = new ArrayList<>(){{
+    List<TransactionCategory> defaultTransactionsCategories = new ArrayList<>(){{
       add(defaultCategoryOne);
       add(defaultCategoryTwo);
       add(defaultCategoryThree);
       add(defaultCategoryFour);
     }};
     User newUser = new User(user.registerEmail(), hashedPassword, account);
-    newUser.setCategories(transactionCategories);
+    newUser.setCategories(defaultTransactionsCategories);
 
     userRepository.save(newUser);
   }

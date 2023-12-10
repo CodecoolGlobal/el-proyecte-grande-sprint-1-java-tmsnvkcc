@@ -1,7 +1,9 @@
 import AddTransactionModal from './AddTransactionModal';
-import AddLocalTransactionModal from './AddLocalTransactionModal/index.js';
+import AddLocalTransactionModal from './AddLocalTransactionModal';
+import PasswordResetConfirmationModal from './PasswordResetConfirmationModal';
 
 export {
   AddTransactionModal,
   AddLocalTransactionModal,
+  PasswordResetConfirmationModal,
 };
