@@ -42,7 +42,7 @@ const Home = () => {
   };
 
   return (
-    <main className={!isModalVisible ? '' : 'blur'}>
+    <main className={!isModalVisible ? 'home-main-container' : ' home-main-container blur'}>
       {renderFormComponent()}
       <PasswordResetConfirmationModal
         isModalVisible={isModalVisible}

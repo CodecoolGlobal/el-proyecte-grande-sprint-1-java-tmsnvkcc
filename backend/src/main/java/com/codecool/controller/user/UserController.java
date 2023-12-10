@@ -144,7 +144,7 @@ public class UserController {
 
     User foundUser = userService.findUserByEmail(email);
 
-    // TODO - hash the password;
+    // TODO - check the hashed string once it is set like that
     UpdateProfileDTO updatedData = new UpdateProfileDTO(foundUser.getUserName(), email, userData.resetPassword());
     userService.updateUserProfile(updatedData, foundUser);
 
