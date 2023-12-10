@@ -1,8 +1,8 @@
 package com.codecool.service.transaction;
 
-import com.codecool.dto.ExternalTransactionDTO;
-import com.codecool.dto.MonthlyTransactionsDTO;
-import com.codecool.dto.LocalTransactionDTO;
+import com.codecool.dto.transactions.ExternalTransactionDTO;
+import com.codecool.dto.transactions.MonthlyTransactionsDTO;
+import com.codecool.dto.transactions.LocalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
 import org.springframework.beans.factory.annotation.Autowired;

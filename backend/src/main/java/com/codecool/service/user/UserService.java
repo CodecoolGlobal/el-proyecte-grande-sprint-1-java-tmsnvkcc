@@ -1,7 +1,7 @@
 package com.codecool.service.user;
 
-import com.codecool.dto.NewUserDTO;
-import com.codecool.dto.UpdateProfileDTO;
+import com.codecool.dto.access.NewUserDTO;
+import com.codecool.dto.user.UpdateProfileDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.TransactionCategory;
 import com.codecool.entity.User;

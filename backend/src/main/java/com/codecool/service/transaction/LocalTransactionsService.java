@@ -1,6 +1,6 @@
 package com.codecool.service.transaction;
 
-import com.codecool.dto.LocalTransactionDTO;
+import com.codecool.dto.transactions.LocalTransactionDTO;
 import com.codecool.entity.LocalTransaction;
 import com.codecool.entity.User;
 import com.codecool.repository.LocalTransactionRepository;

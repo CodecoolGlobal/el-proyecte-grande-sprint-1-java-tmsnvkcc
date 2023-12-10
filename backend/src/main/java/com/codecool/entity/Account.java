@@ -2,22 +2,27 @@ package com.codecool.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "accounts")
+@Getter
+@Setter
 public class Account {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +39,9 @@ public class Account {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "currency")
-  private String currency; // TODO should be updated to be an enum; OR better - create a table for currencies with id and reference that
+  @ManyToOne
+  @JoinColumn(name = "currency")
+  private Currency currency;
 
   @Column(name = "actual_balance")
   private double actualBalance;
@@ -54,82 +60,14 @@ public class Account {
   public Account() {
     this.name = "CHANGE ME";
     this.description = "FILL ME IN";
-    this.currency = "HUF";
     this.actualBalance = 0.0;
     this.savingsBalance = 0.0;
     this.externalTransactionList = new ArrayList<>();
     this.localTransactionList = new ArrayList<>();
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getCurrency() {
-    return currency;
-  }
-
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  public double getActualBalance() {
-    return actualBalance;
-  }
-
-  public void setActualBalance(double actualBalance) {
-    this.actualBalance = actualBalance;
-  }
-
-  public double getSavingsBalance() {
-    return savingsBalance;
-  }
-
-  public void setSavingsBalance(double savingsBalance) {
-    this.savingsBalance = savingsBalance;
-  }
-
-  public List<ExternalTransaction> getExternalTransactionList() {
-    return externalTransactionList;
-  }
-
-  public void setExternalTransactionList(List<ExternalTransaction> externalTransactionList) {
-    this.externalTransactionList = externalTransactionList;
-  }
-
-  public List<LocalTransaction> getLocalTransactionList() {
-    return localTransactionList;
-  }
-
-  public void setLocalTransactionList(List<LocalTransaction> localTransactionList) {
-    this.localTransactionList = localTransactionList;
+  @Override
+  public String toString() {
+    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transactionlist]: %s | [Local Transactionlist]: %s", id, user, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
   }
 }

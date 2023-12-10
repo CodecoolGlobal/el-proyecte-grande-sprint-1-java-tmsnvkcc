@@ -1,4 +1,4 @@
-package com.codecool.dto;
+package com.codecool.dto.transactions;
 
 import java.util.List;
 

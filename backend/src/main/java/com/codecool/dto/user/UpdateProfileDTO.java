@@ -1,4 +1,4 @@
-package com.codecool.dto;
+package com.codecool.dto.user;
 
 public record UpdateProfileDTO(
     String username,

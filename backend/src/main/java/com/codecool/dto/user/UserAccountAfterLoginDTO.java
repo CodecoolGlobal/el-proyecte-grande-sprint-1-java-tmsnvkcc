@@ -1,4 +1,4 @@
-package com.codecool.dto;
+package com.codecool.dto.user;
 
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;

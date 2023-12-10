@@ -1,4 +1,4 @@
-package com.codecool.dto;
+package com.codecool.dto.access;
 
 public record ForgottenPasswordDTO(
   String email

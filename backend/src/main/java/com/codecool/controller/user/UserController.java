@@ -1,12 +1,12 @@
 package com.codecool.controller.user;
 
 import com.codecool.config.postgreSQL.PostgreSQLImpl;
-import com.codecool.dto.ForgottenPasswordDTO;
-import com.codecool.dto.LoginUserDTO;
-import com.codecool.dto.NewUserDTO;
-import com.codecool.dto.UpdateProfileDTO;
-import com.codecool.dto.UserAccountAfterLoginDTO;
-import com.codecool.dto.UserDataAfterLoginDTO;
+import com.codecool.dto.access.ForgottenPasswordDTO;
+import com.codecool.dto.access.LoginUserDTO;
+import com.codecool.dto.access.NewUserDTO;
+import com.codecool.dto.user.UpdateProfileDTO;
+import com.codecool.dto.user.UserAccountAfterLoginDTO;
+import com.codecool.dto.user.UserDataAfterLoginDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
