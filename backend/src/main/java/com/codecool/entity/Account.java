@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -23,15 +24,12 @@ import java.util.List;
 @Table(name = "accounts")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Account {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
-
-  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-  @JsonBackReference
-  private User user;
 
   @Column(name = "name")
   private String name;
@@ -39,15 +37,20 @@ public class Account {
   @Column(name = "description")
   private String description;
 
-  @ManyToOne
-  @JoinColumn(name = "currency")
-  private Currency currency;
-
   @Column(name = "actual_balance")
   private double actualBalance;
 
   @Column(name = "savings_balance")
   private double savingsBalance;
+
+  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+  @JsonBackReference
+  private User user;
+
+  @ManyToOne
+  @JoinColumn(name = "currency_id")
+  @JsonIgnore
+  private Currency currency;
 
   @OneToMany(mappedBy = "account")
   @JsonIgnore
@@ -57,7 +60,8 @@ public class Account {
   @JsonIgnore
   private List<LocalTransaction> localTransactionList;
 
-  public Account() {
+  public Account(Currency currency) {
+    this.currency = currency;
     this.name = "CHANGE ME";
     this.description = "FILL ME IN";
     this.actualBalance = 0.0;
@@ -68,6 +72,6 @@ public class Account {
 
   @Override
   public String toString() {
-    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transactionlist]: %s | [Local Transactionlist]: %s", id, user, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
+    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, user, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
   }
 }

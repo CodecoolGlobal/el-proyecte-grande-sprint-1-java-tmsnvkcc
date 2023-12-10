@@ -43,15 +43,15 @@ public class User {
   @Column(name = "hashed_password")
   private String hashedPassword;
 
+  @Column(name = "is_admin")
+  private boolean isAdmin;
+
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "account_id")
   @JsonManagedReference
   private Account account;
 
-  @Column(name = "is_admin")
-  private boolean isAdmin;
-
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
     name = "categories_users_join",
     joinColumns = { @JoinColumn(name = "user_id") },
@@ -61,13 +61,13 @@ public class User {
   private List<TransactionCategory> categories;
 
   public User(String email, String hashedPassword, Account account) {
-    this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
-    this.userName = "CHANGE ME!";
     this.email = email;
     this.hashedPassword = hashedPassword;
+    this.categories = new ArrayList<>();
+    this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
+    this.userName = "CHANGE ME!";
     this.account = account;
     this.isAdmin = false;
-    this.categories = new ArrayList<>();
   }
 
   @Override

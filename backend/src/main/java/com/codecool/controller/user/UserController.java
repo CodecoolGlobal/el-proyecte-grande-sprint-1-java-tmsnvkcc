@@ -58,8 +58,8 @@ public class UserController {
 
     User foundUser = userService.findUserByEmail(user.loginEmail());
 
-    int currentYear = LocalDate.now().getYear();
-    int currentMonth = LocalDate.now().getMonthValue();
+    int currentYear = getCurrentYear();
+    int currentMonth = getCurrentMonthValue();
 
     // TODO the login endpoint shouldn't return anything else other than the user information.
     // datafetching should be driven by the frontend.
@@ -88,7 +88,8 @@ public class UserController {
   }
 
   @PostMapping(path = "/register")
-  public ResponseEntity<Object> registerUser(@RequestBody NewUserDTO user) throws FormErrorException {
+  @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<?> registerUser(@RequestBody NewUserDTO user) {
     if (user == null || user.registerEmail().isEmpty() || user.registerPassword().isEmpty()) {
       throw new FormErrorException("The registration was unsuccessful, please try again.");
     }
@@ -96,9 +97,8 @@ public class UserController {
     userService.checkEmailInDatabase(user.registerEmail());
 
     userService.addUser(user, "fakehashedpassword");
-    Map<String, String> message = new HashMap<>() {{ put("message", "success"); }};
 
-    return new ResponseEntity<>(message, HttpStatus.CREATED);
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PutMapping("/password-reset")
@@ -132,8 +132,8 @@ public class UserController {
 
     userService.updateUserProfile(profileData, foundUser);
 
-    int currentYear = LocalDate.now().getYear();
-    int currentMonth = LocalDate.now().getMonthValue();
+    int currentYear = getCurrentYear();
+    int currentMonth = getCurrentMonthValue();
 
     List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
     List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
@@ -156,5 +156,13 @@ public class UserController {
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);
+  }
+
+  private int getCurrentYear() {
+    return LocalDate.now().getYear();
+  }
+
+  private int getCurrentMonthValue() {
+    return LocalDate.now().getMonthValue();
   }
 }

@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ExternalTransactionRepository extends JpaRepository<ExternalTransaction, Integer> {
-  @Query(
-    value = """
+  @Query(value =
+    """
       SELECT
         *
       FROM
