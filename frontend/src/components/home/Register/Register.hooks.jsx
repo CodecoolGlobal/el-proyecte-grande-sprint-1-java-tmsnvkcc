@@ -12,13 +12,11 @@ const useHandleFormOnSubmit = () => {
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      const response = await axiosConfig.request({
+      await axiosConfig.request({
         method: 'POST',
         url: '/api/users/register',
         data: payload,
       });
-
-      return response;
     },
     onSuccess: () => {
       reset();

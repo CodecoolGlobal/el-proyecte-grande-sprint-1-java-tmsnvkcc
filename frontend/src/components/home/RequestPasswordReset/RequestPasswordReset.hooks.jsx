@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { axiosConfig } from 'config';
-import { serialiseFormData } from 'utilities';
+import { axiosConfig } from '../../../config/index.js';
+import { serialiseFormData } from '../../../utilities/index.js';
 
-const useHandleFormOnSubmit = () => {
+const useHandleFormOnSubmit = (handleModal) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -23,7 +23,7 @@ const useHandleFormOnSubmit = () => {
     onSuccess: () => {
       reset();
       setLoading(false);
-      window.location.reload();
+      handleModal();
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);

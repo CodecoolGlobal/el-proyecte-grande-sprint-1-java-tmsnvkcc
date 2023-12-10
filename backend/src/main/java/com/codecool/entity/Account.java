@@ -43,7 +43,7 @@ public class Account {
   @Column(name = "savings_balance")
   private double savingsBalance;
 
-  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonBackReference
   private User user;
 

@@ -46,7 +46,7 @@ public class User {
   @Column(name = "is_admin")
   private boolean isAdmin;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
   @JsonManagedReference
   private Account account;

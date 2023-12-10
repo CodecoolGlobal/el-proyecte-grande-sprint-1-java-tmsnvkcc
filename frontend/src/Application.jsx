@@ -1,19 +1,20 @@
 import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import {
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
 import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
-import {
   Dashboard,
   ErrorPage,
   Home,
   Insights,
   Profile,
+  ResetPassword,
   Track,
 } from 'pages';
 import { Layout } from 'components/layout';
@@ -36,6 +37,7 @@ const router = createBrowserRouter(createRoutesFromElements(
   <Route errorElement={<ErrorPage />}>
     <Route path={'/'}>
       <Route index element={<Home />} />
+      <Route path={'password-reset/:id'} element={<ResetPassword />} />
     </Route>
     <Route path={'/dashboard'} element={<Layout />}>
       <Route index element={<Dashboard />} />

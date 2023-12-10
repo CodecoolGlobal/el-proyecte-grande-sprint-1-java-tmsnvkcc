@@ -63,7 +63,6 @@ public class UserService {
   }
 
   public void checkEmailInDatabase(String email) {
-    System.out.println(email);
     Optional<User> user = userRepository.findByEmail(email);
 
     if (user.isPresent()) {

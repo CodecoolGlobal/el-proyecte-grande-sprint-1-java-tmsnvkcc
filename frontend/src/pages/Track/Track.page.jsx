@@ -1,14 +1,23 @@
-import { useEffect, useState } from 'react';
-import { IncomeComponent, Overview, SavingsComponent, Spendings, TrackNavigation } from 'components/track';
+import {
+  useEffect,
+  useState,
+} from 'react';
+import {
+  IncomeComponent,
+  Overview,
+  SavingsComponent,
+  Spendings,
+  TrackNavigation,
+} from 'components/track';
 import { PageTitle } from 'components/form-related';
+import { useGetMonthlyTransactions } from 'hooks';
 import './Track.styles.css';
-import useGetMonthlyTransactions from 'hooks/useGetMonthlyTransactions.jsx';
 
 const Track = () => {
   const [currentTile, setCurrentTile] = useState('Overview');
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-  const { transactionsData, isTransactionLoading, isTransactionError, refetch } = useGetMonthlyTransactions(selectedYear, selectedMonth);
+  const { transactionsData, isTransactionLoading, refetch } = useGetMonthlyTransactions(selectedYear, selectedMonth);
 
   useEffect(() => {
     refetch();
@@ -18,7 +27,7 @@ const Track = () => {
   const componentRenderHandler = () => {
     switch (currentTile) {
     case 'Overview':
-      return <Overview transactions={transactionsData} isLoading={isTransactionLoading}/>;
+      return <Overview transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     case 'Spendings':
       return <Spendings transactions={transactionsData} isLoading={isTransactionLoading} />;
@@ -38,6 +47,7 @@ const Track = () => {
     setCurrentTile(tileName);
   };
 
+  // TODO - useState 'set' functions shouldn't be passed down as props write handleHelperMethods to do this.
   return (
     <div className={'track-page'}>
       <PageTitle title={'Track'} />
@@ -46,7 +56,8 @@ const Track = () => {
         selectedMonth={selectedMonth}
         setSelectedYear={setSelectedYear}
         setSelectedMonth={setSelectedMonth}
-        handleClick={handleClick} />
+        handleClick={handleClick}
+      />
       <div className={'track-content'}>
         {componentRenderHandler()}
       </div>
