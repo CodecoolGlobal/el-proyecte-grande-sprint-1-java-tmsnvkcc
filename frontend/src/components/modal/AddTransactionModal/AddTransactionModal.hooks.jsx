@@ -17,11 +17,18 @@ const useHandleFormOnSubmit = (handleOnClick) => {
         url: '/api/transaction/add/external-transaction',
         data: payload,
       });
+
+      return payload;
     },
-    onSuccess: () => {
+    onSuccess: (payload) => {
       reset();
       setLoading(false);
       handleOnClick();
+
+      const userData = JSON.parse(localStorage.getItem('userData'));
+
+      userData.account.actualBalance = userData.account.actualBalance + parseInt(payload.amount);
+      localStorage.setItem('userData', JSON.stringify(userData));
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);

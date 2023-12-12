@@ -21,4 +21,5 @@ public interface LocalTransactionRepository extends JpaRepository<LocalTransacti
     """, nativeQuery = true
   )
   List<LocalTransaction> findAllByYearAndMonth(@Param("userId") int userId, @Param("year") int year, @Param("month") int month);
+  LocalTransaction findLocalTransactionById( int transactionID );
 }

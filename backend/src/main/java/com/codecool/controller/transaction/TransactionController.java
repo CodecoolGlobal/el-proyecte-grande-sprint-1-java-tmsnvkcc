@@ -1,20 +1,18 @@
 package com.codecool.controller.transaction;
-
-import com.codecool.dto.MonthlyTransactionsDTO;
+import com.codecool.dto.transactions.LocalTransactionDTO;
+import com.codecool.dto.transactions.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
+import com.codecool.entity.LocalTransaction;
+import com.codecool.service.account.AccountService;
 import com.codecool.service.transaction.ExternalTransactionService;
+import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.transaction.MainTransactionService;
 import com.codecool.service.transactionCategory.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/transaction")
@@ -22,12 +20,16 @@ public class TransactionController {
     private final MainTransactionService mainTransactionService;
     private final ExternalTransactionService externalTransactionService;
     private final TransactionCategoryService transactionCategoryService;
+    private final LocalTransactionsService localTransactionsService;
+    private final AccountService accountService;
 
     @Autowired
-    public TransactionController(MainTransactionService mainTransactionService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService) {
+    public TransactionController(MainTransactionService mainTransactionService,LocalTransactionsService localTransactionsService, ExternalTransactionService externalTransactionService, TransactionCategoryService transactionCategoryService, AccountService accountService) {
         this.mainTransactionService = mainTransactionService;
         this.externalTransactionService = externalTransactionService;
         this.transactionCategoryService = transactionCategoryService;
+        this.accountService = accountService;
+        this.localTransactionsService = localTransactionsService;
     }
 
     @GetMapping("/{year}/{month}")
@@ -40,7 +42,22 @@ public class TransactionController {
     @PostMapping("/add/external-transaction")
     public ResponseEntity<ExternalTransaction> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
         ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
+        accountService.updateBalance(newExternalTransaction.accountId(), newExternalTransaction.amount());
 
         return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add/local-transaction")
+    public ResponseEntity<LocalTransaction> addLocalTransaction(@RequestBody LocalTransactionDTO localTransactionDTO) {
+        LocalTransaction localTransaction = localTransactionsService.addTransaction( localTransactionDTO );
+
+        return new ResponseEntity<>(localTransaction,HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/local-transaction")
+    public ResponseEntity<LocalTransaction> deleteLocalTransaction(@RequestBody int transactionId){
+        LocalTransaction localTransaction = localTransactionsService.deleteTransaction( transactionId );
+
+        return new ResponseEntity<>(localTransaction,HttpStatus.ACCEPTED);
     }
 }

@@ -7,13 +7,13 @@ import {
 import {
   FormSwapButton,
   Title,
-} from 'components/home';
-import { useHandleFormOnSubmit } from './PasswordReset.hooks.jsx';
+} from '../index.js';
+import { useHandleFormOnSubmit } from './RequestPasswordReset.hooks.jsx';
 import { iconLibraryConfig } from 'config';
-import './PasswordReset.styles.css';
+import './RequestPasswordReset.styles.css';
 
-const PasswordReset = ({ clickHandler }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
+const RequestPasswordReset = ({ clickHandler, handleModal }) => {
+  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(handleModal);
 
   return (
     <>
@@ -43,4 +43,4 @@ const PasswordReset = ({ clickHandler }) => {
   );
 };
 
-export default PasswordReset;
+export default RequestPasswordReset;

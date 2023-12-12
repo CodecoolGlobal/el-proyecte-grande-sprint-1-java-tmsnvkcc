@@ -20,7 +20,7 @@ const Dashboard = () => {
   };
 
   return (
-    <>
+    <main>
       <div className={!isModalVisible ? 'dashboard-page' : 'dashboard-page blur'}>
         <PageTitle title={'Dashboard'} />
         <div className={'dashboard-window-container'}>
@@ -30,7 +30,7 @@ const Dashboard = () => {
         </div>
       </div>
       <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} handleOnClick={handleOnClick} />
-    </>
+    </main>
   );
 };
 

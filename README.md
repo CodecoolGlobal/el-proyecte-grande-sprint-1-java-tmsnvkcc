@@ -9,10 +9,12 @@
     + ReactRouter;
     + ReactQuery;
     + Fontawesome Iconpack;
+    + Axios;
 
 + Backend
-    + Java Spring Boot;
+    + Java Spring with various Spring Boot Starter dependencies (JPA, Security, Mail);
     + PostgreSQL;
+    + Project Lombok;
 
 ### How to run the application
 +

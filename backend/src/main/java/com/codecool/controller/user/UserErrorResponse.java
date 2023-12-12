@@ -1,5 +1,8 @@
 package com.codecool.controller.user;
 
+import lombok.Getter;
+
+@Getter
 public class UserErrorResponse {
   private final int status;
   private final String message;
@@ -9,17 +12,5 @@ public class UserErrorResponse {
     this.status = status;
     this.message = message;
     this.timestamp = timestamp;
-  }
-
-  public int getStatus() {
-    return status;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public long getTimestamp() {
-    return timestamp;
   }
 }

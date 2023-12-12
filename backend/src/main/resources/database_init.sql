@@ -74,6 +74,11 @@ CREATE TABLE categories_users_join(
     FOREIGN KEY (user_id) REFERENCES users(id),
 );
 
+CREATE TABLE currencies(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(3)
+);
+
 -- Insert dummy data into users table
 INSERT INTO users (uuid, user_name, email, hashed_password, account_id, is_admin)
 VALUES
