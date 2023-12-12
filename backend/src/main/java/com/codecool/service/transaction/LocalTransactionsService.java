@@ -2,7 +2,7 @@ package com.codecool.service.transaction;
 
 import com.codecool.dto.transactions.LocalTransactionDTO;
 import com.codecool.entity.LocalTransaction;
-import com.codecool.entity.User;
+import com.codecool.entity.TrackeroUser;
 import com.codecool.repository.LocalTransactionRepository;
 import com.codecool.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class LocalTransactionsService {
   }
 
   public LocalTransaction addTransaction(LocalTransactionDTO localTransactionDTO) {
-    Optional<User> user = userRepository.findById(localTransactionDTO.userId());
+    Optional<TrackeroUser> user = userRepository.findById(localTransactionDTO.userId());
 
     LocalTransaction localTransaction = new LocalTransaction(
             user.get(),

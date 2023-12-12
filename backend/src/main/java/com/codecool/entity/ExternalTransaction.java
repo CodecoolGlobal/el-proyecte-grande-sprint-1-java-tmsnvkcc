@@ -26,7 +26,7 @@ public class ExternalTransaction extends Transaction {
   protected TransactionCategory category;
 
   public ExternalTransaction(
-    User user,
+    TrackeroUser trackeroUser,
     String description,
     LocalDate dateOfTransaction,
     double amount,
@@ -34,7 +34,7 @@ public class ExternalTransaction extends Transaction {
     boolean isRecurring,
     Account account,
     TransactionCategory category) {
-    super(user, description, dateOfTransaction, amount, isPlanned, isRecurring);
+    super(trackeroUser, description, dateOfTransaction, amount, isPlanned, isRecurring);
     this.account = account;
     this.category = category;
   }

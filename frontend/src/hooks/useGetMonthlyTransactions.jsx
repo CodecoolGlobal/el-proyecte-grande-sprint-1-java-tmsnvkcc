@@ -1,8 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 
 const fetchMonthlyTransactions = async (year, month) => {
+  const token = window.localStorage.getItem('token');
+
   try {
-    const response = await fetch(`/api/transaction/${year}/${month + 1}`);
+    const response = await fetch(`/api/transaction/${year}/${month + 1}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await response.json();
 
     return data;

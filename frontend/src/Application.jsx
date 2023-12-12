@@ -17,7 +17,10 @@ import {
   ResetPassword,
   Track,
 } from 'pages';
-import { Layout } from 'components/layout';
+import {
+  Layout,
+  Protected,
+} from 'components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCircleExclamation, faCircleNotch, faEye, faEyeSlash, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -39,18 +42,18 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route index element={<Home />} />
       <Route path={'password-reset/:id'} element={<ResetPassword />} />
     </Route>
-    <Route path={'/dashboard'} element={<Layout />}>
-      <Route index element={<Dashboard />} />
-    </Route>
-    <Route path={'/track'} element={<Layout />}>
-      <Route index element={<Track />} />
-    </Route>
-    <Route path={'/insights'} element={<Layout />}>
-      <Route index element={<Insights />} />
-    </Route>
-    <Route path={'/profile'} element={<Layout />}>
-      <Route index element={<Profile />} />
-    </Route>
+      <Route path={'/dashboard'} element={<Protected><Layout /></Protected>}>
+        <Route index element={<Dashboard />} />
+      </Route>
+      <Route path={'/track'} element={<Protected><Layout /></Protected>}>
+        <Route index element={<Track />} />
+      </Route>
+      <Route path={'/insights'} element={<Protected><Layout /></Protected>}>
+        <Route index element={<Insights />} />
+      </Route>
+      <Route path={'/profile'} element={<Protected><Layout /></Protected>}>
+        <Route index element={<Profile />} />
+      </Route>
   </Route>,
 ));
 

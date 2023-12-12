@@ -4,6 +4,7 @@ import com.codecool.dto.transactions.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
+import com.codecool.entity.TrackeroUser;
 import com.codecool.service.account.AccountService;
 import com.codecool.service.transaction.ExternalTransactionService;
 import com.codecool.service.transaction.LocalTransactionsService;
@@ -12,6 +13,7 @@ import com.codecool.service.transactionCategory.TransactionCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,10 +35,12 @@ public class TransactionController {
     }
 
     @GetMapping("/{year}/{month}")
-    public ResponseEntity<MonthlyTransactionsDTO> getTransactionsForMonth(@PathVariable int year, @PathVariable int month){
-        MonthlyTransactionsDTO result = mainTransactionService.getMonthlyTransactions(1,year,month);
+    public ResponseEntity<MonthlyTransactionsDTO> getTransactionsForMonth(@PathVariable int year, @PathVariable int month) {
+        TrackeroUser user = (TrackeroUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        MonthlyTransactionsDTO result = mainTransactionService.getMonthlyTransactions(user.getId(), year, month);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
-        //TODO Change hard coded user id
     }
 
     @PostMapping("/add/external-transaction")
@@ -56,7 +60,7 @@ public class TransactionController {
 
     @DeleteMapping("/delete/local-transaction")
     public ResponseEntity<LocalTransaction> deleteLocalTransaction(@RequestBody int transactionId){
-        LocalTransaction localTransaction = localTransactionsService.deleteTransaction( transactionId );
+        LocalTransaction localTransaction = localTransactionsService.deleteTransaction(transactionId);
 
         return new ResponseEntity<>(localTransaction,HttpStatus.ACCEPTED);
     }

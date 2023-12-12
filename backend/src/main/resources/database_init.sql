@@ -79,6 +79,25 @@ CREATE TABLE currencies(
     name VARCHAR(3)
 );
 
+CREATE TABLE roles(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+INSERT INTO roles(name) VALUES('ROLE_USER');
+INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+
+CREATE TABLE users_roles_join(
+    role_id INT,
+    user_id INT,
+    PRIMARY KEY (role_id, user_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+);
+
+INSERT INTO users_roles_join(role_id, user_id) VALUES (1, 1);
+INSERT INTO users_roles_join(role_id, user_id) VALUES (1, 19);
+
 -- Insert dummy data into users table
 INSERT INTO users (uuid, user_name, email, hashed_password, account_id, is_admin)
 VALUES

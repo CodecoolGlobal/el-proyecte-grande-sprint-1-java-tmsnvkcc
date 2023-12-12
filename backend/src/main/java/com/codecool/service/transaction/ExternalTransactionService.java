@@ -2,8 +2,8 @@ package com.codecool.service.transaction;
 
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
+import com.codecool.entity.TrackeroUser;
 import com.codecool.entity.TransactionCategory;
-import com.codecool.entity.User;
 import com.codecool.repository.ExternalTransactionRepository;
 import com.codecool.repository.TransactionCategoryRepository;
 import com.codecool.repository.UserRepository;
@@ -31,7 +31,7 @@ public class ExternalTransactionService {
   }
 
   public ExternalTransaction addTransaction(NewExternalTransactionDTO newExternalTransactionDTO) {
-    Optional<User> user = userRepository.findById(newExternalTransactionDTO.userId());
+    Optional<TrackeroUser> user = userRepository.findById(newExternalTransactionDTO.userId());
     Optional<TransactionCategory> transactionCategory = transactionCategoryRepository.findById(newExternalTransactionDTO.categoryId());
 
     ExternalTransaction externalTransaction = new ExternalTransaction(

@@ -11,11 +11,15 @@ import com.codecool.dto.user.UserDataAfterLoginDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
-import com.codecool.entity.User;
+import com.codecool.entity.Role;
+import com.codecool.entity.TrackeroUser;
+import com.codecool.entity.security.JwtResponse;
 import com.codecool.exception.FormErrorException;
+import com.codecool.security.JwtUtils;
 import com.codecool.service.account.AccountService;
 import com.codecool.service.email.EmailService;
 import com.codecool.dto.access.EmailDetailsDTO;
+import com.codecool.service.role.RoleService;
 import com.codecool.service.transaction.ExternalTransactionService;
 import com.codecool.service.transaction.LocalTransactionsService;
 import com.codecool.service.user.UserService;
@@ -25,7 +29,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,38 +49,74 @@ import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(
-  path = "/api/users",
-  consumes = MediaType.APPLICATION_JSON_VALUE,
-  produces = MediaType.APPLICATION_JSON_VALUE)
+  path = "/api/users")
 public class UserController {
   private final UserService userService;
   private final AccountService accountService;
   private final EmailService emailService;
   private final ExternalTransactionService externalTransactionService;
   private final LocalTransactionsService localTransactionsService;
+  private final RoleService roleService;
   private final UserMessages userMessages;
+  private final PasswordEncoder encoder;
+  private final JwtUtils jwtUtils;
+  private final AuthenticationManager authenticationManager;
   private static final Logger logger = LoggerFactory.getLogger(PostgreSQLImpl.class);
 
   @Autowired
-  public UserController(UserService userService, AccountService accountService, EmailService emailService, ExternalTransactionService externalTransactionService, LocalTransactionsService localTransactionsService, UserMessages userMessages) {
+  public UserController(
+    UserService userService,
+    AccountService accountService,
+    EmailService emailService,
+    ExternalTransactionService externalTransactionService,
+    LocalTransactionsService localTransactionsService,
+    RoleService roleService,
+    UserMessages userMessages,
+    PasswordEncoder encoder,
+    JwtUtils jwtUtils,
+    AuthenticationManager authenticationManager) {
     this.userService = userService;
     this.accountService = accountService;
     this.emailService = emailService;
     this.externalTransactionService = externalTransactionService;
     this.localTransactionsService = localTransactionsService;
+    this.roleService = roleService;
     this.userMessages = userMessages;
+    this.encoder = encoder;
+    this.jwtUtils = jwtUtils;
+    this.authenticationManager = authenticationManager;
+  }
+
+  @GetMapping("/me")
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public ResponseEntity<?> findUser() {
+    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    System.out.println(user);
+    return new ResponseEntity<>(user, HttpStatus.OK);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO user) {
-    if (user == null || user.loginEmail().isEmpty() || user.loginPassword().isEmpty()) {
+  public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO userLoginData) {
+    if (userLoginData == null || userLoginData.loginEmail().isEmpty() || userLoginData.loginPassword().isEmpty()) {
       throw new FormErrorException(userMessages.LOGIN_ERROR_MESSAGE);
     }
 
-    User foundUser = userService.findUserByEmail(user.loginEmail());
+    TrackeroUser foundTrackeroUser = userService.findUserByEmail(userLoginData.loginEmail());
+
+    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginData.loginEmail(), userLoginData.loginPassword()));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtUtils.generateJwtToken(authentication);
+
+    User userDetails = (User) authentication.getPrincipal();
+    List<String> roles = userDetails.getAuthorities().stream()
+      .map(user -> user.getAuthority())
+      .toList();
+
+    JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), roles);
 
     int currentYear = getCurrentYear();
     int currentMonth = getCurrentMonthValue();
@@ -78,24 +124,25 @@ public class UserController {
     // TODO the login endpoint shouldn't return anything else other than the user information.
     // datafetching should be driven by the frontend.
     // TODO an extra level of "domain service" layer could be implemented here that collects these various transaction service calls, so the upper-level methods don't look that cluttered.
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-      foundUser.getAccount().getId(),
-      foundUser.getAccount().getName(),
-      foundUser.getAccount().getDescription(),
-      foundUser.getAccount().getActualBalance(),
-      foundUser.getAccount().getSavingsBalance(),
+      foundTrackeroUser.getAccount().getId(),
+      foundTrackeroUser.getAccount().getName(),
+      foundTrackeroUser.getAccount().getDescription(),
+      foundTrackeroUser.getAccount().getActualBalance(),
+      foundTrackeroUser.getAccount().getSavingsBalance(),
       externalTransactions,
       localTransactions
     );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-      foundUser.getId(),
-      foundUser.getDateOfRegistration(),
-      foundUser.getUserName(),
-      foundUser.getEmail(),
-      foundUser.getCategories(),
-      userAccountAfterLoginDTO
+      foundTrackeroUser.getId(),
+      foundTrackeroUser.getDateOfRegistration(),
+      foundTrackeroUser.getUserName(),
+      foundTrackeroUser.getEmail(),
+      foundTrackeroUser.getCategories(),
+      userAccountAfterLoginDTO,
+      jwtResponse
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);
@@ -103,18 +150,19 @@ public class UserController {
 
   @PostMapping(path = "/register")
   @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity<HttpStatus> registerUser(@RequestBody NewUserDTO user) {
-    if (user == null || user.registerEmail().isEmpty() || user.registerPassword().isEmpty()) {
+  public ResponseEntity<HttpStatus> registerUser(@RequestBody NewUserDTO userData) {
+    if (userData == null || userData.registerEmail().isEmpty() || userData.registerPassword().isEmpty()) {
       throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
     }
 
-    userService.checkEmailInDatabase(user.registerEmail());
+    userService.checkEmailInDatabase(userData.registerEmail());
 
-    userService.addUser(user, "fakehashedpassword");
+    Role userRole = roleService.findRoleByName("ROLE_USER");
+    userService.addUser(userData, encoder.encode(userData.registerPassword()), Set.of(userRole));
 
     String subject = userMessages.WELCOME_EMAIL_SUBJECT;
     String body = userMessages.WELCOME_EMAIL_BODY;
-    EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(user.registerEmail(), subject, body);
+    EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(userData.registerEmail(), subject, body);
     emailService.sendEmail(emailDetailsDTO);
 
     return new ResponseEntity<>(HttpStatus.CREATED);
@@ -126,11 +174,11 @@ public class UserController {
       throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
     }
 
-    User foundUser = userService.findUserByEmail(userData.resetEmail());
+    TrackeroUser foundTrackeroUser = userService.findUserByEmail(userData.resetEmail());
     String subject = userMessages.PASSWORD_RESET_SUBJECT;
     // TODO send the email in hashed form.
-    String body = MessageFormat.format(userMessages.PASSWORD_RESET_BODY, foundUser.getEmail());
-    EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(foundUser.getEmail(), subject, body);
+    String body = MessageFormat.format(userMessages.PASSWORD_RESET_BODY, foundTrackeroUser.getEmail());
+    EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(foundTrackeroUser.getEmail(), subject, body);
     emailService.sendEmail(emailDetailsDTO);
 
     return new ResponseEntity<>(HttpStatus.OK);
@@ -142,21 +190,21 @@ public class UserController {
       throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
     }
 
-    User foundUser = userService.findUserByEmail(email);
+    TrackeroUser foundTrackeroUser = userService.findUserByEmail(email);
 
     // TODO - check the hashed string once it is set like that
-    UpdateProfileDTO updatedData = new UpdateProfileDTO(foundUser.getUserName(), email, userData.resetPassword());
-    userService.updateUserProfile(updatedData, foundUser);
+    UpdateProfileDTO updatedData = new UpdateProfileDTO(foundTrackeroUser.getUserName(), email, userData.resetPassword());
+    userService.updateUserProfile(updatedData, foundTrackeroUser);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @GetMapping("/get-accounts")
   public ResponseEntity<?> getProfileAccounts() {
-    User foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+    TrackeroUser foundTrackeroUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
 
     // userid is not stored in accounts anymore. a user's accounts can be retrieved by using user.getAccount(). This currently allows for having one account.
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundUser.getId());
+    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundTrackeroUser.getId());
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
@@ -166,31 +214,44 @@ public class UserController {
       throw new FormErrorException("The update was unsuccessful, please try again.");
     }
 
-    User foundUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
+    TrackeroUser foundTrackeroUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
 
-    userService.updateUserProfile(profileData, foundUser);
+    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(profileData.email(), profileData.password()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = jwtUtils.generateJwtToken(authentication);
+
+    User userDetails = (User) authentication.getPrincipal();
+    List<String> roles = userDetails.getAuthorities().stream()
+      .map(user -> user.getAuthority())
+      .toList();
+
+    JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), roles);
+
+    userService.updateUserProfile(profileData, foundTrackeroUser);
 
     int currentYear = getCurrentYear();
     int currentMonth = getCurrentMonthValue();
 
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundUser.getId(), currentYear, currentMonth);
+    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
+    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
     UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-      foundUser.getAccount().getId(),
-      foundUser.getAccount().getName(),
-      foundUser.getAccount().getDescription(),
-      foundUser.getAccount().getActualBalance(),
-      foundUser.getAccount().getSavingsBalance(),
+      foundTrackeroUser.getAccount().getId(),
+      foundTrackeroUser.getAccount().getName(),
+      foundTrackeroUser.getAccount().getDescription(),
+      foundTrackeroUser.getAccount().getActualBalance(),
+      foundTrackeroUser.getAccount().getSavingsBalance(),
       externalTransactions,
       localTransactions
     );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-      foundUser.getId(),
-      foundUser.getDateOfRegistration(),
-      foundUser.getUserName(),
-      foundUser.getEmail(),
-      foundUser.getCategories(),
-      userAccountAfterLoginDTO
+      foundTrackeroUser.getId(),
+      foundTrackeroUser.getDateOfRegistration(),
+      foundTrackeroUser.getUserName(),
+      foundTrackeroUser.getEmail(),
+      foundTrackeroUser.getCategories(),
+      userAccountAfterLoginDTO,
+      jwtResponse
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);

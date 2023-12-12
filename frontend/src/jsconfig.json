@@ -5,6 +5,7 @@
       "src/*": ["./src/*"],
       "assets/*": ["./src/assets/*"],
       "config/*": ["./src/config/*"],
+      "context/*": ["./src/context/*"],
       "components/*": ["./src/components/*"],
       "pages/*": ["./src/pages/*"],
       "hooks/*": ["./src/hooks*"],

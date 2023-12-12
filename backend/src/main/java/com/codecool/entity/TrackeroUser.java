@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,14 +19,16 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class TrackeroUser {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -60,7 +63,15 @@ public class User {
   @JsonManagedReference
   private List<TransactionCategory> categories;
 
-  public User(String email, String hashedPassword, Account account) {
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+    name = "users_roles_join",
+    joinColumns = { @JoinColumn(name = "user_id") },
+    inverseJoinColumns = { @JoinColumn(name = "role_id") }
+  )
+  private Set<Role> roles;
+
+  public TrackeroUser(String email, String hashedPassword, Account account, Set<Role> roles) {
     this.email = email;
     this.hashedPassword = hashedPassword;
     this.categories = new ArrayList<>();
@@ -68,10 +79,11 @@ public class User {
     this.userName = "CHANGE ME!";
     this.account = account;
     this.isAdmin = false;
+    this.roles = roles;
   }
 
   @Override
   public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories);
+    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories, roles);
   }
 }
