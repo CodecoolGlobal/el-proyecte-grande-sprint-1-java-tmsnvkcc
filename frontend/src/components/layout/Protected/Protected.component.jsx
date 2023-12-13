@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from 'context/UserContext.jsx';
 import { Layout } from '../index.js';
 
-const Protected = ({ children }) => {
+const Protected = () => {
   const { user } = useUser();
   const navigate = useNavigate();
 
@@ -15,7 +15,6 @@ const Protected = ({ children }) => {
 
   return (
     <>
-      {/*{user && children}*/}
       <Layout />
     </>
   );

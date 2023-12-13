@@ -69,6 +69,7 @@ public class TrackeroUser {
     joinColumns = { @JoinColumn(name = "user_id") },
     inverseJoinColumns = { @JoinColumn(name = "role_id") }
   )
+  @JsonManagedReference
   private Set<Role> roles;
 
   public TrackeroUser(String email, String hashedPassword, Account account, Set<Role> roles) {
@@ -82,8 +83,8 @@ public class TrackeroUser {
     this.roles = roles;
   }
 
-  @Override
-  public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories, roles);
-  }
+//  @Override
+//  public String toString() {
+//    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories, roles);
+//  }
 }

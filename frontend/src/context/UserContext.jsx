@@ -4,27 +4,24 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { axiosConfigWithAuth } from 'config';
 
 const UserContext = createContext({});
 
 const getToken = () => window.localStorage.getItem('token');
-const setToken = (token) => window.localStorage.setItem('token', token);
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const getMe = async (token) => {
+  const getMe = async () => {
     try {
-      const response = await fetch('/api/users/me', {
+      const data = await axiosConfigWithAuth.request({
         method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        url: '/api/users/me',
       });
-      const data = await response.json();
 
-      setUser({ userId: data.userId, email: data.email });
+      setUser({ email: data.data.username });
     } catch (error) {
       console.error(error);
     } finally {
@@ -41,7 +38,7 @@ const UserProvider = ({ children }) => {
       return;
     }
 
-    getMe(token);
+    getMe();
   }, []);
 
   return (

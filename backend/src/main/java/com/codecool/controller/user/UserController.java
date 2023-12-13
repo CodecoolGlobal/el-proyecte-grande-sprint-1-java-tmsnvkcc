@@ -5,6 +5,7 @@ import com.codecool.dto.access.ForgottenPasswordDTO;
 import com.codecool.dto.access.LoginUserDTO;
 import com.codecool.dto.access.NewUserDTO;
 import com.codecool.dto.access.ResetPasswordDTO;
+import com.codecool.dto.user.AboutMeDTO;
 import com.codecool.dto.user.UpdateProfileDTO;
 import com.codecool.dto.user.UserAccountAfterLoginDTO;
 import com.codecool.dto.user.UserDataAfterLoginDTO;
@@ -93,10 +94,13 @@ public class UserController {
 
   @GetMapping("/me")
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-  public ResponseEntity<?> findUser() {
+  public ResponseEntity<AboutMeDTO> findUser() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    System.out.println(user);
-    return new ResponseEntity<>(user, HttpStatus.OK);
+    String userEmail = user.getUsername();
+    TrackeroUser trackeroUser = userService.findUserByEmail(userEmail);
+    System.out.println(trackeroUser);
+    AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName());
+    return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
   }
 
   @PostMapping("/login")
