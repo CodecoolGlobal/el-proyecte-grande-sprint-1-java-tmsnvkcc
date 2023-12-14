@@ -28,6 +28,10 @@
     background: #fdfafa;
   }
 
+  && .loading-icon {
+    font-size: 2vw;
+  }
+
   && button {
     height: 5rem;
     width: 17.5rem;

@@ -3,7 +3,7 @@ import {
   PageTitle,
 } from 'components/form-related';
 
-import getProfileAccounts from './Profile.page.hooks';
+import getProfileData from './Profile.page.hooks';
 
 import {
   ProfilePageDisplay,
@@ -11,6 +11,7 @@ import {
   ProfileNavigationComponent,
   ProfileAccountDisplay,
   ProfileAccountEdit,
+  Categories,
 } from 'components/profile';
 
 import './Profile.styles.css';
@@ -19,7 +20,7 @@ const Profile = () => {
   const [isEditing, setEditing] = useState(false);
   const [currentTile, setCurrentTile] = useState('Profile');
 
-  const { accountData, isAccountDataLoading, isAccountDataError, refetch } = getProfileAccounts();
+  const { data, isDataLoading, isDataError, refetch } = getProfileData('get-accounts');
 
   useEffect(() => {
     refetch();
@@ -40,12 +41,15 @@ const Profile = () => {
     case 'Profile':
       return isEditing ?
         <ProfilePageEdit editHandler={onEditHandler} /> :
-        <ProfilePageDisplay onEditHandler={onEditHandler} loading={isAccountDataLoading} />;
+        <ProfilePageDisplay onEditHandler={onEditHandler} loading={isDataLoading} />;
 
     case 'Account':
       return isEditing ?
         <ProfileAccountEdit /> :
-        <ProfileAccountDisplay account={accountData} loading={isAccountDataLoading} />;
+        <ProfileAccountDisplay account={data} loading={isDataLoading} />;
+
+    case 'Categories':
+      return <Categories />;
 
     default:
       return 'error';
