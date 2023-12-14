@@ -160,6 +160,13 @@ public class UserController {
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
+  @GetMapping("/get-categories")
+  public ResponseEntity<?> getCategories() {
+    User foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+
+    return new ResponseEntity<>(foundUser.getCategories(), HttpStatus.OK);
+  }
+
   @PutMapping("/update-profile")
   public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
     if (profileData == null || profileData.email().isEmpty() || profileData.password().isEmpty() || profileData.username().isEmpty()) {
