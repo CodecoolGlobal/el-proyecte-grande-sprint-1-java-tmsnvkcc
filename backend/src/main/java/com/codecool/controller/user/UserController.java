@@ -142,7 +142,7 @@ public class UserController {
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      userAccountAfterLoginDTO,
+      //userAccountAfterLoginDTO,
       jwtResponse
     );
 
@@ -211,7 +211,8 @@ public class UserController {
 
   @GetMapping("/get-categories")
   public ResponseEntity<?> getCategories() {
-    User foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
 
     return new ResponseEntity<>(foundUser.getCategories(), HttpStatus.OK);
   }
@@ -258,7 +259,7 @@ public class UserController {
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      userAccountAfterLoginDTO,
+      //userAccountAfterLoginDTO,
       jwtResponse
     );
 
