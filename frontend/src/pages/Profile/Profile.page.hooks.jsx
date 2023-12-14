@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
-const getProfileAccounts = () => {
+const getProfileData = (url) => {
   const query = useQuery({
-    queryKey:['getUserAccounts'],
+    queryKey:['getProfileData', url],
     queryFn: async () => {
-      const response = await fetch('/api/users/get-accounts', {
+      const response = await fetch(`/api/users/${url}`, {
         headers:{
           'Content-type': 'application/json',
         },
@@ -16,11 +16,11 @@ const getProfileAccounts = () => {
   });
 
   return {
-    accountData: query.data,
-    isAccountDataLoading: query.isFetching,
-    isAccountDataError: query.isError,
+    data: query.data,
+    isDataLoading: query.isFetching,
+    isDataError: query.isError,
     refetch: query.refetch,
   };
 };
 
-export default getProfileAccounts;
+export default getProfileData;

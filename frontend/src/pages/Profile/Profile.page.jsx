@@ -3,7 +3,7 @@ import {
   PageTitle,
 } from 'components/form-related';
 
-import getProfileAccounts from './Profile.page.hooks';
+import getProfileData from './Profile.page.hooks';
 
 import {
   ProfilePageDisplay,
@@ -11,20 +11,19 @@ import {
   ProfileNavigationComponent,
   ProfileAccountDisplay,
   ProfileAccountEdit,
+  Categories,
 } from 'components/profile';
 
 import './Profile.styles.css';
 
 const Profile = () => {
   const [isEditing, setEditing] = useState(false);
-  const [profileData, setProfileData] = useState({});
   const [currentTile, setCurrentTile] = useState('Profile');
 
-  const { accountData, isAccountDataLoading, isAccountDataError, refetch } = getProfileAccounts();
+  const { data, isDataLoading, isDataError, refetch } = getProfileData('get-accounts');
 
   useEffect(() => {
     refetch();
-    setProfileData(JSON.parse(localStorage.getItem('userData')));
   }, []);
 
   const onEditHandler = () => {
@@ -41,13 +40,16 @@ const Profile = () => {
     switch (currentTile) {
     case 'Profile':
       return isEditing ?
-        <ProfilePageEdit profileData={profileData} editHandler={onEditHandler} /> :
-        <ProfilePageDisplay profileData={profileData} onEditHandler={onEditHandler} loading={isAccountDataLoading} />;
+        <ProfilePageEdit editHandler={onEditHandler} /> :
+        <ProfilePageDisplay onEditHandler={onEditHandler} loading={isDataLoading} />;
 
     case 'Account':
       return isEditing ?
         <ProfileAccountEdit /> :
-        <ProfileAccountDisplay account={accountData} />;
+        <ProfileAccountDisplay account={data} loading={isDataLoading} />;
+
+    case 'Categories':
+      return <Categories />;
 
     default:
       return 'error';

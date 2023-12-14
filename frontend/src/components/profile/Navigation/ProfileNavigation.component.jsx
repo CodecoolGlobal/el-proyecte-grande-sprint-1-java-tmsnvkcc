@@ -14,6 +14,7 @@ const ProfileNavigationComponent = ({clickHandler}) => {
       <div className={'profile-navigation'}>
         <NavigationButton label={'Profile'} clickHandler={clickHandler} />
         <NavigationButton label={'Account'} clickHandler={clickHandler} />
+        <NavigationButton label={'Categories'} clickHandler={clickHandler} />
       </div>
     </>
   );
