@@ -5,10 +5,13 @@ import {
 } from 'components/form-related';
 import { Window } from 'components/dashboard';
 import { AddTransactionModal } from 'components/modal';
+import { useGetDashboardData } from './Dashboard.hooks.jsx';
 import './Dashboard.styles.css';
 
 const Dashboard = () => {
+  const { data, isLoading, isError } = useGetDashboardData();
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   const handleOnClick = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -18,6 +21,18 @@ const Dashboard = () => {
       setIsModalVisible(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div>Loading data...</div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div>An error has happened, please reload the application.</div>
+    );
+  }
 
   return (
     <main>
@@ -29,7 +44,12 @@ const Dashboard = () => {
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>
       </div>
-      <AddTransactionModal isModalVisible={isModalVisible} handleOnKeyClose={listenForEscapeKey} handleOnClick={handleOnClick} />
+      <AddTransactionModal
+        isModalVisible={isModalVisible}
+        handleOnKeyClose={listenForEscapeKey}
+        handleOnClick={handleOnClick}
+        data={data}
+      />
     </main>
   );
 };

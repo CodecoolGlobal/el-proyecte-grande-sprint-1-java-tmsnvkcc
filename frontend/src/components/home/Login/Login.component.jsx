@@ -9,12 +9,21 @@ import {
   FormSwapButton,
   Title,
 } from 'components/home';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useHandleFormOnSubmit } from './Login.hooks.jsx';
 import { iconLibraryConfig } from 'config';
 import './Login.styles.css';
 
 const Login = ({ clickHandler }) => {
+  const navigate = useNavigate();
   const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/dashboard');
+    }
+  }, []);
 
   return (
     <>

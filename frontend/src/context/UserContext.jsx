@@ -16,12 +16,12 @@ const UserProvider = ({ children }) => {
 
   const getMe = async () => {
     try {
-      const data = await axiosConfigWithAuth.request({
+      const { data } = await axiosConfigWithAuth.request({
         method: 'GET',
         url: '/api/users/me',
       });
 
-      setUser({ email: data.data.username });
+      setUser(data);
     } catch (error) {
       console.error(error);
     } finally {

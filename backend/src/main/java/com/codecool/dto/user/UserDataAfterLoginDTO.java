@@ -12,6 +12,6 @@ public record UserDataAfterLoginDTO(
   String userName,
   String email,
   List<TransactionCategory> categories,
-  UserAccountAfterLoginDTO accountData,
+//  UserAccountAfterLoginDTO accountData,
   JwtResponse jwtResponse
 ) {}

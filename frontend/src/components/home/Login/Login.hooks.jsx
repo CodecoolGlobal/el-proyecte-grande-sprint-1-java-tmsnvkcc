@@ -1,6 +1,6 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
 import { axiosConfig } from 'config';
 import { useUser } from 'context/UserContext.jsx';
 import { serialiseFormData } from 'utilities';
@@ -35,7 +35,7 @@ const useHandleFormOnSubmit = () => {
       };
 
       window.localStorage.setItem('userData', JSON.stringify(userData));
-      setUser({ userId: userData.userId, email: userData.email });
+      setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
       window.localStorage.setItem('token', data.jwtResponse.jwt);
 
       setLoading(false);

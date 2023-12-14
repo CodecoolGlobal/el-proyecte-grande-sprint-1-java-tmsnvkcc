@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,8 +52,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping(
-  path = "/api/users")
+@RequestMapping(path = "/api/users")
 public class UserController {
   private final UserService userService;
   private final AccountService accountService;
@@ -96,10 +94,9 @@ public class UserController {
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<AboutMeDTO> findUser() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String userEmail = user.getUsername();
-    TrackeroUser trackeroUser = userService.findUserByEmail(userEmail);
-    System.out.println(trackeroUser);
+    TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
     AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName());
+
     return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
   }
 
@@ -145,7 +142,7 @@ public class UserController {
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      userAccountAfterLoginDTO,
+//      userAccountAfterLoginDTO,
       jwtResponse
     );
 
@@ -254,7 +251,7 @@ public class UserController {
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      userAccountAfterLoginDTO,
+//      userAccountAfterLoginDTO,
       jwtResponse
     );
 

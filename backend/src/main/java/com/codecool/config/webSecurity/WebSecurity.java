@@ -66,7 +66,6 @@ public class WebSecurity {
         .requestMatchers("/api/transaction/**").hasAnyRole("USER", "ADMIN")
         .anyRequest().authenticated()
       );
-
     http.authenticationProvider(authenticationProvider());
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

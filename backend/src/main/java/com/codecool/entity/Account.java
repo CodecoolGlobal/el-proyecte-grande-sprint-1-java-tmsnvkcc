@@ -70,8 +70,8 @@ public class Account {
     this.localTransactionList = new ArrayList<>();
   }
 
-//  @Override
-//  public String toString() {
-//    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, trackeroUser, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
-//  }
+  @Override
+  public String toString() {
+    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, trackeroUser, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
+  }
 }
