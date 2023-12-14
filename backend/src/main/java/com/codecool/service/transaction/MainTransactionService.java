@@ -26,40 +26,46 @@ public class MainTransactionService {
         List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(userId,year,month);
 
         return new MonthlyTransactionsDTO(
-                mapExternalTransactionsToExternalDTOList(externalTransactions),
-                mapLocalTransactionsToLocalDTOList(localTransactions)
+            mapExternalTransactionsToExternalDTOList(externalTransactions),
+            mapLocalTransactionsToLocalDTOList(localTransactions)
         );
     }
+
     private LocalTransactionDTO convertTransactionToLocalDTO( LocalTransaction transaction ) {
         return new LocalTransactionDTO(
-                transaction.getId(),
-                transaction.getUser().getId(),
-                transaction.getDescription(),
-                transaction.getDateOfTransaction(),
-                transaction.getAmount(),
-                transaction.isPlanned(),
-                transaction.isRecurring()
-        );}
-    private ExternalTransactionDTO convertTransactionToExternalDTO( ExternalTransaction transaction ){
-        return new ExternalTransactionDTO(
-                transaction.getId(),
-                transaction.getDescription(),
-                transaction.getDateOfTransaction(),
-                transaction.getAmount(),
-                transaction.isPlanned(),
-                transaction.isRecurring(),
-                transaction.getCategoryName()
-        );}
-    private List<LocalTransactionDTO> mapLocalTransactionsToLocalDTOList( List<LocalTransaction> localTransactions ){
-        return localTransactions
-                .stream()
-                .map(this::convertTransactionToLocalDTO)
-                .toList();
+            transaction.getId(),
+            transaction.getUser().getId(),
+            transaction.getDescription(),
+            transaction.getDateOfTransaction(),
+            transaction.getAmount(),
+            transaction.isPlanned(),
+            transaction.isRecurring()
+        );
     }
+
+    private ExternalTransactionDTO convertTransactionToExternalDTO( ExternalTransaction transaction ) {
+        return new ExternalTransactionDTO(
+            transaction.getId(),
+            transaction.getDescription(),
+            transaction.getDateOfTransaction(),
+            transaction.getAmount(),
+            transaction.isPlanned(),
+            transaction.isRecurring(),
+            transaction.getCategoryName()
+        );
+    }
+
+    private List<LocalTransactionDTO> mapLocalTransactionsToLocalDTOList( List<LocalTransaction> localTransactions ) {
+        return localTransactions
+            .stream()
+            .map(this::convertTransactionToLocalDTO)
+            .toList();
+    }
+
     private List<ExternalTransactionDTO> mapExternalTransactionsToExternalDTOList( List<ExternalTransaction> externalTransactions ) {
         return externalTransactions
-                .stream()
-                .map(this::convertTransactionToExternalDTO)
-                .toList();
+            .stream()
+            .map(this::convertTransactionToExternalDTO)
+            .toList();
     }
 }

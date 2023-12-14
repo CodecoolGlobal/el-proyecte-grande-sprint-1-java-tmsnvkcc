@@ -4,8 +4,9 @@ import com.codecool.dto.access.NewUserDTO;
 import com.codecool.dto.user.UpdateProfileDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.Currency;
+import com.codecool.entity.Role;
+import com.codecool.entity.TrackeroUser;
 import com.codecool.entity.TransactionCategory;
-import com.codecool.entity.User;
 import com.codecool.exception.FormErrorException;
 import com.codecool.repository.TransactionCategoryRepository;
 import com.codecool.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -32,7 +34,7 @@ public class UserService {
   }
 
   @Transactional
-  public void addUser(NewUserDTO user, String hashedPassword) {
+  public void addUser(NewUserDTO user, String hashedPassword, Set<Role> roles) {
     Currency currency = currencyService.findCurrencyByCode("HUF");
     Account account = new Account(currency);
     TransactionCategory defaultCategoryOne = transactionCategoryRepository.findById(1).get();
@@ -46,14 +48,14 @@ public class UserService {
       add(defaultCategoryThree);
       add(defaultCategoryFour);
     }};
-    User newUser = new User(user.registerEmail(), hashedPassword, account);
-    newUser.setCategories(defaultTransactionsCategories);
+    TrackeroUser newTrackeroUser = new TrackeroUser(user.registerEmail(), hashedPassword, account, roles);
+    newTrackeroUser.setCategories(defaultTransactionsCategories);
 
-    userRepository.save(newUser);
+    userRepository.save(newTrackeroUser);
   }
 
-  public User findUserByEmail(String email) {
-    Optional<User> user = userRepository.findByEmail(email);
+  public TrackeroUser findUserByEmail(String email) {
+    Optional<TrackeroUser> user = userRepository.findByEmail(email);
 
     if (user.isEmpty()) {
       throw new FormErrorException("This email address is not registered in our database.");
@@ -63,7 +65,7 @@ public class UserService {
   }
 
   public void checkEmailInDatabase(String email) {
-    Optional<User> user = userRepository.findByEmail(email);
+    Optional<TrackeroUser> user = userRepository.findByEmail(email);
 
     if (user.isPresent()) {
       throw new FormErrorException("This email is already registered in our system. Choose another one.");
@@ -71,11 +73,11 @@ public class UserService {
   }
 
   @Transactional
-  public void updateUserProfile(UpdateProfileDTO profileData, User currentUser) {
-    currentUser.setUserName(profileData.username());
-    currentUser.setEmail(profileData.email());
-    currentUser.setHashedPassword(profileData.password());
+  public void updateUserProfile(UpdateProfileDTO profileData, TrackeroUser currentTrackeroUser) {
+    currentTrackeroUser.setUserName(profileData.username());
+    currentTrackeroUser.setEmail(profileData.email());
+    currentTrackeroUser.setHashedPassword(profileData.password());
 
-    userRepository.save(currentUser);
+    userRepository.save(currentTrackeroUser);
   }
 }

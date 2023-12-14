@@ -15,7 +15,7 @@ import { iconLibraryConfig } from 'config';
 import { useHandleFormOnSubmit } from './AddTransactionModal.hooks.jsx';
 import './AddTransactionModal.styles.css';
 
-const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }) => {
+const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose, data }) => {
   const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(handleOnClick);
   const [ids, setIds] = useState({ userId: 0, accountId: 0 });
   const [options, setOptions] = useState([]);
@@ -25,7 +25,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose }
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     setOptions(userData.category);
-    setIds({ userId: userData.userId, accountId: userData.account.id });
+    setIds({ userId: data.userId, accountId: data.accountId });
 
     if (dialogRef.current?.open && !isModalVisible) {
       dialogRef.current?.close();

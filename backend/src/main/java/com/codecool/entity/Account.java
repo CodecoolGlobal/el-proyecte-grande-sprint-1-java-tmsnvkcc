@@ -45,7 +45,7 @@ public class Account {
 
   @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonBackReference
-  private User user;
+  private TrackeroUser trackeroUser;
 
   @ManyToOne
   @JoinColumn(name = "currency_id")
@@ -72,6 +72,6 @@ public class Account {
 
   @Override
   public String toString() {
-    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, user, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
+    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, trackeroUser, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
   }
 }

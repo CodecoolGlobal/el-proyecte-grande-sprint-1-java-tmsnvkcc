@@ -1,15 +1,17 @@
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
 import { axiosConfig } from 'config';
+import { useUser } from 'context/UserContext.jsx';
 import { serialiseFormData } from 'utilities';
 
 const useHandleFormOnSubmit = () => {
+  const { setUser } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { mutate, reset } = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ['loginForm'],
     mutationFn: async ({ payload }) => {
       setLoading(true);
@@ -20,22 +22,22 @@ const useHandleFormOnSubmit = () => {
         data: payload,
       });
 
-      const userData = {
-        userId: response.data.id,
-        userName: response.data.userName,
-        email: response.data.email,
-        dateOfReg: response.data.dateOfRegistration,
-        category: response.data.categories,
-        account: response.data.accountData,
-      };
-
-      localStorage.setItem('userData', JSON.stringify(userData));
-
       return response;
     },
-    onSuccess: () => {
-      // TODO - add userData to userContext for persistent login
-      reset();
+    onSuccess: ({ data }) => {
+      const userData = {
+        userId: data.id,
+        userName: data.userName,
+        email: data.email,
+        dateOfReg: data.dateOfRegistration,
+        category: data.categories,
+        account: data.accountData,
+      };
+
+      window.localStorage.setItem('userData', JSON.stringify(userData));
+      setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
+      window.localStorage.setItem('token', data.jwtResponse.jwt);
+
       setLoading(false);
       navigate('/dashboard');
     },

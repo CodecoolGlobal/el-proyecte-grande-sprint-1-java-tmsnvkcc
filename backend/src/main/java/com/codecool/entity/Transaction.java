@@ -21,7 +21,7 @@ public abstract class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    protected User user;
+    protected TrackeroUser trackeroUser;
 
     @Column(name = "description")
     protected String description;
@@ -39,8 +39,8 @@ public abstract class Transaction {
     @Column(name = "is_recurring")
     protected boolean isRecurring;
 
-    public Transaction(User user, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring) {
-        this.user = user;
+    public Transaction(TrackeroUser trackeroUser, String description, LocalDate dateOfTransaction, double amount, boolean isPlanned, boolean isRecurring) {
+        this.trackeroUser = trackeroUser;
         this.description = description;
         this.dateOfTransaction = dateOfTransaction;
         this.amount = amount;
@@ -59,12 +59,12 @@ public abstract class Transaction {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public TrackeroUser getUser() {
+        return trackeroUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(TrackeroUser trackeroUser) {
+        this.trackeroUser = trackeroUser;
     }
 
     public String getDescription() {

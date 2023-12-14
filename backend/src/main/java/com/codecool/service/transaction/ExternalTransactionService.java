@@ -2,8 +2,8 @@ package com.codecool.service.transaction;
 
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
 import com.codecool.entity.ExternalTransaction;
+import com.codecool.entity.TrackeroUser;
 import com.codecool.entity.TransactionCategory;
-import com.codecool.entity.User;
 import com.codecool.repository.ExternalTransactionRepository;
 import com.codecool.repository.TransactionCategoryRepository;
 import com.codecool.repository.UserRepository;
@@ -30,19 +30,18 @@ public class ExternalTransactionService {
     return externalTransactionRepository.findAllByYearAndMonth(userId, currentYear, currentMonth);
   }
 
-  public ExternalTransaction addTransaction(NewExternalTransactionDTO newExternalTransactionDTO) {
-    Optional<User> user = userRepository.findById(newExternalTransactionDTO.userId());
-    Optional<TransactionCategory> transactionCategory = transactionCategoryRepository.findById(newExternalTransactionDTO.categoryId());
+  public ExternalTransaction addTransaction(TrackeroUser user, NewExternalTransactionDTO newExternalTransactionDTO) {
+    TransactionCategory transactionCategory = transactionCategoryRepository.findById(newExternalTransactionDTO.categoryId()).get();
 
     ExternalTransaction externalTransaction = new ExternalTransaction(
-      user.get(),
+      user,
       newExternalTransactionDTO.description(),
       newExternalTransactionDTO.dateOfTransaction(),
       newExternalTransactionDTO.amount(),
       newExternalTransactionDTO.isPlanned(),
       newExternalTransactionDTO.isRecurring(),
-      user.get().getAccount(),
-      transactionCategory.get()
+      user.getAccount(),
+      transactionCategory
     );
 
     externalTransactionRepository.save(externalTransaction);

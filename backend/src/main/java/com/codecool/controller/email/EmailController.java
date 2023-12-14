@@ -9,7 +9,6 @@ public class EmailController {
   private EmailService emailService;
 
   @Autowired
-
   public EmailController(EmailService emailService) {
     this.emailService = emailService;
   }

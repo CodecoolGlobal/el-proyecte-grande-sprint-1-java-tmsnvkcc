@@ -18,6 +18,7 @@ export default defineConfig({
       assets: '/src/assets',
       config: '/src/config',
       components: '/src/components',
+      context: '/src/context',
       pages: '/src/pages',
       hooks: '/src/hooks',
       utilities: '/src/utilities',

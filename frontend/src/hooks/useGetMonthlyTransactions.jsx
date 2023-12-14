@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
+import { axiosConfigWithAuth } from '../config/index.js';
 
 const fetchMonthlyTransactions = async (year, month) => {
   try {
-    const response = await fetch(`/api/transaction/${year}/${month + 1}`);
-    const data = await response.json();
+    const { data } = await axiosConfigWithAuth.request({
+      method: 'GET',
+      url: `/api/transaction/${year}/${month + 1}`,
+    });
 
     return data;
   } catch (err) {

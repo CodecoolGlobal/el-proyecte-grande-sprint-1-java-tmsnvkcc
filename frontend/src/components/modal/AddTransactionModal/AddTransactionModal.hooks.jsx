@@ -1,6 +1,6 @@
+import { axiosConfigWithAuth } from 'config';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { axiosConfig } from 'config';
 import { serialiseFormData } from 'utilities';
 
 const useHandleFormOnSubmit = (handleOnClick) => {
@@ -12,7 +12,7 @@ const useHandleFormOnSubmit = (handleOnClick) => {
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      await axiosConfig.request({
+      await axiosConfigWithAuth.request({
         method: 'POST',
         url: '/api/transaction/add/external-transaction',
         data: payload,
@@ -26,7 +26,6 @@ const useHandleFormOnSubmit = (handleOnClick) => {
       handleOnClick();
 
       const userData = JSON.parse(localStorage.getItem('userData'));
-
       userData.account.actualBalance = userData.account.actualBalance + parseInt(payload.amount);
       localStorage.setItem('userData', JSON.stringify(userData));
     },
