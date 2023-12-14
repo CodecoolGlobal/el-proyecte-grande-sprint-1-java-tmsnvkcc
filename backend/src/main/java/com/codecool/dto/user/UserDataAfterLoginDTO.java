@@ -1,7 +1,7 @@
 package com.codecool.dto.user;
 
 import com.codecool.entity.TransactionCategory;
-import com.codecool.entity.security.JwtResponse;
+import com.codecool.config.webSecurity.JwtResponse;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,6 +12,6 @@ public record UserDataAfterLoginDTO(
   String userName,
   String email,
   List<TransactionCategory> categories,
-//  UserAccountAfterLoginDTO accountData,
+  UserAccountAfterLoginDTO accountData,
   JwtResponse jwtResponse
 ) {}

@@ -1,4 +1,4 @@
-package com.codecool.entity.security;
+package com.codecool.config.webSecurity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

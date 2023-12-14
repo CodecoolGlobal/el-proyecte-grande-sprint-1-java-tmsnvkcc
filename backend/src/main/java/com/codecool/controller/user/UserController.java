@@ -14,7 +14,7 @@ import com.codecool.entity.ExternalTransaction;
 import com.codecool.entity.LocalTransaction;
 import com.codecool.entity.Role;
 import com.codecool.entity.TrackeroUser;
-import com.codecool.entity.security.JwtResponse;
+import com.codecool.config.webSecurity.JwtResponse;
 import com.codecool.exception.FormErrorException;
 import com.codecool.security.JwtUtils;
 import com.codecool.service.account.AccountService;
@@ -142,7 +142,7 @@ public class UserController {
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-//      userAccountAfterLoginDTO,
+      userAccountAfterLoginDTO,
       jwtResponse
     );
 
@@ -251,7 +251,7 @@ public class UserController {
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-//      userAccountAfterLoginDTO,
+      userAccountAfterLoginDTO,
       jwtResponse
     );
 

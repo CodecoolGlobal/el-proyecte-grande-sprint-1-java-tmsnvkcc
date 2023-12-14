@@ -1,4 +1,5 @@
 package com.codecool.controller.transaction;
+import com.codecool.dto.transactions.ExternalTransactionDTO;
 import com.codecool.dto.transactions.LocalTransactionDTO;
 import com.codecool.dto.transactions.MonthlyTransactionsDTO;
 import com.codecool.dto.transactions.NewExternalTransactionDTO;
@@ -55,22 +56,40 @@ public class TransactionController {
     }
 
     @PostMapping("/add/external-transaction")
-    public ResponseEntity<ExternalTransaction> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
-        ExternalTransaction externalTransaction = externalTransactionService.addTransaction(newExternalTransaction);
+    public ResponseEntity<ExternalTransactionDTO> addTransaction(@RequestBody NewExternalTransactionDTO newExternalTransaction) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
+
+        ExternalTransaction externalTransaction = externalTransactionService.addTransaction(trackeroUser, newExternalTransaction);
         accountService.updateBalance(newExternalTransaction.accountId(), newExternalTransaction.amount());
 
-        return new ResponseEntity<>(externalTransaction, HttpStatus.CREATED);
+        ExternalTransactionDTO externalTransactionDTO = new ExternalTransactionDTO(
+          externalTransaction.getId(),
+          externalTransaction.getDescription(),
+          externalTransaction.getDateOfTransaction(),
+          externalTransaction.getAmount(),
+          externalTransaction.isPlanned(),
+          externalTransaction.isRecurring(),
+          externalTransaction.getCategoryName()
+        );
+
+        return new ResponseEntity<>(externalTransactionDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/add/local-transaction")
     public ResponseEntity<LocalTransaction> addLocalTransaction(@RequestBody LocalTransactionDTO localTransactionDTO) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
+
         LocalTransaction localTransaction = localTransactionsService.addTransaction( localTransactionDTO );
 
         return new ResponseEntity<>(localTransaction,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/local-transaction")
-    public ResponseEntity<LocalTransaction> deleteLocalTransaction(@RequestBody int transactionId){
+    public ResponseEntity<LocalTransaction> deleteLocalTransaction(@RequestBody int transactionId) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         LocalTransaction localTransaction = localTransactionsService.deleteTransaction(transactionId);
 
         return new ResponseEntity<>(localTransaction,HttpStatus.ACCEPTED);

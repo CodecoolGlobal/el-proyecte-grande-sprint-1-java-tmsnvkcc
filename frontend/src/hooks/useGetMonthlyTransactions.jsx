@@ -1,16 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
+import { axiosConfigWithAuth } from '../config/index.js';
 
 const fetchMonthlyTransactions = async (year, month) => {
-  const token = window.localStorage.getItem('token');
-
   try {
-    const response = await fetch(`/api/transaction/${year}/${month + 1}`, {
+    const { data } = await axiosConfigWithAuth.request({
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      url: `/api/transaction/${year}/${month + 1}`,
     });
-    const data = await response.json();
 
     return data;
   } catch (err) {
