@@ -23,7 +23,6 @@ const Track = () => {
     refetch();
   }, [selectedYear, selectedMonth]);
 
-
   const componentRenderHandler = () => {
     switch (currentTile) {
     case 'Overview':

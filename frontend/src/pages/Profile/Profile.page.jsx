@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import {
   PageTitle,
 } from 'components/form-related';
-
-import getProfileData from './Profile.page.hooks';
-
 import {
-  ProfilePageDisplay,
-  ProfilePageEdit,
-  ProfileNavigationComponent,
+  Categories,
   ProfileAccountDisplay,
   ProfileAccountEdit,
-  Categories,
+  ProfileNavigationComponent,
+  ProfilePageDisplay,
+  ProfilePageEdit,
 } from 'components/profile';
-
+import getProfileData from './Profile.page.hooks';
 import './Profile.styles.css';
 
 const Profile = () => {
@@ -35,7 +35,6 @@ const Profile = () => {
     setEditing(false);
   };
 
-
   const renderFormComponent = () => {
     switch (currentTile) {
     case 'Profile':
@@ -54,7 +53,6 @@ const Profile = () => {
     default:
       return 'error';
     }
-
   };
 
   return (

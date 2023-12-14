@@ -48,7 +48,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -119,30 +118,33 @@ public class UserController {
 
     JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), roles);
 
-    int currentYear = getCurrentYear();
-    int currentMonth = getCurrentMonthValue();
+//    int currentYear = getCurrentYear();
+//    int currentMonth = getCurrentMonthValue();
 
     // TODO the login endpoint shouldn't return anything else other than the user information.
     // datafetching should be driven by the frontend.
     // TODO an extra level of "domain service" layer could be implemented here that collects these various transaction service calls, so the upper-level methods don't look that cluttered.
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-      foundTrackeroUser.getAccount().getId(),
-      foundTrackeroUser.getAccount().getName(),
-      foundTrackeroUser.getAccount().getDescription(),
-      foundTrackeroUser.getAccount().getActualBalance(),
-      foundTrackeroUser.getAccount().getSavingsBalance(),
-      externalTransactions,
-      localTransactions
-    );
+//    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
+//    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
+//    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+//      foundTrackeroUser.getAccount().getId(),
+//      foundTrackeroUser.getAccount().getName(),
+//      foundTrackeroUser.getAccount().getDescription(),
+//      foundTrackeroUser.getAccount().getActualBalance(),
+//      foundTrackeroUser.getAccount().getSavingsBalance(),
+//      externalTransactions,
+//      localTransactions
+//    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
       foundTrackeroUser.getId(),
       foundTrackeroUser.getDateOfRegistration(),
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      //userAccountAfterLoginDTO,
+      foundTrackeroUser.getAccount().getActualBalance(),
+      foundTrackeroUser.getAccount().getSavingsBalance(),
+      foundTrackeroUser.getAccount().getId(),
+//      userAccountAfterLoginDTO,
       jwtResponse
     );
 
@@ -201,18 +203,18 @@ public class UserController {
   }
 
   @GetMapping("/get-accounts")
-  public ResponseEntity<?> getProfileAccounts() {
-    TrackeroUser foundTrackeroUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+  public ResponseEntity<Account> getProfileAccounts() {
+    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser foundTrackeroUser = userService.findUserByEmail(user.getUsername());
 
-    // userid is not stored in accounts anymore. a user's accounts can be retrieved by using user.getAccount(). This currently allows for having one account.
-    Optional<List<Account>> userAccount = accountService.getAccountsByUserId(foundTrackeroUser.getId());
+    Account userAccount = accountService.findAccountById(foundTrackeroUser.getId());
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
   @GetMapping("/get-categories")
   public ResponseEntity<?> getCategories() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    TrackeroUser foundUser = userService.findUserByEmail("1@1.1"); // TODO change hard coded email
+    TrackeroUser foundUser = userService.findUserByEmail(user.getUsername());
 
     return new ResponseEntity<>(foundUser.getCategories(), HttpStatus.OK);
   }
@@ -239,27 +241,30 @@ public class UserController {
 
     userService.updateUserProfile(profileData, foundTrackeroUser);
 
-    int currentYear = getCurrentYear();
-    int currentMonth = getCurrentMonthValue();
+//    int currentYear = getCurrentYear();
+//    int currentMonth = getCurrentMonthValue();
 
-    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-      foundTrackeroUser.getAccount().getId(),
-      foundTrackeroUser.getAccount().getName(),
-      foundTrackeroUser.getAccount().getDescription(),
-      foundTrackeroUser.getAccount().getActualBalance(),
-      foundTrackeroUser.getAccount().getSavingsBalance(),
-      externalTransactions,
-      localTransactions
-    );
+//    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
+//    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
+//    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
+//      foundTrackeroUser.getAccount().getId(),
+//      foundTrackeroUser.getAccount().getName(),
+//      foundTrackeroUser.getAccount().getDescription(),
+//      foundTrackeroUser.getAccount().getActualBalance(),
+//      foundTrackeroUser.getAccount().getSavingsBalance(),
+//      externalTransactions,
+//      localTransactions
+//    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
       foundTrackeroUser.getId(),
       foundTrackeroUser.getDateOfRegistration(),
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      //userAccountAfterLoginDTO,
+      foundTrackeroUser.getAccount().getActualBalance(),
+      foundTrackeroUser.getAccount().getSavingsBalance(),
+      foundTrackeroUser.getAccount().getId(),
+//      userAccountAfterLoginDTO,
       jwtResponse
     );
 

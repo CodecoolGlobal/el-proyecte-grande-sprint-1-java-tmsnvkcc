@@ -21,6 +21,7 @@ const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
     onSuccess: () => {
       reset();
       setLoading(false);
+
       handleOnClick();
     },
     onError: (error) => {

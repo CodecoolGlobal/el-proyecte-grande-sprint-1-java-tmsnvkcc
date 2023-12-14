@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<TrackeroUser, Integer> {
   TrackeroUser save(TrackeroUser trackeroUser);
+
   @Query(value =
     """
       SELECT

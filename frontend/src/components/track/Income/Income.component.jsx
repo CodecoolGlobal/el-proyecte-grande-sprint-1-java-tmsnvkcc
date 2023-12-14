@@ -4,7 +4,7 @@ import { iconLibraryConfig } from 'config';
 import './Income.styles.css';
 
 const Income = ({ transactions, isLoading }) => {
-  const [accountDetails, setAccountDetails] = useState('');
+  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [income, setIncome] = useState('');
   const [incomeList, setIncomeList] = useState('');
   const [categories, setCategories] = useState('');
@@ -62,7 +62,7 @@ const Income = ({ transactions, isLoading }) => {
       setCategories(calculateSumForCategories(categoryNames, data));
 
       const userData = JSON.parse(localStorage.getItem('userData'));
-      setAccountDetails(userData.account);
+      setBalanceDetails({ actual: userData.actualBalance, savings: userData.savingsBalance });
     }
   }, [transactions, isLoading]);
 
@@ -106,11 +106,11 @@ const Income = ({ transactions, isLoading }) => {
           <div className={'balance-content'}>
             <div className={'information'}>
               <h2>Actual Balance</h2>
-              <h3>{accountDetails.actualBalance} {currency}</h3>
+              <h3>{balanceDetails.actualBalance} {currency}</h3>
             </div>
             <div className={'information'}>
               <h2>Savings Balance</h2>
-              <h3>{accountDetails.savingsBalance} {currency}</h3>
+              <h3>{balanceDetails.savingsBalance} {currency}</h3>
             </div>
           </div>
         </div>

@@ -32,7 +32,7 @@ public class DashboardController {
   public ResponseEntity<DashboardDataDTO> getAccountData() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
-    Account userAccount = accountService.getAccountsByUserId(trackeroUser.getId()).get().get(0);
+    Account userAccount = accountService.findAccountById(trackeroUser.getAccount().getId());
 
     DashboardDataDTO dashboardData = new DashboardDataDTO(
       trackeroUser.getId(),

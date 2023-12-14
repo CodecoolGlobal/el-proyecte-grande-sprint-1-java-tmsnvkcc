@@ -1,5 +1,6 @@
 package com.codecool.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,7 +20,6 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,7 +50,7 @@ public class TrackeroUser {
   private boolean isAdmin;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "account_id")
+  @JoinColumn(name = "account_id", referencedColumnName = "id")
   @JsonManagedReference
   private Account account;
 
@@ -78,13 +78,13 @@ public class TrackeroUser {
     this.categories = new ArrayList<>();
     this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
     this.userName = "CHANGE ME!";
-    this.account = account;
     this.isAdmin = false;
     this.roles = roles;
+    this.account = account;
   }
 
   @Override
   public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Account]: %s | [IsAdmin]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, account, isAdmin, categories, roles);
+    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [IsAdmin]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, isAdmin, categories, roles);
   }
 }

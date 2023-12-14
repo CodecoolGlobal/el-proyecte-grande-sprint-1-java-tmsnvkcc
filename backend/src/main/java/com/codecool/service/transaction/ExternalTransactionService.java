@@ -9,6 +9,7 @@ import com.codecool.repository.TransactionCategoryRepository;
 import com.codecool.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public class ExternalTransactionService {
     return externalTransactionRepository.findAllByYearAndMonth(userId, currentYear, currentMonth);
   }
 
+  @Transactional
   public ExternalTransaction addTransaction(TrackeroUser user, NewExternalTransactionDTO newExternalTransactionDTO) {
     TransactionCategory transactionCategory = transactionCategoryRepository.findById(newExternalTransactionDTO.categoryId()).get();
 

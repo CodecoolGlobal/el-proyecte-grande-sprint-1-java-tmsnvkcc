@@ -2,6 +2,7 @@ package com.codecool.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +45,7 @@ public class Account {
   @Column(name = "savings_balance")
   private double savingsBalance;
 
-  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToOne(mappedBy = "account", orphanRemoval = true)
   @JsonBackReference
   private TrackeroUser trackeroUser;
 
@@ -72,6 +74,6 @@ public class Account {
 
   @Override
   public String toString() {
-    return String.format("[Id]: %s | [User]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, trackeroUser, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
+    return String.format("[Id]: %s | [Name]: %s | [Description]: %s | [Currency]: %s | [Actual Balance]: %s | [Savings Balance]: %s | [External Transaction]: %s | [Local Transaction list]: %s", id, name, description, currency, actualBalance, savingsBalance, externalTransactionList, localTransactionList);
   }
 }

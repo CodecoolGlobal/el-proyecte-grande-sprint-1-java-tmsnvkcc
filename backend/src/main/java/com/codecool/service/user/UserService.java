@@ -35,19 +35,20 @@ public class UserService {
 
   @Transactional
   public void addUser(NewUserDTO user, String hashedPassword, Set<Role> roles) {
-    Currency currency = currencyService.findCurrencyByCode("HUF");
+    Currency currency = currencyService.findCurrencyByCode("huf");
     Account account = new Account(currency);
+
     TransactionCategory defaultCategoryOne = transactionCategoryRepository.findById(1).get();
     TransactionCategory defaultCategoryTwo = transactionCategoryRepository.findById(2).get();
     TransactionCategory defaultCategoryThree = transactionCategoryRepository.findById(3).get();
     TransactionCategory defaultCategoryFour = transactionCategoryRepository.findById(4).get();
-
     List<TransactionCategory> defaultTransactionsCategories = new ArrayList<>(){{
       add(defaultCategoryOne);
       add(defaultCategoryTwo);
       add(defaultCategoryThree);
       add(defaultCategoryFour);
     }};
+
     TrackeroUser newTrackeroUser = new TrackeroUser(user.registerEmail(), hashedPassword, account, roles);
     newTrackeroUser.setCategories(defaultTransactionsCategories);
 

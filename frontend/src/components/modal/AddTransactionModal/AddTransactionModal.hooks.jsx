@@ -6,17 +6,27 @@ import { serialiseFormData } from 'utilities';
 const useHandleFormOnSubmit = (handleOnClick) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const token = window.localStorage.getItem('token');
 
   const { mutate, reset } = useMutation({
     mutationKey: ['addTransactionForm'],
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      await axiosConfigWithAuth.request({
+      await fetch(`/api/transaction/add/external-transaction`, {
         method: 'POST',
-        url: '/api/transaction/add/external-transaction',
-        data: payload,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(payload),
       });
+      // const data = await response.json();
+      // await axiosConfigWithAuth.request({
+      //   method: 'POST',
+      //   url: '/api/transaction/add/external-transaction',
+      //   data: payload,
+      // });
 
       return payload;
     },
@@ -26,7 +36,7 @@ const useHandleFormOnSubmit = (handleOnClick) => {
       handleOnClick();
 
       const userData = JSON.parse(localStorage.getItem('userData'));
-      userData.account.actualBalance = userData.account.actualBalance + parseInt(payload.amount);
+      userData.actualBalance = userData.actualBalance + parseInt(payload.amount);
       localStorage.setItem('userData', JSON.stringify(userData));
     },
     onError: (error) => {
