@@ -166,7 +166,7 @@ public class UserController {
     String subject = userMessages.WELCOME_EMAIL_SUBJECT;
     String body = userMessages.WELCOME_EMAIL_BODY;
     EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(userData.registerEmail(), subject, body);
-    emailService.sendEmail(emailDetailsDTO);
+//    emailService.sendEmail(emailDetailsDTO);
 
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
@@ -182,7 +182,7 @@ public class UserController {
     // TODO send the email in hashed form.
     String body = MessageFormat.format(userMessages.PASSWORD_RESET_BODY, foundTrackeroUser.getEmail());
     EmailDetailsDTO emailDetailsDTO = new EmailDetailsDTO(foundTrackeroUser.getEmail(), subject, body);
-    emailService.sendEmail(emailDetailsDTO);
+//    emailService.sendEmail(emailDetailsDTO);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

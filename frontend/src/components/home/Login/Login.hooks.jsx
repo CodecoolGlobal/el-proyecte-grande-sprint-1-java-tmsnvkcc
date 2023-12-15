@@ -5,12 +5,14 @@ import { axiosConfig } from 'config';
 import { useUser } from 'context/UserContext.jsx';
 import { serialiseFormData } from 'utilities';
 
+// give more specific name
 const useHandleFormOnSubmit = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // mutate also has a builtin isLoading
   const { mutate } = useMutation({
     mutationKey: ['loginForm'],
     mutationFn: async ({ payload }) => {
@@ -41,6 +43,7 @@ const useHandleFormOnSubmit = () => {
       window.localStorage.setItem('token', data.jwtResponse.jwt);
 
       setLoading(false);
+      // could be targeted to the url from where the user comes for better ux
       navigate('/dashboard');
     },
     onError: (error) => {
