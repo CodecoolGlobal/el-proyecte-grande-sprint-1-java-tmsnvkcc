@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import {
   FormError,
   InputField,
   PasswordInputField,
   SubmitButton,
-} from 'components/form-related';
-
+} from '@src/components/form-related';
+import { iconLibraryConfig } from '@src/config';
 import { useHandleFormOnSubmit } from './ProfilePage.hooks';
-import { iconLibraryConfig } from 'config';
-
 import './ProfilePage.edit.styles.css';
-
 
 const ProfilePageEdit = ({ editHandler }) => {
   const [profileData, setProfileData] = useState({});

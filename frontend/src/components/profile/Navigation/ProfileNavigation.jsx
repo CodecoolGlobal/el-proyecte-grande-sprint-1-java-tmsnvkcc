@@ -8,7 +8,7 @@ const NavigationButton = ({ label, clickHandler }) => {
   >{label}</button>);
 };
 
-const ProfileNavigationComponent = ({clickHandler}) => {
+const ProfileNavigation = ({clickHandler}) => {
   return (
     <>
       <div className={'profile-navigation'}>
@@ -20,4 +20,4 @@ const ProfileNavigationComponent = ({clickHandler}) => {
   );
 };
 
-export default ProfileNavigationComponent;
+export default ProfileNavigation;

@@ -1,3 +1,3 @@
-import ProfileNavigationComponent from "./ProfileNavigation.component.jsx";
+import ProfileNavigation from './ProfileNavigation.jsx';
 
-export default ProfileNavigationComponent;
+export default ProfileNavigation;

@@ -16,11 +16,11 @@ import {
   Profile,
   ResetPassword,
   Track,
-} from 'pages';
+} from '@src/pages';
 import {
   Layout,
   Protected,
-} from 'components/layout';
+} from '@src/components/layout';
 import './index.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCircleExclamation, faCircleNotch, faEye, faEyeSlash, faPlus } from '@fortawesome/free-solid-svg-icons';

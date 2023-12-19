@@ -1,22 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-// import { axiosConfigWithAuth } from 'config';
+import { axiosConfigWithAuth } from '@src/config';
+import { getLocalStorageItem } from '@src/utilities';
 
 const fetchDashboardData = async () => {
   try {
-    const token = window.localStorage.getItem('token');
-
-    const response = await fetch('/api/dashboard', {
+    const { data } = await axiosConfigWithAuth.request({
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+      url: '/api/dashboard',
     });
-    const data = await response.json();
-
-    // const { data } = await axiosConfigWithAuth.request({
-    //   method: 'GET',
-    //   url: '/api/dashboard',
-    // });
 
     return data;
   } catch (error) {
@@ -25,9 +16,12 @@ const fetchDashboardData = async () => {
 };
 
 const useGetDashboardData = () => {
+  const token = getLocalStorageItem('token');
+
   const query = useQuery({
     queryKey: ['fetchDashboardData'],
     queryFn:() => fetchDashboardData(),
+    enabled: token !== null,
   });
 
   return {

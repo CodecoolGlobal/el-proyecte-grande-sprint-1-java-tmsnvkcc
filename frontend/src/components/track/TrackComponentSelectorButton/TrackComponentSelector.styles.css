@@ -7,6 +7,7 @@
     border-image: linear-gradient(to right, var(--primary-main-font-color), var(--primary-main-font-color)) 1;
     transition: 0.1s linear;
 }
+
 .track-page-selector:hover {
     cursor: pointer;
     border-image: linear-gradient(to left, #FF04C8 0%, #453B8A 100%) 1;

@@ -6,15 +6,13 @@ import com.codecool.dto.access.LoginUserDTO;
 import com.codecool.dto.access.NewUserDTO;
 import com.codecool.dto.access.ResetPasswordDTO;
 import com.codecool.dto.user.AboutMeDTO;
-import com.codecool.dto.user.UpdateProfileDTO;
-import com.codecool.dto.user.UserAccountAfterLoginDTO;
+import com.codecool.dto.user.UserDataAfterProfileUpdateDTO;
 import com.codecool.dto.user.UserDataAfterLoginDTO;
 import com.codecool.entity.Account;
-import com.codecool.entity.ExternalTransaction;
-import com.codecool.entity.LocalTransaction;
 import com.codecool.entity.Role;
 import com.codecool.entity.TrackeroUser;
 import com.codecool.config.webSecurity.JwtResponse;
+import com.codecool.entity.TransactionCategory;
 import com.codecool.exception.FormErrorException;
 import com.codecool.security.JwtUtils;
 import com.codecool.service.account.AccountService;
@@ -33,6 +31,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,7 +45,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -89,72 +87,60 @@ public class UserController {
     this.authenticationManager = authenticationManager;
   }
 
-  @GetMapping("/me")
+  @GetMapping(value = "/me", produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<AboutMeDTO> findUser() {
-    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
-    AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName());
+    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
+    List<String> userRoles = userDetails.getAuthorities()
+      .stream()
+      .map(GrantedAuthority::getAuthority)
+      .toList();
+
+    AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName(), userRoles);
 
     return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
   }
 
-  @PostMapping("/login")
+  @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO userLoginData) {
-    if (userLoginData == null || userLoginData.loginEmail().isEmpty() || userLoginData.loginPassword().isEmpty()) {
+    if (isLoginFormDataValidated(userLoginData)) {
       throw new FormErrorException(userMessages.LOGIN_ERROR_MESSAGE);
     }
 
     TrackeroUser foundTrackeroUser = userService.findUserByEmail(userLoginData.loginEmail());
 
-    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginData.loginEmail(), userLoginData.loginPassword()));
+    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userLoginData.loginEmail(), userLoginData.loginPassword());
+    Authentication authentication = authenticationManager.authenticate(auth);
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.generateJwtToken(authentication);
 
+    String jwt = jwtUtils.generateJwtToken(authentication);
     User userDetails = (User) authentication.getPrincipal();
-    List<String> roles = userDetails.getAuthorities().stream()
-      .map(user -> user.getAuthority())
+    List<String> userRoles = userDetails.getAuthorities()
+      .stream()
+      .map(GrantedAuthority::getAuthority)
       .toList();
 
-    JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), roles);
+    JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), userRoles);
 
-//    int currentYear = getCurrentYear();
-//    int currentMonth = getCurrentMonthValue();
-
-    // TODO the login endpoint shouldn't return anything else other than the user information.
-    // datafetching should be driven by the frontend.
-    // TODO an extra level of "domain service" layer could be implemented here that collects these various transaction service calls, so the upper-level methods don't look that cluttered.
-//    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-//      foundTrackeroUser.getAccount().getId(),
-//      foundTrackeroUser.getAccount().getName(),
-//      foundTrackeroUser.getAccount().getDescription(),
-//      foundTrackeroUser.getAccount().getActualBalance(),
-//      foundTrackeroUser.getAccount().getSavingsBalance(),
-//      externalTransactions,
-//      localTransactions
-//    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
       foundTrackeroUser.getId(),
       foundTrackeroUser.getDateOfRegistration(),
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      foundTrackeroUser.getAccount().getActualBalance(),
-      foundTrackeroUser.getAccount().getSavingsBalance(),
-      foundTrackeroUser.getAccount().getId(),
-//      userAccountAfterLoginDTO,
       jwtResponse
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);
   }
 
-  @PostMapping(path = "/register")
+  @PostMapping(path = "/register", consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<HttpStatus> registerUser(@RequestBody NewUserDTO userData) {
-    if (userData == null || userData.registerEmail().isEmpty() || userData.registerPassword().isEmpty()) {
+    if (isRegisterFormDataValidated(userData)) {
       throw new FormErrorException(userMessages.FORM_ERROR_MESSAGE);
     }
 
@@ -196,86 +182,86 @@ public class UserController {
     TrackeroUser foundTrackeroUser = userService.findUserByEmail(email);
 
     // TODO - check the hashed string once it is set like that
-    UpdateProfileDTO updatedData = new UpdateProfileDTO(foundTrackeroUser.getUserName(), email, userData.resetPassword());
+    UserDataAfterProfileUpdateDTO updatedData = new UserDataAfterProfileUpdateDTO(foundTrackeroUser.getUserName(), email, userData.resetPassword());
     userService.updateUserProfile(updatedData, foundTrackeroUser);
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  @GetMapping("/get-accounts")
+  @GetMapping(value = "/get-accounts", produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<Account> getProfileAccounts() {
-    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    TrackeroUser foundTrackeroUser = userService.findUserByEmail(user.getUsername());
+    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
+    Account userAccount = accountService.findAccountById(trackeroUser.getAccount().getId());
 
-    Account userAccount = accountService.findAccountById(foundTrackeroUser.getId());
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
-  @GetMapping("/get-categories")
+  @GetMapping(value = "/get-categories", produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<?> getCategories() {
-    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    TrackeroUser foundUser = userService.findUserByEmail(user.getUsername());
+    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
+    List<TransactionCategory> categories = trackeroUser.getCategories();
 
-    return new ResponseEntity<>(foundUser.getCategories(), HttpStatus.OK);
+    return new ResponseEntity<>(categories, HttpStatus.OK);
   }
 
-  @PutMapping("/update-profile")
-  public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileDTO profileData) throws FormErrorException{
-    if (profileData == null || profileData.email().isEmpty() || profileData.password().isEmpty() || profileData.username().isEmpty()) {
+  @PutMapping(value = "/update-profile", consumes = "application/json", produces = "application/json")
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public ResponseEntity<?> updateProfile(@RequestBody UserDataAfterProfileUpdateDTO updatedProfileData) {
+    if (isProfileUpdateFormDataValidated(updatedProfileData)) {
       throw new FormErrorException("The update was unsuccessful, please try again.");
     }
 
-    TrackeroUser foundTrackeroUser = userService.findUserByEmail(profileData.email()); // TODO fix this line because it wants to find by new email
+    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
 
-    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(profileData.email(), profileData.password()));
+    // if the user should be able to change his password as well, they need to enter that in the form AND the new password
+    // because this auth object needs the user's original email/pw combination to validate them.
+    UsernamePasswordAuthenticationToken authOriginalCredentials = new UsernamePasswordAuthenticationToken(trackeroUser.getEmail(), updatedProfileData.password());
+    Authentication authOriginal = authenticationManager.authenticate(authOriginalCredentials);
+    SecurityContextHolder.getContext().setAuthentication(authOriginal);
 
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.generateJwtToken(authentication);
+    userService.updateUserProfile(updatedProfileData, trackeroUser);
 
-    User userDetails = (User) authentication.getPrincipal();
-    List<String> roles = userDetails.getAuthorities().stream()
-      .map(user -> user.getAuthority())
+    // here the updated credentials are validated again.
+    UsernamePasswordAuthenticationToken authNewCredentials = new UsernamePasswordAuthenticationToken(updatedProfileData.email(), updatedProfileData.password());
+    Authentication authNew = authenticationManager.authenticate(authNewCredentials);
+
+    String jwt = jwtUtils.generateJwtToken(authNew);
+    List<String> userRoles = userDetails.getAuthorities()
+      .stream()
+      .map(GrantedAuthority::getAuthority)
       .toList();
 
-    JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), roles);
+    JwtResponse jwtResponse = new JwtResponse(jwt, updatedProfileData.email(), userRoles);
 
-    userService.updateUserProfile(profileData, foundTrackeroUser);
-
-//    int currentYear = getCurrentYear();
-//    int currentMonth = getCurrentMonthValue();
-
-//    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-//      foundTrackeroUser.getAccount().getId(),
-//      foundTrackeroUser.getAccount().getName(),
-//      foundTrackeroUser.getAccount().getDescription(),
-//      foundTrackeroUser.getAccount().getActualBalance(),
-//      foundTrackeroUser.getAccount().getSavingsBalance(),
-//      externalTransactions,
-//      localTransactions
-//    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
-      foundTrackeroUser.getId(),
-      foundTrackeroUser.getDateOfRegistration(),
-      foundTrackeroUser.getUserName(),
-      foundTrackeroUser.getEmail(),
-      foundTrackeroUser.getCategories(),
-      foundTrackeroUser.getAccount().getActualBalance(),
-      foundTrackeroUser.getAccount().getSavingsBalance(),
-      foundTrackeroUser.getAccount().getId(),
-//      userAccountAfterLoginDTO,
+      trackeroUser.getId(),
+      trackeroUser.getDateOfRegistration(),
+      updatedProfileData.username(),
+      updatedProfileData.email(),
+      trackeroUser.getCategories(),
       jwtResponse
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);
   }
 
-  private int getCurrentYear() {
-    return LocalDate.now().getYear();
+  private boolean isLoginFormDataValidated(LoginUserDTO userLoginData) {
+    return userLoginData == null || userLoginData.loginEmail().isEmpty() || userLoginData.loginPassword().isEmpty();
   }
 
-  private int getCurrentMonthValue() {
-    return LocalDate.now().getMonthValue();
+  private boolean isRegisterFormDataValidated(NewUserDTO userData) {
+    return userData == null || userData.registerEmail().isEmpty() || userData.registerPassword().isEmpty();
+  }
+
+  private boolean isProfileUpdateFormDataValidated(UserDataAfterProfileUpdateDTO updatedProfileData) {
+    return updatedProfileData == null || updatedProfileData.email().isEmpty() || updatedProfileData.password().isEmpty() || updatedProfileData.username().isEmpty();
   }
 }

@@ -1,3 +1,3 @@
-import IncomeComponent from "./Income.component.jsx";
+import Income from './Income.component.jsx';
 
-export default IncomeComponent;
+export default Income;

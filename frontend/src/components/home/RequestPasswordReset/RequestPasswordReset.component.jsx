@@ -3,13 +3,13 @@ import {
   FormError,
   InputField,
   SubmitButton,
-} from 'components/form-related';
+} from '@src/components/form-related';
 import {
   FormSwapButton,
   Title,
 } from '../index.js';
 import { useHandleFormOnSubmit } from './RequestPasswordReset.hooks.jsx';
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 import './RequestPasswordReset.styles.css';
 
 const RequestPasswordReset = ({ clickHandler, handleModal }) => {

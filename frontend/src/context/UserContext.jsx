@@ -4,11 +4,10 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { axiosConfigWithAuth } from 'config';
+import { axiosConfigWithAuth } from '@src/config';
+import { getLocalStorageItem } from '@src/utilities';
 
 const UserContext = createContext({});
-
-const getToken = () => window.localStorage.getItem('token');
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -30,7 +29,7 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const token = getToken();
+    const token = getLocalStorageItem('token');
 
     if (!token) {
       setLoading(false);

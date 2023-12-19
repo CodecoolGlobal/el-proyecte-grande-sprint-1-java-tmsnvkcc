@@ -3,7 +3,7 @@ import {
   useState,
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 import './Spendings.styles.css';
 
 const Spendings = ({ transactions, isLoading }) => {

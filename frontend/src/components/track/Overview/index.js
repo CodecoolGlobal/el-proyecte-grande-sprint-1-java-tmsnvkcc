@@ -1,3 +1,3 @@
-import Overview from "./Overview.component.jsx";
+import Overview from './Overview.component.jsx';
 
 export default Overview;

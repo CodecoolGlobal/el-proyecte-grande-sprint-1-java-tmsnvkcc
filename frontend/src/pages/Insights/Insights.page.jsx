@@ -1,13 +1,12 @@
 import {
-    PageTitle,
-} from 'components/form-related';
+  PageTitle,
+} from '@src/components/form-related';
 import './Insights.styles.css';
 
 const Insights = () => {
-
   return (
     <div className={'insights-page'}>
-      <PageTitle title={"Insights"} />
+      <PageTitle title={'Insights'} />
     </div>
   );
 };

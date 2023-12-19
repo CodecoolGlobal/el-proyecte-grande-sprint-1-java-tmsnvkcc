@@ -3,8 +3,8 @@ import {
   Login,
   Register,
   RequestPasswordReset,
-} from 'components/home';
-import { PasswordResetConfirmationModal } from 'components/modal';
+} from '@src/components/home';
+import { PasswordResetConfirmationModal } from '@src/components/modal';
 import './Home.styles.css';
 
 const Home = () => {

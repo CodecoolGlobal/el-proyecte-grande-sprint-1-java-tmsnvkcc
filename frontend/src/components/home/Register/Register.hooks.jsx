@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { axiosConfig } from 'config';
-import { serialiseFormData } from 'utilities';
+import { axiosConfig } from '@src/config';
+import { serialiseFormData } from '@src/utilities';
 
 const useHandleFormOnSubmit = () => {
   const [loading, setLoading] = useState(false);

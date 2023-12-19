@@ -1,6 +1,9 @@
+import {
+  useEffect,
+  useState,
+} from 'react';
+import useDeleteTransaction from './TransactionCard.hooks.jsx';
 import './TransactionCard.styles.css';
-import UseDeleteTransaction from './TransactionCard.hooks.jsx';
-import {useEffect, useState} from 'react';
 
 const provideAmountColor = (amount) => {
   return amount > 0 ? 'transaction-card-income' : 'transaction-card-expense';
@@ -10,10 +13,9 @@ const provideAmountSign = (amount) => {
   return amount > 0 ? '+' : '';
 };
 
-
-const TransactionCardComponent = ({ transaction, refetch }) => {
+const TransactionCard = ({ transaction, refetch }) => {
   const [enableDelete, setEnableDelete] = useState(false);
-  const { responseData, responseStatus, isTransactionLoading, isTransactionError } = UseDeleteTransaction(transaction.id, enableDelete);
+  const { responseData, responseStatus, isTransactionLoading, isTransactionError } = useDeleteTransaction(transaction.id, enableDelete);
 
   const handleClick = () => {
     setEnableDelete(true);
@@ -25,7 +27,6 @@ const TransactionCardComponent = ({ transaction, refetch }) => {
       refetch();
     }
   }, [isTransactionLoading]);
-
 
   return (
     <div className={'transaction-card-container'}>
@@ -41,4 +42,4 @@ const TransactionCardComponent = ({ transaction, refetch }) => {
   );
 };
 
-export default TransactionCardComponent;
+export default TransactionCard;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { axiosConfig } from 'config';
-import { serialiseFormData } from 'utilities';
+import { axiosConfigWithAuth } from '@src/config';
+import { serialiseFormData } from '@src/utilities';
 
 const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      await axiosConfig.request({
+      await axiosConfigWithAuth.request({
         method: 'POST',
         url: '/api/transaction/add/local-transaction',
         data: payload,

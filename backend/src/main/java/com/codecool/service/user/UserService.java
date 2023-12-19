@@ -1,7 +1,7 @@
 package com.codecool.service.user;
 
 import com.codecool.dto.access.NewUserDTO;
-import com.codecool.dto.user.UpdateProfileDTO;
+import com.codecool.dto.user.UserDataAfterProfileUpdateDTO;
 import com.codecool.entity.Account;
 import com.codecool.entity.Currency;
 import com.codecool.entity.Role;
@@ -12,6 +12,7 @@ import com.codecool.repository.TransactionCategoryRepository;
 import com.codecool.repository.UserRepository;
 import com.codecool.service.currency.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +26,14 @@ public class UserService {
   private final UserRepository userRepository;
   private final TransactionCategoryRepository transactionCategoryRepository;
   private final CurrencyService currencyService;
+  private final PasswordEncoder encoder;
 
   @Autowired
-  public UserService(UserRepository userRepository, TransactionCategoryRepository transactionCategoryRepository, CurrencyService currencyService) {
+  public UserService(UserRepository userRepository, TransactionCategoryRepository transactionCategoryRepository, CurrencyService currencyService, PasswordEncoder encoder) {
     this.userRepository = userRepository;
     this.transactionCategoryRepository = transactionCategoryRepository;
     this.currencyService = currencyService;
+    this.encoder = encoder;
   }
 
   @Transactional
@@ -74,10 +77,10 @@ public class UserService {
   }
 
   @Transactional
-  public void updateUserProfile(UpdateProfileDTO profileData, TrackeroUser currentTrackeroUser) {
+  public void updateUserProfile(UserDataAfterProfileUpdateDTO profileData, TrackeroUser currentTrackeroUser) {
     currentTrackeroUser.setUserName(profileData.username());
     currentTrackeroUser.setEmail(profileData.email());
-    currentTrackeroUser.setHashedPassword(profileData.password());
+    currentTrackeroUser.setHashedPassword(encoder.encode(profileData.password()));
 
     userRepository.save(currentTrackeroUser);
   }

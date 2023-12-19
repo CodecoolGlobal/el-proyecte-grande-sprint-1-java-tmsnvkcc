@@ -23,6 +23,7 @@
         color: inherit;
     }
 }
+
 .savings-controls-container {
     display: flex;
     flex-direction: column;
@@ -48,9 +49,11 @@
 
 
 }
+
 .savings-arrow-button-container {
     flex-direction: row;
 }
+
 .savings-arrow-left, .savings-arrow-right {
     border: 0.1rem solid rgba(201, 198, 198, 0.6);
     border-radius: 1rem;
@@ -68,6 +71,7 @@
     color: rgba(255, 2, 2, 0.5);
     box-shadow: 0 0 20px 1px #FF3366;
 }
+
 .savings-arrow-right:hover {
     color: rgba(4, 161, 1, 0.5);
     box-shadow: 0 0 20px 1px #76FF76;
@@ -96,6 +100,7 @@
         margin: 2vh 0 0 0;
     }
 }
+
 .savings-transactions-scroll-bar::-webkit-scrollbar {
     width:0.5vw;
 }

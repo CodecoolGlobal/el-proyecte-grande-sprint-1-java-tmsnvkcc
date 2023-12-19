@@ -4,15 +4,16 @@ import {
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
-import { TransactionCardComponent } from '../index.js'; //FIXME change individual import to icon library config
-import { AddLocalTransactionModal } from 'components/modal';
-import { iconLibraryConfig } from 'config';
+import { AddLocalTransactionModal } from '@src/components/modal';
+import { iconLibraryConfig } from '@src/config';
+import TransactionCard from '../TransactionCard'; //FIXME change individual import to icon library config
 import './Savings.styles.css';
 
-const SavingsComponent = ({ transactions, isLoading, refetch }) => {
+const Savings = ({ transactions, isLoading, refetch }) => {
   const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionDirection, setTransactionDirection] = useState('expense');
+
   const getAccountBalance = () => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
 
@@ -30,7 +31,7 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   const provideTransactionCards = () => {
     const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
 
-    return reversedTransactionArray.map((transaction) => <TransactionCardComponent key={transaction.id} transaction={transaction} refetch={refetch}/>);
+    return reversedTransactionArray.map((transaction) => <TransactionCard key={transaction.id} transaction={transaction} refetch={refetch}/>);
   };
 
   const listenForEscapeKey = (event) => {
@@ -63,8 +64,12 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
           {balanceDetails.actualBalance}
         </div>
         <div className={'savings-arrow-button-container'}>
-          <button type={'button'} onClick={() => handleOnClick('expense')}><FontAwesomeIcon icon={faUpLong} className={'savings-arrow-left'}/></button>
-          <button type={'button'} onClick={() => handleOnClick('income')}><FontAwesomeIcon icon={faDownLong} className={'savings-arrow-right'}/></button>
+          <button type={'button'} onClick={() => handleOnClick('expense')}>
+            <FontAwesomeIcon icon={faUpLong} className={'savings-arrow-left'}/>
+          </button>
+          <button type={'button'} onClick={() => handleOnClick('income')}>
+            <FontAwesomeIcon icon={faDownLong} className={'savings-arrow-right'}/>
+          </button>
         </div>
         <div className={'savings-balance-container'}>
           <h2>SAVINGS BALANCE</h2>
@@ -86,4 +91,4 @@ const SavingsComponent = ({ transactions, isLoading, refetch }) => {
   );
 };
 
-export default SavingsComponent;
+export default Savings;

@@ -2,15 +2,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FormSwapButton,
   Title,
-} from 'components/home';
+} from '@src/components/home';
 import {
   FormError,
   InputField,
   PasswordInputField,
   SubmitButton,
-} from 'components/form-related';
+} from '@src/components/form-related';
 import { useHandleFormOnSubmit } from './Register.hooks.jsx';
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 import './Register.styles.css';
 
 const Register = ({ clickHandler }) => {

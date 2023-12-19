@@ -27,7 +27,7 @@ public class DashboardController {
     this.userService = userService;
   }
 
-  @GetMapping("")
+  @GetMapping(value = "", produces = "application/json")
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<DashboardDataDTO> getAccountData() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

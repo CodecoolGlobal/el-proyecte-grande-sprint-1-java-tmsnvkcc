@@ -3,7 +3,7 @@ import './Footer.styles.css';
 const Footer = () => {
   return (
     <footer>
-    FOOTER
+    FOOTER PLACEHOLDER
     </footer>
   );
 };

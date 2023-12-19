@@ -1,3 +1,3 @@
-import Profile from "./Profile.page";
+import Profile from './Profile.page';
 
 export default Profile;

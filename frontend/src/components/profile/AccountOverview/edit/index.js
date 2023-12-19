@@ -1,3 +1,3 @@
-import ProfileAccountEdit from "./ProfileAccount.edit.component";
+import ProfileAccountEdit from './ProfileAccountEdit.component.jsx';
 
 export default ProfileAccountEdit;

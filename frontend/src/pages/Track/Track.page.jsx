@@ -3,14 +3,14 @@ import {
   useState,
 } from 'react';
 import {
-  IncomeComponent,
+  Income,
   Overview,
-  SavingsComponent,
+  Savings,
   Spendings,
   TrackNavigation,
-} from 'components/track';
-import { PageTitle } from 'components/form-related';
-import { useGetMonthlyTransactions } from 'hooks';
+} from '@src/components/track';
+import { PageTitle } from '@src/components/form-related';
+import { useGetMonthlyTransactions } from '@src/hooks';
 import './Track.styles.css';
 
 const Track = () => {
@@ -32,10 +32,10 @@ const Track = () => {
       return <Spendings transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     case 'Income':
-      return <IncomeComponent transactions={transactionsData} isLoading={isTransactionLoading} />;
+      return <Income transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     case 'Savings':
-      return <SavingsComponent transactions={transactionsData} isLoading={isTransactionLoading} refetch={refetch} />;
+      return <Savings transactions={transactionsData} isLoading={isTransactionLoading} refetch={refetch} />;
 
     default:
       return 'Error';

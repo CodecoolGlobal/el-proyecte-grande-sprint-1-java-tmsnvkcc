@@ -4,15 +4,15 @@ import {
 } from 'react';
 import {
   PageTitle,
-} from 'components/form-related';
+} from '@src/components/form-related';
 import {
   Categories,
   ProfileAccountDisplay,
   ProfileAccountEdit,
-  ProfileNavigationComponent,
+  ProfileNavigation,
   ProfilePageDisplay,
   ProfilePageEdit,
-} from 'components/profile';
+} from '@src/components/profile';
 import getProfileData from './Profile.page.hooks';
 import './Profile.styles.css';
 
@@ -58,7 +58,7 @@ const Profile = () => {
   return (
     <div className={'profile-page'}>
       <PageTitle title={'Profile'} />
-      <ProfileNavigationComponent clickHandler={handleClick} />
+      <ProfileNavigation clickHandler={handleClick} />
       {renderFormComponent()}
     </div>
   );

@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import './Categories.styles.css';
-
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import getProfileData from 'pages/Profile/Profile.page.hooks';
+import getProfileData from '@src/pages/Profile/Profile.page.hooks';
 
 const Categories = () => {
   const { data, isDataLoading, isDataError, refetch } = getProfileData('get-categories');
@@ -13,7 +11,6 @@ const Categories = () => {
   useEffect(() => {
     refetch();
   }, []);
-
 
   return (
     <>

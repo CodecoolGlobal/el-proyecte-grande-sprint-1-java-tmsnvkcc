@@ -1,3 +1,3 @@
-import SavingsComponent from "./Savings.component.jsx";
+import Savings from './Savings.component.jsx';
 
-export default SavingsComponent;
+export default Savings;

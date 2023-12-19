@@ -1,12 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosConfig } from 'config';
-import { useUser } from 'context/UserContext.jsx';
-import { serialiseFormData } from 'utilities';
+import { useMutation } from '@tanstack/react-query';
+import { useUser } from '@src/context/UserContext.jsx';
+import { axiosConfig } from '@src/config';
+import { serialiseFormData } from '@src/utilities';
 
-// give more specific name
-const useHandleFormOnSubmit = () => {
+const useHandleLoginFormSubmission = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -18,29 +17,26 @@ const useHandleFormOnSubmit = () => {
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      const response = await axiosConfig.request({
+      const { data } = await axiosConfig.request({
         method: 'POST',
         url: '/api/users/login',
         data: payload,
       });
 
-      return response;
+      return data;
     },
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       const userData = {
         userId: data.id,
         userName: data.userName,
         email: data.email,
         dateOfReg: data.dateOfRegistration,
         category: data.categories,
-        actualBalance: data.actualBalance,
-        savingsBalance: data.savingsBalance,
-        accountId: data.accountId
       };
 
       window.localStorage.setItem('userData', JSON.stringify(userData));
-      setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
       window.localStorage.setItem('token', data.jwtResponse.jwt);
+      setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
 
       setLoading(false);
       // could be targeted to the url from where the user comes for better ux
@@ -73,5 +69,5 @@ const useHandleFormOnSubmit = () => {
 };
 
 export {
-  useHandleFormOnSubmit,
+  useHandleLoginFormSubmission,
 };

@@ -1,6 +1,6 @@
 package com.codecool.dto.user;
 
-public record UpdateProfileDTO(
+public record UserDataAfterProfileUpdateDTO(
   String username,
   String email,
   String password

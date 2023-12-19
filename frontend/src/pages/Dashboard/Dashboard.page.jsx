@@ -2,9 +2,9 @@ import { useState } from 'react';
 import {
   AddTransaction,
   PageTitle,
-} from 'components/form-related';
-import { Window } from 'components/dashboard';
-import { AddTransactionModal } from 'components/modal';
+} from '@src/components/form-related';
+import { Window } from '@src/components/dashboard';
+import { AddTransactionModal } from '@src/components/modal';
 import { useGetDashboardData } from './Dashboard.hooks.jsx';
 import './Dashboard.styles.css';
 
