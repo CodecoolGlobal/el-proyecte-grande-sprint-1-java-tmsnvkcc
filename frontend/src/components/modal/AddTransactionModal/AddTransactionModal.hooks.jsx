@@ -6,27 +6,27 @@ import { serialiseFormData } from '@src/utilities';
 const useHandleFormOnSubmit = (handleOnClick) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const token = window.localStorage.getItem('token');
+  // const token = window.localStorage.getItem('token');
 
   const { mutate, reset } = useMutation({
     mutationKey: ['addTransactionForm'],
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      await fetch(`/api/transaction/add/external-transaction`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-      // const data = await response.json();
-      // await axiosConfigWithAuth.request({
+      // await fetch(`/api/transaction/add/external-transaction`, {
       //   method: 'POST',
-      //   url: '/api/transaction/add/external-transaction',
-      //   data: payload,
+      //   headers: {
+      //     'Authorization': `Bearer ${token}`,
+      //     'Content-type': 'application/json',
+      //   },
+      //   body: JSON.stringify(payload),
       // });
+      // const data = await response.json();
+      await axiosConfigWithAuth.request({
+        method: 'POST',
+        url: '/api/transaction/add/external-transaction',
+        data: payload,
+      });
 
       return payload;
     },

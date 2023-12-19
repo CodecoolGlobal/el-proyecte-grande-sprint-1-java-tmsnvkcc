@@ -32,9 +32,6 @@ const useHandleLoginFormSubmission = () => {
         email: data.email,
         dateOfReg: data.dateOfRegistration,
         category: data.categories,
-        actualBalance: data.actualBalance,
-        savingsBalance: data.savingsBalance,
-        accountId: data.accountId,
       };
 
       window.localStorage.setItem('userData', JSON.stringify(userData));
