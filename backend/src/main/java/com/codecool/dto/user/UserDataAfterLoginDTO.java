@@ -12,9 +12,8 @@ public record UserDataAfterLoginDTO(
   String userName,
   String email,
   List<TransactionCategory> categories,
-  double actualBalance,
-  double savingsBalance,
-  int accountId,
-//  UserAccountAfterLoginDTO accountData,
+//  double actualBalance,
+//  double savingsBalance,
+//  int accountId,
   JwtResponse jwtResponse
 ) {}

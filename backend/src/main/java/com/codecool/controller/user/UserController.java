@@ -7,11 +7,8 @@ import com.codecool.dto.access.NewUserDTO;
 import com.codecool.dto.access.ResetPasswordDTO;
 import com.codecool.dto.user.AboutMeDTO;
 import com.codecool.dto.user.UpdateProfileDTO;
-import com.codecool.dto.user.UserAccountAfterLoginDTO;
 import com.codecool.dto.user.UserDataAfterLoginDTO;
 import com.codecool.entity.Account;
-import com.codecool.entity.ExternalTransaction;
-import com.codecool.entity.LocalTransaction;
 import com.codecool.entity.Role;
 import com.codecool.entity.TrackeroUser;
 import com.codecool.config.webSecurity.JwtResponse;
@@ -33,6 +30,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,12 +44,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(path = "/api/users", consumes = "application/json", produces = "application/json")
+@RequestMapping(path = "/api/users")
 public class UserController {
   private final UserService userService;
   private final AccountService accountService;
@@ -89,7 +86,7 @@ public class UserController {
     this.authenticationManager = authenticationManager;
   }
 
-  @GetMapping("/me")
+  @GetMapping(value = "/me", produces = "application/json")
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<AboutMeDTO> findUser() {
     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -99,7 +96,7 @@ public class UserController {
     return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
   }
 
-  @PostMapping("/login")
+  @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
   public ResponseEntity<UserDataAfterLoginDTO> loginUser(@RequestBody LoginUserDTO userLoginData) {
     if (userLoginData == null || userLoginData.loginEmail().isEmpty() || userLoginData.loginPassword().isEmpty()) {
       throw new FormErrorException(userMessages.LOGIN_ERROR_MESSAGE);
@@ -107,44 +104,28 @@ public class UserController {
 
     TrackeroUser foundTrackeroUser = userService.findUserByEmail(userLoginData.loginEmail());
 
-    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginData.loginEmail(), userLoginData.loginPassword()));
+    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userLoginData.loginEmail(), userLoginData.loginPassword());
+    Authentication authentication = authenticationManager.authenticate(auth);
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.generateJwtToken(authentication);
 
+    String jwt = jwtUtils.generateJwtToken(authentication);
     User userDetails = (User) authentication.getPrincipal();
-    List<String> roles = userDetails.getAuthorities().stream()
-      .map(user -> user.getAuthority())
+    List<String> roles = userDetails.getAuthorities()
+      .stream()
+      .map(GrantedAuthority::getAuthority)
       .toList();
 
     JwtResponse jwtResponse = new JwtResponse(jwt, userDetails.getUsername(), roles);
 
-//    int currentYear = getCurrentYear();
-//    int currentMonth = getCurrentMonthValue();
-
-    // TODO the login endpoint shouldn't return anything else other than the user information.
-    // datafetching should be driven by the frontend.
-    // TODO an extra level of "domain service" layer could be implemented here that collects these various transaction service calls, so the upper-level methods don't look that cluttered.
-//    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-//      foundTrackeroUser.getAccount().getId(),
-//      foundTrackeroUser.getAccount().getName(),
-//      foundTrackeroUser.getAccount().getDescription(),
-//      foundTrackeroUser.getAccount().getActualBalance(),
-//      foundTrackeroUser.getAccount().getSavingsBalance(),
-//      externalTransactions,
-//      localTransactions
-//    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
       foundTrackeroUser.getId(),
       foundTrackeroUser.getDateOfRegistration(),
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      foundTrackeroUser.getAccount().getActualBalance(),
-      foundTrackeroUser.getAccount().getSavingsBalance(),
-      foundTrackeroUser.getAccount().getId(),
-//      userAccountAfterLoginDTO,
+//      foundTrackeroUser.getAccount().getActualBalance(),
+//      foundTrackeroUser.getAccount().getSavingsBalance(),
+//      foundTrackeroUser.getAccount().getId(),
       jwtResponse
     );
 
@@ -241,41 +222,18 @@ public class UserController {
 
     userService.updateUserProfile(profileData, foundTrackeroUser);
 
-//    int currentYear = getCurrentYear();
-//    int currentMonth = getCurrentMonthValue();
-
-//    List<ExternalTransaction> externalTransactions = externalTransactionService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    List<LocalTransaction> localTransactions = localTransactionsService.findTransactionsByYearAndMonth(foundTrackeroUser.getId(), currentYear, currentMonth);
-//    UserAccountAfterLoginDTO userAccountAfterLoginDTO = new UserAccountAfterLoginDTO(
-//      foundTrackeroUser.getAccount().getId(),
-//      foundTrackeroUser.getAccount().getName(),
-//      foundTrackeroUser.getAccount().getDescription(),
-//      foundTrackeroUser.getAccount().getActualBalance(),
-//      foundTrackeroUser.getAccount().getSavingsBalance(),
-//      externalTransactions,
-//      localTransactions
-//    );
     UserDataAfterLoginDTO userData = new UserDataAfterLoginDTO(
       foundTrackeroUser.getId(),
       foundTrackeroUser.getDateOfRegistration(),
       foundTrackeroUser.getUserName(),
       foundTrackeroUser.getEmail(),
       foundTrackeroUser.getCategories(),
-      foundTrackeroUser.getAccount().getActualBalance(),
-      foundTrackeroUser.getAccount().getSavingsBalance(),
-      foundTrackeroUser.getAccount().getId(),
-//      userAccountAfterLoginDTO,
+//      foundTrackeroUser.getAccount().getActualBalance(),
+//      foundTrackeroUser.getAccount().getSavingsBalance(),
+//      foundTrackeroUser.getAccount().getId(),
       jwtResponse
     );
 
     return new ResponseEntity<>(userData, HttpStatus.OK);
-  }
-
-  private int getCurrentYear() {
-    return LocalDate.now().getYear();
-  }
-
-  private int getCurrentMonthValue() {
-    return LocalDate.now().getMonthValue();
   }
 }

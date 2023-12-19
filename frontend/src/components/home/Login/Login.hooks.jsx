@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { axiosConfig } from '@src/config';
 import { useUser } from '@src/context/UserContext.jsx';
+import { axiosConfig } from '@src/config';
 import { serialiseFormData } from '@src/utilities';
 
-// give more specific name
 const useHandleLoginFormSubmission = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ const useHandleLoginFormSubmission = () => {
       return data;
     },
     onSuccess: (data) => {
-      console.log(data);
       const userData = {
         userId: data.id,
         userName: data.userName,
@@ -40,8 +38,8 @@ const useHandleLoginFormSubmission = () => {
       };
 
       window.localStorage.setItem('userData', JSON.stringify(userData));
-      setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
       window.localStorage.setItem('token', data.jwtResponse.jwt);
+      setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
 
       setLoading(false);
       // could be targeted to the url from where the user comes for better ux
