@@ -10,8 +10,8 @@ import {
   SelectField,
   SingleCheckbox,
   SubmitButton,
-} from 'components/form-related';
-import { iconLibraryConfig } from 'config';
+} from '@src/components/form-related';
+import { iconLibraryConfig } from '@src/config';
 import { useHandleFormOnSubmit } from './AddLocalTransactionModal.hooks.jsx';
 import './AddLocalTransactionModal.styles.css';
 

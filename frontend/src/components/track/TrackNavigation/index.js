@@ -1,3 +1,3 @@
-import TrackNavigationComponent from "./TrackNavigation.component.jsx";
+import TrackNavigationComponent from './TrackNavigation.component.jsx';
 
 export default TrackNavigationComponent;

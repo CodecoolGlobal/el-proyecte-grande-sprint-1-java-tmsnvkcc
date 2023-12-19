@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import {
   FormSwapButton,
-} from 'components/home';
-
-import './ProfilePage.display.styles.css';
+} from '@src/components/home';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { iconLibraryConfig } from "config";
+import { iconLibraryConfig } from '@src/config';
+import './ProfilePage.display.styles.css';
 
 const ProfilePageDisplay = ({ onEditHandler, loading }) => {
   const [profileData, setProfileData] = useState({});
-  
+
   useEffect(() => {
     setProfileData(JSON.parse(localStorage.getItem('userData')));
   }, []);
@@ -22,7 +21,6 @@ const ProfilePageDisplay = ({ onEditHandler, loading }) => {
     </div>);
   }
 
-  //console.log(profileData);
   return <>
     <div className={'profile-page-overview'}>
       <div className={'overview-content'}>

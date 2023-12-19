@@ -1,12 +1,12 @@
-import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosConfig } from 'config';
-import { useUser } from 'context/UserContext.jsx';
-import { serialiseFormData } from 'utilities';
+import { useMutation } from '@tanstack/react-query';
+import { axiosConfig } from '@src/config';
+import { useUser } from '@src/context/UserContext.jsx';
+import { serialiseFormData } from '@src/utilities';
 
 // give more specific name
-const useHandleFormOnSubmit = () => {
+const useHandleLoginFormSubmission = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -18,15 +18,16 @@ const useHandleFormOnSubmit = () => {
     mutationFn: async ({ payload }) => {
       setLoading(true);
 
-      const response = await axiosConfig.request({
+      const { data } = await axiosConfig.request({
         method: 'POST',
         url: '/api/users/login',
         data: payload,
       });
 
-      return response;
+      return data;
     },
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
+      console.log(data);
       const userData = {
         userId: data.id,
         userName: data.userName,
@@ -35,7 +36,7 @@ const useHandleFormOnSubmit = () => {
         category: data.categories,
         actualBalance: data.actualBalance,
         savingsBalance: data.savingsBalance,
-        accountId: data.accountId
+        accountId: data.accountId,
       };
 
       window.localStorage.setItem('userData', JSON.stringify(userData));
@@ -73,5 +74,5 @@ const useHandleFormOnSubmit = () => {
 };
 
 export {
-  useHandleFormOnSubmit,
+  useHandleLoginFormSubmission,
 };

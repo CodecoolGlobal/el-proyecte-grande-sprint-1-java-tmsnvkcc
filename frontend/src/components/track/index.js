@@ -3,9 +3,9 @@ import TrackDateSelector from './TrackDateSelector';
 import Overview from './Overview';
 import TrackNavigation from './TrackNavigation';
 import Spendings from './Spendings';
-import IncomeComponent from './Income';
-import SavingsComponent from './Savings';
-import TransactionCardComponent from './TransactionCard/';
+import Income from './Income';
+import Savings from './Savings';
+import TransactionCard from './TransactionCard';
 
 export {
   TrackComponentSelector,
@@ -13,7 +13,7 @@ export {
   Overview,
   TrackNavigation,
   Spendings,
-  IncomeComponent,
-  SavingsComponent,
-  TransactionCardComponent,
+  Income,
+  Savings,
+  TransactionCard,
 };

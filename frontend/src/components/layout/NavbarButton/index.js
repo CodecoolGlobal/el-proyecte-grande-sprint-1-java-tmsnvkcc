@@ -1,3 +1,3 @@
-import NavbarButtonComponent from './Navbar.button.component.jsx';
+import NavbarButton from './NavbarButton.component.jsx';
 
-export default NavbarButtonComponent;
+export default NavbarButton;

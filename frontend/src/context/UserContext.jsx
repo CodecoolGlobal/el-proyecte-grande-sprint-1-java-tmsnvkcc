@@ -4,7 +4,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { axiosConfigWithAuth } from 'config';
+import { axiosConfigWithAuth } from '@src/config';
 
 const UserContext = createContext({});
 

@@ -1,13 +1,13 @@
+import { NavbarButton } from '../index.js';
 import './Navbar.styles.css';
-import { NavbarButtonComponent } from '../index.js';
 
 const Navbar = () => {
   return (
     <nav>
-        <NavbarButtonComponent buttonLabel='Dashboard' destinationPath='/dashboard'/>
-        <NavbarButtonComponent buttonLabel='Track' destinationPath='/track'/>
-        <NavbarButtonComponent buttonLabel='Insights' destinationPath='/insights'/>
-        <NavbarButtonComponent buttonLabel='Profile' destinationPath='/profile'/>
+      <NavbarButton buttonLabel={'Dashboard'} destinationPath={'/dashboard'} />
+      <NavbarButton buttonLabel={'Track'} destinationPath={'/track'} />
+      <NavbarButton buttonLabel={'Insights'} destinationPath={'/insights'} />
+      <NavbarButton buttonLabel={'Profile'} destinationPath={'/profile'} />
     </nav>
   );
 };

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 import './PasswordInputField.styles.css';
 
 const PasswordInputField = ({ id, labelContent, defaultValue, placeholder }) => {

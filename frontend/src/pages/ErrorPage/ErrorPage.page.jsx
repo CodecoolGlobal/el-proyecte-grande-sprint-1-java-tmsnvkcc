@@ -1,6 +1,6 @@
 import { useRouteError } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 
 const ErrorPage = () => {
   const error = useRouteError();

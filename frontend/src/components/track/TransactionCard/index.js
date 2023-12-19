@@ -1,3 +1,3 @@
-import TransactionCardComponent from "./TransactionCard.component.jsx";
+import TransactionCard from './TransactionCard.component.jsx';
 
-export default TransactionCardComponent;
+export default TransactionCard;

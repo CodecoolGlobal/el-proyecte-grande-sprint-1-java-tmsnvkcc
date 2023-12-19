@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { iconLibraryConfig } from 'config';
+import { iconLibraryConfig } from '@src/config';
 import './Income.styles.css';
 
 const Income = ({ transactions, isLoading }) => {

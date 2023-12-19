@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(path = "/api/users")
+@RequestMapping(path = "/api/users", consumes = "application/json", produces = "application/json")
 public class UserController {
   private final UserService userService;
   private final AccountService accountService;

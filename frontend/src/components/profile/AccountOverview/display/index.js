@@ -1,3 +1,3 @@
-import ProfileAccountDisplay from "./ProfileAccount.display.component";
+import ProfileAccountDisplay from './ProfileAccountDisplay.component.jsx';
 
 export default ProfileAccountDisplay;

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
   FormSwapButton,
-} from 'components/home';
-import './ProfileAccount.display.styles.css';
+} from '@src/components/home';
+import './ProfileAccountDisplay.styles.css';
 
 // TODO implement account selector
 

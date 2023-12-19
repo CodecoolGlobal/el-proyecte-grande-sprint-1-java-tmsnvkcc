@@ -14,14 +14,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      src: '/src',
-      assets: '/src/assets',
-      config: '/src/config',
-      components: '/src/components',
-      context: '/src/context',
-      pages: '/src/pages',
-      hooks: '/src/hooks',
-      utilities: '/src/utilities',
+      "@src": '/src',
+      "@src/assets": '/src/assets',
+      "@src/config": '/src/config',
+      "@src/components": '/src/components',
+      "@src/context": '/src/context',
+      "@src/pages": '/src/pages',
+      "@src/hooks": '/src/hooks',
+      "@src/utilities": '/src/utilities',
     },
   },
 });
