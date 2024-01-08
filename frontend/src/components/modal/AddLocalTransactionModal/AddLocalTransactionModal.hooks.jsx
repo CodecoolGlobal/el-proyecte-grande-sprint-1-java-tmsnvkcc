@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosConfigWithAuth } from '@src/config';
 import { serialiseFormData } from '@src/utilities';
 
-const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
+const useHandleAddTransactionFormOnSubmit = (handleOnClick, transactionDirection) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -57,5 +57,5 @@ const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
 };
 
 export {
-  useHandleFormOnSubmit,
+  useHandleAddTransactionFormOnSubmit,
 };

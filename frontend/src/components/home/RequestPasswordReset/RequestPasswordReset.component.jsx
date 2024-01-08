@@ -8,12 +8,12 @@ import {
   FormSwapButton,
   Title,
 } from '../index.js';
-import { useHandleFormOnSubmit } from './RequestPasswordReset.hooks.jsx';
+import { useHandleRequestPasswordFormOnSubmit } from './RequestPasswordReset.hooks.jsx';
 import { iconLibraryConfig } from '@src/config';
 import './RequestPasswordReset.styles.css';
 
 const RequestPasswordReset = ({ clickHandler, handleModal }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(handleModal);
+  const { isLoading, errorMessage, onSubmit } = useHandleRequestPasswordFormOnSubmit(handleModal);
 
   return (
     <>
@@ -28,7 +28,7 @@ const RequestPasswordReset = ({ clickHandler, handleModal }) => {
           type={'email'}
           placeholder={'Enter your email address...'}
         />
-        {!loading ?
+        {!isLoading ?
           <article>
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}

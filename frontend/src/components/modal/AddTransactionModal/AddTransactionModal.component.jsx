@@ -12,11 +12,11 @@ import {
   SubmitButton,
 } from '@src/components/form-related';
 import { iconLibraryConfig } from '@src/config';
-import { useHandleFormOnSubmit } from './AddTransactionModal.hooks.jsx';
+import { useHandleAddTransactionFormOnSubmit } from './AddTransactionModal.hooks.jsx';
 import './AddTransactionModal.styles.css';
 
 const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose, data }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(handleOnClick);
+  const { isLoading, errorMessage, onSubmit } = useHandleAddTransactionFormOnSubmit(handleOnClick);
   const [ids, setIds] = useState({ userId: 0, accountId: 0 });
   const [options, setOptions] = useState([]);
   const dialogRef = useRef(null);
@@ -82,7 +82,7 @@ const AddTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose, 
           labelContent={'Category'}
           defaultValue={'select a category'}
         />
-        {!loading ?
+        {!isLoading ?
           <article>
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}
