@@ -82,7 +82,7 @@ public class TransactionController {
         TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
 
         localTransactionsService.addTransaction( localTransactionDTO );
-        accountService.updateBalance( trackeroUser.getAccount().getId(), localTransactionDTO.amount());
+        accountService.updateBalance( trackeroUser.getAccount().getId(), localTransactionDTO.amount() * -1);
         accountService.updateSavingsBalance( trackeroUser.getAccount().getId(), localTransactionDTO.amount());
 
 
