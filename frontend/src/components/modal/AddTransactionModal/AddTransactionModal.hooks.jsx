@@ -3,25 +3,15 @@ import { useMutation } from '@tanstack/react-query';
 import { axiosConfigWithAuth } from '@src/config';
 import { serialiseFormData } from '@src/utilities';
 
-const useHandleFormOnSubmit = (handleOnClick) => {
-  const [loading, setLoading] = useState(false);
+const useHandleAddTransactionFormOnSubmit = (handleOnClick) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  // const token = window.localStorage.getItem('token');
 
   const { mutate, reset } = useMutation({
     mutationKey: ['addTransactionForm'],
     mutationFn: async ({ payload }) => {
-      setLoading(true);
+      setIsLoading(true);
 
-      // await fetch(`/api/transaction/add/external-transaction`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Authorization': `Bearer ${token}`,
-      //     'Content-type': 'application/json',
-      //   },
-      //   body: JSON.stringify(payload),
-      // });
-      // const data = await response.json();
       await axiosConfigWithAuth.request({
         method: 'POST',
         url: '/api/transaction/add/external-transaction',
@@ -32,7 +22,7 @@ const useHandleFormOnSubmit = (handleOnClick) => {
     },
     onSuccess: (payload) => {
       reset();
-      setLoading(false);
+      setIsLoading(false);
       handleOnClick();
 
       const userData = JSON.parse(localStorage.getItem('userData'));
@@ -41,7 +31,7 @@ const useHandleFormOnSubmit = (handleOnClick) => {
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
-      setLoading(false);
+      setIsLoading(false);
     },
   });
 
@@ -62,12 +52,12 @@ const useHandleFormOnSubmit = (handleOnClick) => {
   };
 
   return {
-    loading,
+    isLoading,
     errorMessage,
     onSubmit,
   };
 };
 
 export {
-  useHandleFormOnSubmit,
+  useHandleAddTransactionFormOnSubmit,
 };

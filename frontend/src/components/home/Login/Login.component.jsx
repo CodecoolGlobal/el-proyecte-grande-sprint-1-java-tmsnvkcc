@@ -1,4 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FormError,
   InputField,
@@ -9,15 +11,13 @@ import {
   FormSwapButton,
   Title,
 } from '@src/components/home';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useHandleLoginFormSubmission } from './Login.hooks.jsx';
 import { iconLibraryConfig } from '@src/config';
 import './Login.styles.css';
 
 const Login = ({ clickHandler }) => {
   const navigate = useNavigate();
-  const { loading, errorMessage, onSubmit } = useHandleLoginFormSubmission();
+  const { isLoading, errorMessage, onSubmit } = useHandleLoginFormSubmission();
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -43,7 +43,7 @@ const Login = ({ clickHandler }) => {
           labelContent={'Password'}
           placeholder={'Enter your password...'}
         />
-        {!loading ?
+        {!isLoading ?
           <article>
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}

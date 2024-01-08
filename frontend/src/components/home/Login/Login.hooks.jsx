@@ -8,14 +8,13 @@ import { serialiseFormData } from '@src/utilities';
 const useHandleLoginFormSubmission = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // mutate also has a builtin isLoading
   const { mutate } = useMutation({
     mutationKey: ['loginForm'],
     mutationFn: async ({ payload }) => {
-      setLoading(true);
+      setIsLoading(true);
 
       const { data } = await axiosConfig.request({
         method: 'POST',
@@ -38,13 +37,13 @@ const useHandleLoginFormSubmission = () => {
       window.localStorage.setItem('token', data.jwtResponse.jwt);
       setUser({ userId: userData.userId, email: userData.email, userName: userData.userName });
 
-      setLoading(false);
+      setIsLoading(false);
       // could be targeted to the url from where the user comes for better ux
       navigate('/dashboard');
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
-      setLoading(false);
+      setIsLoading(false);
     },
   });
 
@@ -62,7 +61,7 @@ const useHandleLoginFormSubmission = () => {
   };
 
   return {
-    loading,
+    isLoading,
     errorMessage,
     onSubmit,
   };

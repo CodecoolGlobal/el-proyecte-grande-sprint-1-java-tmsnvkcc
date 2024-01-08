@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { axiosConfig } from '@src/config';
 import { serialiseFormData } from '@src/utilities';
 
-const useHandleFormOnSubmit = () => {
-  const [loading, setLoading] = useState(false);
+const useHandleRegisterFormOnSubmit = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const { mutate, reset } = useMutation({
     mutationKey: ['registerForm'],
     mutationFn: async ({ payload }) => {
-      setLoading(true);
+      setIsLoading(true);
 
       await axiosConfig.request({
         method: 'POST',
@@ -20,12 +20,12 @@ const useHandleFormOnSubmit = () => {
     },
     onSuccess: () => {
       reset();
-      setLoading(false);
+      setIsLoading(false);
       window.location.reload();
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
-      setLoading(false);
+      setIsLoading(false);
     },
   });
 
@@ -51,12 +51,12 @@ const useHandleFormOnSubmit = () => {
   };
 
   return {
-    loading,
+    isLoading,
     errorMessage,
     onSubmit,
   };
 };
 
 export {
-  useHandleFormOnSubmit,
+  useHandleRegisterFormOnSubmit,
 };

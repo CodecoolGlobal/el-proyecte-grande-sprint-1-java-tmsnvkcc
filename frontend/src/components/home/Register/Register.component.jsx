@@ -9,12 +9,12 @@ import {
   PasswordInputField,
   SubmitButton,
 } from '@src/components/form-related';
-import { useHandleFormOnSubmit } from './Register.hooks.jsx';
+import { useHandleRegisterFormOnSubmit } from './Register.hooks.jsx';
 import { iconLibraryConfig } from '@src/config';
 import './Register.styles.css';
 
 const Register = ({ clickHandler }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit();
+  const { isLoading, errorMessage, onSubmit } = useHandleRegisterFormOnSubmit();
 
   return (
     <>
@@ -39,7 +39,7 @@ const Register = ({ clickHandler }) => {
           labelContent={'Password'}
           placeholder={'Enter your password...'}
         />
-        {!loading ?
+        {!isLoading ?
           <article>
             <SubmitButton />
             {errorMessage && <FormError errorMessage={errorMessage} />}
