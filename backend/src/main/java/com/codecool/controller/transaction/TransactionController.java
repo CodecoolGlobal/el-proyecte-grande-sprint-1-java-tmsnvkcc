@@ -77,13 +77,16 @@ public class TransactionController {
     }
 
     @PostMapping("/add/local-transaction")
-    public ResponseEntity<LocalTransaction> addLocalTransaction(@RequestBody LocalTransactionDTO localTransactionDTO) {
+    public ResponseEntity<LocalTransactionDTO> addLocalTransaction(@RequestBody LocalTransactionDTO localTransactionDTO) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
 
-        LocalTransaction localTransaction = localTransactionsService.addTransaction( localTransactionDTO );
+        localTransactionsService.addTransaction( localTransactionDTO );
+        accountService.updateBalance( trackeroUser.getAccount().getId(), localTransactionDTO.amount());
+        accountService.updateSavingsBalance( trackeroUser.getAccount().getId(), localTransactionDTO.amount());
 
-        return new ResponseEntity<>(localTransaction,HttpStatus.CREATED);
+
+        return new ResponseEntity<>(localTransactionDTO,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/local-transaction")

@@ -23,4 +23,9 @@ public class AccountService {
   public void updateBalance(int accountId, double amount) {
     accountRepository.updateAccountBalanceById(accountId, amount);
   }
+
+  @Transactional
+  public void updateSavingsBalance(int id, double amount) {
+    accountRepository.updateAccountSavingsBalanceById(id,amount);
+  }
 }

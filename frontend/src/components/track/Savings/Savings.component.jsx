@@ -13,7 +13,7 @@ import './Savings.styles.css';
 const Savings = ({ transactions, isLoading, refetch }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionDirection, setTransactionDirection] = useState('expense');
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   const provideTransactionCards = () => {
     const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
