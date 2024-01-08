@@ -11,25 +11,9 @@ import TransactionCard from '../TransactionCard'; //FIXME change individual impo
 import './Savings.styles.css';
 
 const Savings = ({ transactions, isLoading, refetch }) => {
-  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionDirection, setTransactionDirection] = useState('expense');
   const { user, setUser } = useUser();
-
-  const getAccountBalance = () => {
-    console.log(user);
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-
-    return storedData;
-    //TODO Replace temporary implementation of account retrieval
-  };
-  //TODO add loading state handler
-
-  useEffect(() => {
-    const retrievedBalances = getAccountBalance();
-
-    setBalanceDetails({ actual: retrievedBalances.actualBalance, savings: retrievedBalances.savingsBalance });
-  }, []);
 
   const provideTransactionCards = () => {
     const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
@@ -64,7 +48,7 @@ const Savings = ({ transactions, isLoading, refetch }) => {
       <div className={'savings-controls-container'}>
         <div className={'savings-balance-container'}>
           <h2>ACTUAL BALANCE</h2>
-          {balanceDetails.actualBalance}
+          {user.actualBalance}
         </div>
         <div className={'savings-arrow-button-container'}>
           <button type={'button'} onClick={() => handleOnClick('expense')}>
@@ -76,7 +60,7 @@ const Savings = ({ transactions, isLoading, refetch }) => {
         </div>
         <div className={'savings-balance-container'}>
           <h2>SAVINGS BALANCE</h2>
-          {balanceDetails.savingsBalance}
+          {user.savingsBalance}
         </div>
       </div>
       <div className={'savings-transactions-container'}>
