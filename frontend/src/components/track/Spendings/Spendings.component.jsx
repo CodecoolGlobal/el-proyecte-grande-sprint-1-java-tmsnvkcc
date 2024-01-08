@@ -1,3 +1,4 @@
+import { useUser } from '@src/context/UserContext.jsx';
 import {
   useEffect,
   useState,
@@ -7,11 +8,11 @@ import { iconLibraryConfig } from '@src/config';
 import './Spendings.styles.css';
 
 const Spendings = ({ transactions, isLoading }) => {
-  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [spending, setSpending] = useState('');
   const [spendingList, setSpendingList] = useState('');
   const [categories, setCategories] = useState('');
   const [currency, setCurrency] = useState('HUF');
+  const { user } = useUser();
 
   const getAmountSumOf = (list) => {
     let sum = 0;
@@ -62,10 +63,9 @@ const Spendings = ({ transactions, isLoading }) => {
       setSpendingList(getSpendings(data));
       // setCategoryNames();
       const categoryNames = getCategoryNames(data);
+
       setCategories(calculateSumForCategories(categoryNames, data));
 
-      const userData = JSON.parse(localStorage.getItem('userData'));
-      setBalanceDetails({ actual: userData.actualBalance, savings: userData.savingsBalance });
     }
   }, [transactions, isLoading]);
 
@@ -96,7 +96,7 @@ const Spendings = ({ transactions, isLoading }) => {
           {categories && categories.map((cat) => {
             return (
               <div key={cat.name}
-                   className={'information'}>
+                className={'information'}>
                 <h3 className={'category-name'}>{cat.name}</h3>
                 <h3 className={'category-amount spending-color'}>{cat.sum * -1} {currency}</h3>
               </div>
@@ -109,11 +109,11 @@ const Spendings = ({ transactions, isLoading }) => {
           <div className={'balance-content'}>
             <div className={'information'}>
               <h2>Actual Balance</h2>
-              <h3>{balanceDetails.actualBalance} {currency}</h3>
+              <h3>{user.actualBalance} {currency}</h3>
             </div>
             <div className={'information'}>
               <h2>Savings Balance</h2>
-              <h3>{balanceDetails.savingsBalance} {currency}</h3>
+              <h3>{user.savingsBalance} {currency}</h3>
             </div>
           </div>
         </div>
