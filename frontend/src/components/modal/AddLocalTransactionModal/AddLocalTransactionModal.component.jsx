@@ -1,3 +1,4 @@
+import { useUpdateLocalBalance } from '@src/hooks/useUpdateLocalBalance.jsx';
 import {
   useEffect,
   useRef,
@@ -7,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FormError,
   InputField,
-  SelectField,
   SingleCheckbox,
   SubmitButton,
 } from '@src/components/form-related';
@@ -16,7 +16,7 @@ import { useHandleFormOnSubmit } from './AddLocalTransactionModal.hooks.jsx';
 import './AddLocalTransactionModal.styles.css';
 
 const AddLocalTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose, transactionDirection }) => {
-  const { loading, errorMessage, onSubmit } = useHandleFormOnSubmit(handleOnClick, transactionDirection);
+  const { loading, errorMessage, onSubmit, isSuccess } = useHandleFormOnSubmit(handleOnClick, transactionDirection);
   const [ids, setIds] = useState({ userId: 0, accountId: 0 });
   const dialogRef = useRef(null);
 

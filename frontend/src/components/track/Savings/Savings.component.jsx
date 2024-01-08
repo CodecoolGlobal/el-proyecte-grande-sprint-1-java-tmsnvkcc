@@ -1,6 +1,5 @@
 import { useUser } from '@src/context/UserContext.jsx';
 import {
-  useEffect,
   useState,
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

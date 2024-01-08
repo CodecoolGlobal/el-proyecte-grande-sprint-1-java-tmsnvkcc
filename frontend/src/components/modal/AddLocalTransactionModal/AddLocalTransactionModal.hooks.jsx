@@ -1,3 +1,4 @@
+import { useUpdateLocalBalance } from '@src/hooks/useUpdateLocalBalance.jsx';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { axiosConfigWithAuth } from '@src/config';
@@ -6,8 +7,9 @@ import { serialiseFormData } from '@src/utilities';
 const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { updateLocalBalance, updateLocalSavingsBalance } = useUpdateLocalBalance();
 
-  const { mutate, reset } = useMutation({
+  const { mutate, reset, isSuccess } = useMutation({
     mutationKey: ['addTransactionForm'],
     mutationFn: async ({ payload }) => {
       setLoading(true);
@@ -47,6 +49,8 @@ const useHandleFormOnSubmit = (handleOnClick, transactionDirection) => {
     payload.isPlanned = Date.parse(payload.dateOfTransaction) > Date.now();
 
     mutate({ payload });
+
+    updateLocalBalance(payload.amount, transactionDirection !== 'expense');
   };
 
   return {
