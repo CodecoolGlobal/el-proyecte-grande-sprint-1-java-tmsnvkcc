@@ -6,5 +6,7 @@ public record AboutMeDTO(
   int id,
   String email,
   String username,
-  List<String> userRoles
+  List<String> userRoles,
+  Double actualBalance,
+  Double savingsBalance
 ) {}

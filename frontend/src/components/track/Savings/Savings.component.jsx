@@ -1,3 +1,4 @@
+import { useUser } from '@src/context/UserContext.jsx';
 import {
   useEffect,
   useState,
@@ -13,8 +14,10 @@ const Savings = ({ transactions, isLoading, refetch }) => {
   const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionDirection, setTransactionDirection] = useState('expense');
+  const { user, setUser } = useUser();
 
   const getAccountBalance = () => {
+    console.log(user);
     const storedData = JSON.parse(localStorage.getItem('userData'));
 
     return storedData;
