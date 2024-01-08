@@ -97,8 +97,9 @@ public class UserController {
       .stream()
       .map(GrantedAuthority::getAuthority)
       .toList();
+    Account account = accountService.findAccountById( trackeroUser.getAccount().getId() );
 
-    AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName(), userRoles);
+    AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName(), userRoles, account.getActualBalance(), account.getSavingsBalance());
 
     return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
   }
