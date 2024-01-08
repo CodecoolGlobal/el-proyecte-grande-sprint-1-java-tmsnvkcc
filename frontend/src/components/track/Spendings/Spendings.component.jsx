@@ -1,3 +1,4 @@
+import { AddTransactionModal } from '@src/components/modal/index.js';
 import { useUser } from '@src/context/UserContext.jsx';
 import {
   useEffect,
@@ -7,11 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { iconLibraryConfig } from '@src/config';
 import './Spendings.styles.css';
 
-const Spendings = ({ transactions, isLoading }) => {
+const Spendings = ({ transactions, isLoading, refetch }) => {
   const [spending, setSpending] = useState('');
   const [spendingList, setSpendingList] = useState('');
   const [categories, setCategories] = useState('');
   const [currency, setCurrency] = useState('HUF');
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { user } = useUser();
 
   const getAmountSumOf = (list) => {
@@ -22,6 +24,18 @@ const Spendings = ({ transactions, isLoading }) => {
     }
 
     return sum;
+  };
+  const listenForEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsModalVisible(false);
+    }
+  };
+  const handleOnClick = () => {
+    setIsModalVisible(!isModalVisible);
+
+    if (isModalVisible) {
+      refetch();
+    }
   };
 
   const getSpendings = (exTransactionList) => {
@@ -71,6 +85,10 @@ const Spendings = ({ transactions, isLoading }) => {
 
   // TODO: refactor component (create hook)
 
+  const createModalData = () => {
+
+  };
+
   return (
     <div className={'track-page-spendings'}>
       {isLoading &&
@@ -82,7 +100,9 @@ const Spendings = ({ transactions, isLoading }) => {
           <div className={'information'}>
             <div className={'title'}>
               <span>{spending * -1} {currency}</span>
-              <button>
+              <button
+                onClick={handleOnClick}
+              >
                 <FontAwesomeIcon icon={iconLibraryConfig.faPlus} />
                 <span>Add new expense</span>
               </button>
@@ -118,6 +138,12 @@ const Spendings = ({ transactions, isLoading }) => {
           </div>
         </div>
       </div>
+      <AddTransactionModal
+        isModalVisible={isModalVisible}
+        handleOnKeyClose={listenForEscapeKey}
+        handleOnClick={handleOnClick}
+        data={{ userId: user.id, accountId: user.id }}
+      />
     </div>
   );
 };
