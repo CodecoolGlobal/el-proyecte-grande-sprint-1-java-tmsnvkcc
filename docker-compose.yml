@@ -1,5 +1,9 @@
+version: '3.8'
+
 services:
   backend:
+    image: trackero-backend
+    container_name: trackero-backend
     build:
       context: backend
       dockerfile: Dockerfile
@@ -11,10 +15,12 @@ services:
       DB_PASSW: 18_xsgAF-t47YXXPUyvN74MyYaxafd0Q
 
   frontend:
+    image: trackero-frontend
+    container_name: trackero-frontend
     build:
       context: frontend
       dockerfile: Dockerfile
     ports:
-      - 5173:5173
+      - 80:80
     depends_on:
       - backend
