@@ -2,10 +2,9 @@
 FROM eclipse-temurin:21-jdk-alpine AS build-stage
 
 WORKDIR /backend
-
 COPY mvnw pom.xml .
 COPY .mvn .mvn
-RUN ./mvnw dependency:go-offline -B
+RUN ./mvnw dependency:go-offline
 
 COPY src src
 
@@ -16,7 +15,6 @@ RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 FROM eclipse-temurin:21-jdk-alpine AS prod-stage
 
 ARG DEPENDENCY=/backend/target/dependency
-
 COPY --from=build-stage ${DEPENDENCY}/BOOT-INF/lib /backend/lib
 COPY --from=build-stage ${DEPENDENCY}/META-INF /backend/META-INF
 COPY --from=build-stage ${DEPENDENCY}/BOOT-INF/classes /backend
