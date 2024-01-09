@@ -6,8 +6,8 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
 
   const calculateProfit = () => {
     if (!transactionsData.externalTransactionDTOS) return 0;
-    const allExpenseThisMonth = transactionsData.externalTransactionDTOS.filter((transaction) => transaction.amount > 0).reduce((acc, curr) => acc + curr.amount, 0);
-    const allIncomeThisMonth = transactionsData.externalTransactionDTOS.filter((transaction) => transaction.amount < 0).reduce((acc, curr) => acc + curr.amount, 0);
+    const allExpenseThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount < 0).reduce((acc, curr) => acc + curr.amount, 0);
+    const allIncomeThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount > 0).reduce((acc, curr) => acc + curr.amount, 0);
 
     return allIncomeThisMonth - allExpenseThisMonth;
   };
