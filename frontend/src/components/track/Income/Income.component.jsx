@@ -6,7 +6,6 @@ import { iconLibraryConfig } from '@src/config';
 import './Income.styles.css';
 
 const Income = ({ transactions, isLoading, refetch }) => {
-  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [income, setIncome] = useState('');
   const [incomeList, setIncomeList] = useState('');
@@ -78,10 +77,6 @@ const Income = ({ transactions, isLoading, refetch }) => {
       const categoryNames = getCategoryNames(data);
 
       setCategories(calculateSumForCategories(categoryNames, data));
-
-      const userData = JSON.parse(localStorage.getItem('userData'));
-
-      setBalanceDetails({ actual: userData.actualBalance, savings: userData.savingsBalance });
     }
   }, [transactions, isLoading]);
 
