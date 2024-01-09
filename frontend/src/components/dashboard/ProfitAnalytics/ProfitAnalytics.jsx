@@ -1,8 +1,11 @@
 import './ProfitAnalytics.css';
+import { useUser } from '@src/context/UserContext.jsx';
 import { useEffect, useState } from 'react';
 
 const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
   const [profit, setProfit] = useState(0);
+  const [topThreeCategories, setTopThreeCategories] = useState([]);
+  const { user } = useUser();
 
   const calculateProfit = () => {
     if (!transactionsData.externalTransactionDTOS) return 0;
@@ -11,15 +14,53 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
 
     return allIncomeThisMonth - allExpenseThisMonth;
   };
+  const getSpendings = (exTransactionList) => {
+    return exTransactionList.filter((tr) => tr.amount < 0).reverse();
+  }; //TODO Remove code duplication ( spendings component )
+  const getAmountSumOf = (list) => {
+    let sum = 0;
+
+    for (let i = 0; i < list.length; i++) {
+      sum += list[i].amount;
+    }
+
+    return sum;
+  }; //TODO Remove code duplication ( spendings component )
+
+  const calculateSumForCategories = (categoryNameList, exTransactionList) => {
+    const result = [];
+    const spendingList = getSpendings(exTransactionList);
+
+    for (let i = 0; i < categoryNameList.length; i++) {
+      const transactionsByCategory = spendingList
+        .filter((tr) => tr.categoryName === categoryNameList[i]);
+
+      result.push({ name: categoryNameList[i], sum: getAmountSumOf(transactionsByCategory) });
+    }
+
+    return result.sort((a, b) => a.sum - b.sum).slice(0, 3);
+  }; //TODO Remove code duplication ( spendings component )
 
   useEffect(() => {
     setProfit(calculateProfit());
+    setTopThreeCategories(calculateSumForCategories(user.categories.map((category) => category.name), transactionsData.externalTransactionDTOS));
   }, [isTransactionLoading]);
 
   return (
     <div className={'profit-analytics-container'}>
       <p>Total profit this month</p>
       <p className={profit > 0 ? 'profit-sum positive-profit' : 'profit-sum negative-profit'} >{ profit }</p>
+      <p> Top three expense categories</p>
+      <section className={'profit-analytics-category-container'}>
+        { topThreeCategories.map((category) => {
+          return (
+            <div className={'profit-analytics-category'} key={category.name}>
+              <b>{category.name}</b>
+              <p>{category.sum}</p>
+            </div>
+          );
+        })}
+      </section>
     </div>
   );
 };
