@@ -1,3 +1,4 @@
+import { useUser } from '@src/context/UserContext.jsx';
 import {
   useEffect,
   useState,
@@ -7,12 +8,12 @@ import { iconLibraryConfig } from '@src/config';
 import './Overview.styles.css';
 
 const Overview = ({ transactions, isLoading }) => {
-  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [spending, setSpending] = useState(null);
   const [income, setIncome] = useState(null);
   const [plannedSpending, setPlannedSpending] = useState(null);
   const [plannedIncome, setPlannedIncome] = useState(null);
   const [currency, setCurrency] = useState('HUF');
+  const { user } = useUser();
 
   const getAmountSumOf = (list) => {
     let sum = 0;
@@ -49,10 +50,6 @@ const Overview = ({ transactions, isLoading }) => {
       setIncome(calculateIncome(data));
       setPlannedSpending(calculatePlannedSpending(data));
       setPlannedIncome(calculatePlannedIncome(data));
-
-      const userData = JSON.parse(localStorage.getItem('userData'));
-
-      setBalanceDetails({ actual: userData.actualBalance, savings: userData.savingsBalance });
     }
   }, [transactions, isLoading]);
 
@@ -102,11 +99,11 @@ const Overview = ({ transactions, isLoading }) => {
         <div className={'right-content'}>
           <div className={'information'}>
             <h2>Actual Balance</h2>
-            <h3>{balanceDetails.actualBalance} {currency}</h3>
+            <h3>{user.actualBalance} {currency}</h3>
           </div>
           <div className={'information'}>
             <h2>Savings Balance</h2>
-            <h3>{balanceDetails.savingsBalance} {currency}</h3>
+            <h3>{user.savingsBalance} {currency}</h3>
           </div>
         </div>
       </div>
