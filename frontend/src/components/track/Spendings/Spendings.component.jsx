@@ -85,10 +85,6 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
 
   // TODO: refactor component (create hook)
 
-  const createModalData = () => {
-
-  };
-
   return (
     <div className={'track-page-spendings'}>
       {isLoading &&
