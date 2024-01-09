@@ -1,0 +1,23 @@
+.profit-analytics-container {
+    width: 100%;
+    height: 55%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: flex-start;
+}
+.profit-sum {
+    font-size: 3vw;
+    filter: drop-shadow( 0 0 10px black);
+}
+
+.positive-profit {
+    color: #306700;
+}
+
+.negative-profit {
+    color: #772a2a;
+
+}

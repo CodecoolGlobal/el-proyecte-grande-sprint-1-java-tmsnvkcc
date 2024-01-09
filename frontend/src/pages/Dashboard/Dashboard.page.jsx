@@ -1,3 +1,5 @@
+import { ProfitAnalytics } from '@src/components/dashboard/index.js';
+import { useGetMonthlyTransactions } from '@src/hooks';
 import { useState } from 'react';
 import {
   AddTransaction,
@@ -10,6 +12,7 @@ import './Dashboard.styles.css';
 
 const Dashboard = () => {
   const { data, isLoading, isError } = useGetDashboardData();
+  const { transactionsData, isTransactionLoading, refetch } = useGetMonthlyTransactions(new Date().getFullYear(), new Date().getMonth());
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOnClick = () => {
@@ -39,7 +42,9 @@ const Dashboard = () => {
       <div className={!isModalVisible ? 'dashboard-page' : 'dashboard-page blur'}>
         <PageTitle title={'Dashboard'} />
         <div className={'dashboard-window-container'}>
-          <Window title={'Current month'} text={'Data...'} button={<AddTransaction handleOnClick={handleOnClick} />} />
+          <Window title={'Current month'} text={'Data...'} button={<AddTransaction handleOnClick={handleOnClick} />}>
+            <ProfitAnalytics transactionsData={transactionsData} isTransactionLoading={isTransactionLoading} />
+          </Window>
           <Window title={'Last 12 months recap'} text={'Expenses...'} />
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>
