@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import axios from 'axios';
 import './Categories.styles.css';
 import { iconLibraryConfig } from '@src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

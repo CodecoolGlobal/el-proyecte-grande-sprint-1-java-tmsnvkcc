@@ -204,6 +204,7 @@ public class UserController {
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<?> getCategories() {
     User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    System.out.println(userDetails);
     TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
     List<TransactionCategory> categories = trackeroUser.getCategories();
 

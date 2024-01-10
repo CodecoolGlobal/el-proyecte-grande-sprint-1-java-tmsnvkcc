@@ -1,19 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
+import { axiosConfigWithAuth } from '@src/config';
 
 const getProfileData = (url) => {
-  const token = window.localStorage.getItem('token');
-
   const query = useQuery({
     queryKey:['getProfileData', url],
     queryFn: async () => {
-      const response = await fetch(`/api/users/${url}`, {
-        headers:{
-          'Authorization': `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
+      const { data } = await axiosConfigWithAuth.request({
+        method: 'GET',
+        url: `/api/users/${url}`,
       });
-
-      const data = await response.json();
 
       return data;
     },
