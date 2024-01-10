@@ -1,6 +1,7 @@
 import './RadarComponent.css';
 import Chart from 'chart.js/auto';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Logo from '../../../assets/Trackero_logo.png';
 
 const RadarComponent = ({ transactionArray, isTransactionLoading, dataText, randomColor }) => {
   const chartRef = useRef();
@@ -49,6 +50,24 @@ const RadarComponent = ({ transactionArray, isTransactionLoading, dataText, rand
 
   useEffect(() => {
     if (transactionArray) {
+      const image = new Image();
+      image.src = Logo;
+
+      const plugin = {
+        id: 'customCanvasBackgroundImage',
+        beforeDraw: (chart) => {
+          if (image.complete) {
+            const ctx = chart.ctx;
+            const {top, left, width, height} = chart.chartArea;
+            const x = left + width / 2 - image.width / 2;
+            const y = (top + 5) + height / 2 - image.height / 2;
+            ctx.drawImage(image, x, y);
+          } else {
+            image.onload = () => chart.draw();
+          }
+        }
+      };
+
       const monthlyDataSet = provideCategoryFrequencyTable();
       const labels = Object.keys(monthlyDataSet);
       const data = Object.values(monthlyDataSet);
@@ -76,6 +95,7 @@ const RadarComponent = ({ transactionArray, isTransactionLoading, dataText, rand
             },
           ],
         },
+        plugins: [plugin],
         options: {
           animation: {
             onComplete: () => {
