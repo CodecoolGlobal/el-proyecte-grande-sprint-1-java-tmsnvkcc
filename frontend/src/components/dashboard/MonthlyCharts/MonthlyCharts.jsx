@@ -10,10 +10,10 @@ const MonthlyCharts = ({ transactionArray, isTransactionLoading, backgroundColor
     const monthlyDataSet = {};
 
     for (const transaction of transactionArray) {
-      if (monthlyDataSet[transaction.dateOfTransaction]) {
-        monthlyDataSet[transaction.dateOfTransaction] += transaction.amount;
+      if (monthlyDataSet[transaction.dateOfTransaction.slice(-5)]) {
+        monthlyDataSet[transaction.dateOfTransaction.slice(-5)] += transaction.amount;
       } else {
-        monthlyDataSet[transaction.dateOfTransaction] = transaction.amount;
+        monthlyDataSet[transaction.dateOfTransaction.slice(-5)] = transaction.amount;
       }
     }
 
