@@ -97,8 +97,19 @@ public class UserController {
       .stream()
       .map(GrantedAuthority::getAuthority)
       .toList();
+    Account account = accountService.findAccountById( trackeroUser.getAccount().getId() );
+    List<TransactionCategory> categories = trackeroUser.getCategories();
 
-    AboutMeDTO aboutMeDTO = new AboutMeDTO(trackeroUser.getId(), trackeroUser.getEmail(), trackeroUser.getUserName(), userRoles);
+    AboutMeDTO aboutMeDTO = new AboutMeDTO(
+            trackeroUser.getId(),
+            trackeroUser.getEmail(),
+            trackeroUser.getUserName(),
+            userRoles,
+            account.getActualBalance(),
+            account.getSavingsBalance(),
+            trackeroUser.getDateOfRegistration(),
+            categories
+    );
 
     return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
   }

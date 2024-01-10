@@ -1,3 +1,4 @@
+import { useCurrencyFormatter } from '@src/hooks';
 import {
   useEffect,
   useState,
@@ -16,7 +17,7 @@ const provideAmountSign = (amount) => {
 const TransactionCard = ({ transaction, refetch }) => {
   const [enableDelete, setEnableDelete] = useState(false);
   const { responseData, responseStatus, isTransactionLoading, isTransactionError } = useDeleteTransaction(transaction.id, enableDelete);
-
+  const { formatCurrency } = useCurrencyFormatter();
   const handleClick = () => {
     setEnableDelete(true);
     refetch();
@@ -31,7 +32,7 @@ const TransactionCard = ({ transaction, refetch }) => {
   return (
     <div className={'transaction-card-container'}>
       <div className={'transaction-card-upper-container'}>
-        <h2 className={provideAmountColor(transaction.amount)}>{provideAmountSign(transaction.amount)}{transaction.amount}</h2>
+        <h2 className={provideAmountColor(transaction.amount)}>{provideAmountSign(transaction.amount)}{formatCurrency(transaction.amount)}</h2>
         <h2>{transaction.dateOfTransaction}</h2>
         <button type={'button'} onClick={handleClick}> X </button>
       </div>

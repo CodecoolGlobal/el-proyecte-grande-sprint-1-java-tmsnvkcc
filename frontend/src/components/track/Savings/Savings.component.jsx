@@ -1,32 +1,20 @@
+import './Savings.styles.css';
+import { useCurrencyFormatter } from '@src/hooks';
 import {
-  useEffect,
   useState,
 } from 'react';
+import { useUser } from '@src/context/UserContext.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
 import { AddLocalTransactionModal } from '@src/components/modal';
 import { iconLibraryConfig } from '@src/config';
 import TransactionCard from '../TransactionCard'; //FIXME change individual import to icon library config
-import './Savings.styles.css';
 
 const Savings = ({ transactions, isLoading, refetch }) => {
-  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [transactionDirection, setTransactionDirection] = useState('expense');
-
-  const getAccountBalance = () => {
-    const storedData = JSON.parse(localStorage.getItem('userData'));
-
-    return storedData;
-    //TODO Replace temporary implementation of account retrieval
-  };
-  //TODO add loading state handler
-
-  useEffect(() => {
-    const retrievedBalances = getAccountBalance();
-
-    setBalanceDetails({ actual: retrievedBalances.actualBalance, savings: retrievedBalances.savingsBalance });
-  }, []);
+  const { user } = useUser();
+  const { formatCurrency } = useCurrencyFormatter();
 
   const provideTransactionCards = () => {
     const reversedTransactionArray = transactions.localTransactionDTOS.toReversed();
@@ -61,7 +49,7 @@ const Savings = ({ transactions, isLoading, refetch }) => {
       <div className={'savings-controls-container'}>
         <div className={'savings-balance-container'}>
           <h2>ACTUAL BALANCE</h2>
-          {balanceDetails.actualBalance}
+          {formatCurrency(user.actualBalance)}
         </div>
         <div className={'savings-arrow-button-container'}>
           <button type={'button'} onClick={() => handleOnClick('expense')}>
@@ -73,7 +61,7 @@ const Savings = ({ transactions, isLoading, refetch }) => {
         </div>
         <div className={'savings-balance-container'}>
           <h2>SAVINGS BALANCE</h2>
-          {balanceDetails.savingsBalance}
+          {formatCurrency(user.savingsBalance)}
         </div>
       </div>
       <div className={'savings-transactions-container'}>
