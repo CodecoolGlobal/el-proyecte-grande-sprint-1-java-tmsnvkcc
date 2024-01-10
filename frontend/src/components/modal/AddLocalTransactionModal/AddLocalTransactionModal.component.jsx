@@ -12,11 +12,12 @@ import {
   SubmitButton,
 } from '@src/components/form-related';
 import { iconLibraryConfig } from '@src/config';
-import { useHandleFormOnSubmit } from './AddLocalTransactionModal.hooks.jsx';
+import { useHandleAddTransactionFormOnSubmit } from './AddLocalTransactionModal.hooks.jsx';
 import './AddLocalTransactionModal.styles.css';
 
 const AddLocalTransactionModal = ({ isModalVisible, handleOnClick, handleOnKeyClose, transactionDirection }) => {
-  const { loading, errorMessage, onSubmit, isSuccess } = useHandleFormOnSubmit(handleOnClick, transactionDirection);
+
+  const { loading, errorMessage, onSubmit } = useHandleAddTransactionFormOnSubmit(handleOnClick, transactionDirection);
   const [ids, setIds] = useState({ userId: 0, accountId: 0 });
   const dialogRef = useRef(null);
 

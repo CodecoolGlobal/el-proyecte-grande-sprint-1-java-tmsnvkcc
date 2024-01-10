@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { axiosConfig } from '@src/config';
 import { serialiseFormData } from '@src/utilities';
 
-const useHandleFormOnSubmit = (handleModal) => {
-  const [loading, setLoading] = useState(false);
+const useHandleRequestPasswordFormOnSubmit = (handleModal) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const { mutate, reset } = useMutation({
     mutationKey: ['forgottenPasswordForm'],
     mutationFn: async ({ payload }) => {
-      setLoading(true);
+      setIsLoading(true);
 
       const response = await axiosConfig.request({
         method: 'POST',
@@ -22,12 +22,12 @@ const useHandleFormOnSubmit = (handleModal) => {
     },
     onSuccess: () => {
       reset();
-      setLoading(false);
+      setIsLoading(false);
       handleModal();
     },
     onError: (error) => {
       setErrorMessage(error.response.data.message);
-      setLoading(false);
+      setIsLoading(false);
     },
   });
 
@@ -45,12 +45,12 @@ const useHandleFormOnSubmit = (handleModal) => {
   };
 
   return {
-    loading,
+    isLoading,
     errorMessage,
     onSubmit,
   };
 };
 
 export {
-  useHandleFormOnSubmit,
+  useHandleRequestPasswordFormOnSubmit,
 };
