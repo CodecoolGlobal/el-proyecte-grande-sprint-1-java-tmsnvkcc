@@ -60,7 +60,7 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
           return (
             <div className={'profit-analytics-category'} key={category.name}>
               <b>{category.name}</b>
-              <p>{category.sum}</p>
+              <p>{formatCurrency(category.sum)}</p>
             </div>
           );
         })}
