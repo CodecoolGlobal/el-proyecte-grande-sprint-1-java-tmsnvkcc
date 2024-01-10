@@ -1,4 +1,5 @@
 import { useUser } from '@src/context/UserContext.jsx';
+import { useCurrencyFormatter } from '@src/hooks';
 import {
   useEffect,
   useState,
@@ -14,6 +15,7 @@ const Overview = ({ transactions, isLoading }) => {
   const [plannedIncome, setPlannedIncome] = useState(null);
   const [currency, setCurrency] = useState('HUF');
   const { user } = useUser();
+  const { formatCurrency } = useCurrencyFormatter();
 
   const getAmountSumOf = (list) => {
     let sum = 0;
@@ -69,22 +71,22 @@ const Overview = ({ transactions, isLoading }) => {
         <div className={'left-content'}>
           <div className={'information'}>
             <h2>Total amount of spending this month</h2>
-            <h3 className={'spending-color'}>{spending} {currency}</h3>
+            <h3 className={'spending-color'}>{formatCurrency(spending)}</h3>
           </div>
 
           <div className={'information'}>
             <h2>Planned spending</h2>
-            <h3 className={'spending-color'}>{plannedSpending} {currency}</h3>
+            <h3 className={'spending-color'}>{formatCurrency(plannedSpending)}</h3>
           </div>
 
           <div className={'information'}>
             <h2>Total amount of income this month</h2>
-            <h3 className={'income-color'}>{income} {currency}</h3>
+            <h3 className={'income-color'}>{formatCurrency(income)}</h3>
           </div>
 
           <div className={'information'}>
             <h2>Planned income</h2>
-            <h3 className={'income-color'}>{plannedIncome} {currency}</h3>
+            <h3 className={'income-color'}>{formatCurrency(plannedIncome)}</h3>
           </div>
         </div>
       </div>
@@ -99,11 +101,11 @@ const Overview = ({ transactions, isLoading }) => {
         <div className={'right-content'}>
           <div className={'information'}>
             <h2>Actual Balance</h2>
-            <h3>{user.actualBalance} {currency}</h3>
+            <h3>{formatCurrency(user.actualBalance)}</h3>
           </div>
           <div className={'information'}>
             <h2>Savings Balance</h2>
-            <h3>{user.savingsBalance} {currency}</h3>
+            <h3>{formatCurrency(user.savingsBalance)}</h3>
           </div>
         </div>
       </div>

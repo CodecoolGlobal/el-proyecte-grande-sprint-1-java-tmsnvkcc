@@ -14,7 +14,6 @@ const Dashboard = () => {
   const { data, isLoading, isError } = useGetDashboardData();
   const { transactionsData, isTransactionLoading, refetch } = useGetMonthlyTransactions(new Date().getFullYear(), new Date().getMonth());
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const handleOnClick = () => {
     setIsModalVisible(!isModalVisible);
 
