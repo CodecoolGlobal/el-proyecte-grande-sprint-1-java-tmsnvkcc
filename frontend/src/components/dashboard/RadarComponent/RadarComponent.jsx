@@ -1,37 +1,55 @@
-import './MonthlyCharts.css';
+import './RadarComponent.css';
 import Chart from 'chart.js/auto';
 import { useEffect, useRef } from 'react';
 
-const MonthlyCharts = ({ transactionArray, isTransactionLoading, backgroundColor, borderColor, dataText }) => {
+const RadarComponent = ({ transactionArray, isTransactionLoading, dataText, randomColor }) => {
   const chartRef = useRef();
   const chartInstance = useRef(null);
 
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
   const getRandomColorCode = () => {
-    const r = Math.random(255);
-    const g = Math.random(255);
-    const b = Math.random(255);
+    const r = getRandomInt(255);
+    const g = getRandomInt(255);
+    const b = getRandomInt(255);
 
     return [r, g, b];
   };
 
-  const getMonthlyDataSet = () => {
-    const monthlyDataSet = {};
+  const generateRandomColors = (number) => {
+    const colors = [];
+
+    for (let i = 0; i < number; i++) {
+      const colorCode = getRandomColorCode();
+
+      colors.push(`rgb(${colorCode[0]},${colorCode[1]},${colorCode[2]})`);
+    }
+
+    console.log(colors);
+
+    return colors;
+  };
+
+  const provideCategoryFrequencyTable = () => {
+    const frequencyTable = {};
 
     for (const transaction of transactionArray) {
-      if (monthlyDataSet[transaction.dateOfTransaction.slice(-5)]) {
-        monthlyDataSet[transaction.dateOfTransaction.slice(-5)] += transaction.amount;
+      if (frequencyTable[transaction.categoryName]) {
+        frequencyTable[transaction.categoryName] += transaction.amount;
       } else {
-        monthlyDataSet[transaction.dateOfTransaction.slice(-5)] = transaction.amount;
+        frequencyTable[transaction.categoryName] = transaction.amount;
       }
     }
 
-    return monthlyDataSet;
+    return frequencyTable;
   };
 
 
   useEffect(() => {
     if (transactionArray) {
-      const monthlyDataSet = getMonthlyDataSet();
+      const monthlyDataSet = provideCategoryFrequencyTable();
       const labels = Object.keys(monthlyDataSet);
       const data = Object.values(monthlyDataSet);
       let delayed;
@@ -39,16 +57,22 @@ const MonthlyCharts = ({ transactionArray, isTransactionLoading, backgroundColor
       const ctx = chartRef.current.getContext('2d');
 
       chartInstance.current = new Chart(ctx, {
-        type: 'line',
+        type: 'doughnut',
         data: {
           labels,
           datasets: [
             {
               label: dataText,
               data,
-              backgroundColor: borderColor,
-              borderColor: backgroundColor,
-              borderWidth: 5,
+              backgroundColor: randomColor ?
+                generateRandomColors(labels.length) :
+                [
+                  'rgb(194,6,80)',
+                  'rgb(152,28,131)',
+                  'rgb(118,18,148)',
+                  'rgb(248, 244, 236)',
+                ],
+              borderWidth: 2,
             },
           ],
         },
@@ -83,7 +107,7 @@ const MonthlyCharts = ({ transactionArray, isTransactionLoading, backgroundColor
     };
   }, [isTransactionLoading]);
 
-  return <canvas ref={chartRef} width='100%' height='40%' />;
+  return <canvas ref={chartRef} className={'dashboard-pie-chart'}/>;
 };
 
-export default MonthlyCharts;
+export default RadarComponent;

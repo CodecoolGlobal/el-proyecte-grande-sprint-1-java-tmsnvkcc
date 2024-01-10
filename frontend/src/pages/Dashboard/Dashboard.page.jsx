@@ -1,4 +1,4 @@
-import { MonthlyCharts, ProfitAnalytics } from '@src/components/dashboard/index.js';
+import { MonthlyCharts, ProfitAnalytics, RadarComponent } from '@src/components/dashboard/index.js';
 import { useGetMonthlyTransactions } from '@src/hooks';
 import { useState } from 'react';
 import {
@@ -61,15 +61,24 @@ const Dashboard = () => {
               isTransactionLoading={isTransactionLoading}
               borderColor={'rgb(75,192,85)'}
               backgroundColor={'rgba(87,192,75,0.2)'}
-              dataText={'Income'}/>
+              dataText={'Income'}
+            />
             <MonthlyCharts
               transactionArray={provideExpenseArray()}
               isTransactionLoading={isTransactionLoading}
               borderColor={'rgb(192,75,75)'}
               backgroundColor={'rgba(192,75,75,0.2)'}
-              dataText={'Expense'}/>
+              dataText={'Expense'}
+            />
           </Window>
-          <Window title={'Test title'} text={'Random test text dev'} />
+          <Window title={'Expense by categories'} text={''}>
+            <RadarComponent
+              transactionArray={provideExpenseArray()}
+              isTransactionLoading={isTransactionLoading}
+              dataText={'Expense By Category'}
+              randomColor={false}
+            />
+          </Window>
         </div>
       </div>
       <AddTransactionModal
