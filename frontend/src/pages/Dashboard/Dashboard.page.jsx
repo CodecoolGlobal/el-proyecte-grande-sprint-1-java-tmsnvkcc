@@ -34,6 +34,9 @@ const Dashboard = () => {
   const provideIncomeArray = () => {
     return transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount > 0);
   };
+  const provideExpenseArray = () => {
+    return transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount < 0);
+  };
 
   if (isError) {
     return (
@@ -49,8 +52,19 @@ const Dashboard = () => {
           <Window title={'Current month'} text={''} button={<AddTransaction handleOnClick={handleOnClick} />}>
             <ProfitAnalytics transactionsData={transactionsData} isTransactionLoading={isTransactionLoading} />
           </Window>
-          <Window title={'Last 12 months recap'} text={''} >
-            <MonthlyCharts transactionArray={provideIncomeArray()} isTransactionLoading={isTransactionLoading}/>
+          <Window title={'Monthly Statistic'} text={''} >
+            <MonthlyCharts
+              transactionArray={provideIncomeArray()}
+              isTransactionLoading={isTransactionLoading}
+              borderColor={'rgb(75,192,85)'}
+              backgroundColor={'rgba(87,192,75,0.2)'}
+              dataText={'Income'}/>
+            <MonthlyCharts
+              transactionArray={provideExpenseArray()}
+              isTransactionLoading={isTransactionLoading}
+              borderColor={'rgb(192,75,75)'}
+              backgroundColor={'rgba(192,75,75,0.2)'}
+              dataText={'Expense'}/>
           </Window>
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>

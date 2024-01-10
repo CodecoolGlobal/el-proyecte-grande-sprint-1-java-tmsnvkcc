@@ -2,7 +2,7 @@ import './MonthlyCharts.css';
 import Chart from 'chart.js/auto';
 import { useEffect, useRef } from 'react';
 
-const MonthlyCharts = ({ transactionArray, isTransactionLoading }) => {
+const MonthlyCharts = ({ transactionArray, isTransactionLoading, backgroundColor, borderColor, dataText }) => {
   const chartRef = useRef();
   const chartInstance = useRef(null);
 
@@ -36,11 +36,11 @@ const MonthlyCharts = ({ transactionArray, isTransactionLoading }) => {
           labels,
           datasets: [
             {
-              label: 'Income',
+              label: dataText,
               data,
-              backgroundColor: 'rgba(87,192,75,0.2)',
-              borderColor: 'rgb(75,192,85)',
-              borderWidth: 1,
+              backgroundColor: borderColor,
+              borderColor: backgroundColor,
+              borderWidth: 5,
             },
           ],
         },
@@ -75,7 +75,7 @@ const MonthlyCharts = ({ transactionArray, isTransactionLoading }) => {
     };
   }, [isTransactionLoading]);
 
-  return <canvas ref={chartRef} width='100%' height='50%' />;
+  return <canvas ref={chartRef} width='100%' height='40%' />;
 };
 
 export default MonthlyCharts;
