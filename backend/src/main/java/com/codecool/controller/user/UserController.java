@@ -35,14 +35,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -204,11 +197,22 @@ public class UserController {
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<?> getCategories() {
     User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    System.out.println(userDetails);
     TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
     List<TransactionCategory> categories = trackeroUser.getCategories();
 
     return new ResponseEntity<>(categories, HttpStatus.OK);
+  }
+
+  @DeleteMapping(value = "/delete-category")
+  @ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public ResponseEntity<?> deleteCategory(@RequestBody int categoryId){
+    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
+    userService.removeCategory(trackeroUser, categoryId);
+    System.out.println(categoryId);
+
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PutMapping(value = "/update-profile", consumes = "application/json", produces = "application/json")

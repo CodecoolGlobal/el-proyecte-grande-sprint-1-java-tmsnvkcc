@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import './Categories.styles.css';
-import { iconLibraryConfig } from '@src/config';
+import { iconLibraryConfig, axiosConfigWithAuth } from '@src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getProfileData from '@src/pages/Profile/Profile.page.hooks';
 
@@ -10,6 +10,15 @@ const Categories = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  const handleDeleteCategory = async (categoryId) => {
+    await axiosConfigWithAuth({
+      method: 'DELETE',
+      url: '/api/users/delete-category',
+      data:JSON.stringify(categoryId),
+    });
+    refetch();
+  };
 
   return (
     <>
@@ -36,7 +45,7 @@ const Categories = () => {
                 return (
                   <tr key={category.id}>
                     <td>{category.name}</td>
-                    <td><button>Delete</button></td>
+                    <td><button onClick={() => handleDeleteCategory(category.id)}>Delete</button></td>
                   </tr>
                 );
               })

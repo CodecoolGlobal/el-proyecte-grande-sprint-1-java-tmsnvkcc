@@ -37,6 +37,18 @@ public class UserService {
   }
 
   @Transactional
+  public void removeCategory(TrackeroUser user, int categoryId){
+    TransactionCategory currentCategory = user.getCategories()
+            .stream()
+            .filter(category -> category.getId() == categoryId)
+            .findFirst()
+            .get();
+    user.getCategories().remove(currentCategory);
+
+    userRepository.save(user);
+  }
+
+  @Transactional
   public void addUser(NewUserDTO user, String hashedPassword, Set<Role> roles) {
     Currency currency = currencyService.findCurrencyByCode("huf");
     Account account = new Account(currency);
