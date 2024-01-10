@@ -1,5 +1,6 @@
 import { AddTransactionModal } from '@src/components/modal/index.js';
 import { useUser } from '@src/context/UserContext.jsx';
+import { useCurrencyFormatter } from '@src/hooks';
 import {
   useEffect,
   useState,
@@ -15,6 +16,7 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
   const [currency, setCurrency] = useState('HUF');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { user } = useUser();
+  const { formatCurrency } = useCurrencyFormatter();
 
   const getAmountSumOf = (list) => {
     let sum = 0;
@@ -103,7 +105,7 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
                 <span>Add new expense</span>
               </button>
             </div>
-            {spendingList && spendingList.map((spending) => <p key={spending.id}>{spending.amount * -1} {currency}</p>)}
+            {spendingList && spendingList.map((spending) => <p key={spending.id}>{formatCurrency(spending.amount * -1)}</p>)}
           </div>
         </div>
       </div>
@@ -114,7 +116,7 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
               <div key={cat.name}
                 className={'information'}>
                 <h3 className={'category-name'}>{cat.name}</h3>
-                <h3 className={'category-amount spending-color'}>{cat.sum * -1} {currency}</h3>
+                <h3 className={'category-amount spending-color'}>{formatCurrency(cat.sum * -1)}</h3>
               </div>
             );
           })}
@@ -125,11 +127,11 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
           <div className={'balance-content'}>
             <div className={'information'}>
               <h2>Actual Balance</h2>
-              <h3>{user.actualBalance} {currency}</h3>
+              <h3>{formatCurrency(user.actualBalance)}</h3>
             </div>
             <div className={'information'}>
               <h2>Savings Balance</h2>
-              <h3>{user.savingsBalance} {currency}</h3>
+              <h3>{formatCurrency(user.savingsBalance)}</h3>
             </div>
           </div>
         </div>
