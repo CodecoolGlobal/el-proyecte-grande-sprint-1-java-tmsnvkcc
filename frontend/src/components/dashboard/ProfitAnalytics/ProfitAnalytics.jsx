@@ -14,7 +14,7 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
     const allExpenseThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount < 0).reduce((acc, curr) => acc + curr.amount, 0);
     const allIncomeThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount > 0).reduce((acc, curr) => acc + curr.amount, 0);
 
-    return (allIncomeThisMonth - allExpenseThisMonth);
+    return (allIncomeThisMonth + allExpenseThisMonth);
   };
   const getSpendings = (exTransactionList) => {
     if (!exTransactionList) return [];
