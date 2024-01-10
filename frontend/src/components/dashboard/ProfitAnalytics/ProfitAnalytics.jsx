@@ -8,13 +8,15 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
   const { user } = useUser();
 
   const calculateProfit = () => {
-    if (!transactionsData.externalTransactionDTOS) return 0;
+    if (!transactionsData?.externalTransactionDTOS) return 0;
     const allExpenseThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount < 0).reduce((acc, curr) => acc + curr.amount, 0);
     const allIncomeThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount > 0).reduce((acc, curr) => acc + curr.amount, 0);
 
     return allIncomeThisMonth - allExpenseThisMonth;
   };
   const getSpendings = (exTransactionList) => {
+    if (!exTransactionList) return [];
+
     return exTransactionList.filter((tr) => tr.amount < 0).reverse();
   }; //TODO Remove code duplication ( spendings component )
   const getAmountSumOf = (list) => {
@@ -43,13 +45,13 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
 
   useEffect(() => {
     setProfit(calculateProfit());
-    setTopThreeCategories(calculateSumForCategories(user.categories.map((category) => category.name), transactionsData.externalTransactionDTOS));
+    setTopThreeCategories(calculateSumForCategories(user.categories.map((category) => category.name), transactionsData?.externalTransactionDTOS));
   }, [isTransactionLoading]);
 
   return (
     <div className={'profit-analytics-container'}>
-      <p>Total profit this month</p>
-      <p className={profit > 0 ? 'profit-sum positive-profit' : 'profit-sum negative-profit'} >{ profit }</p>
+      <h2>Total profit this month</h2>
+      <h3 className={profit > 0 ? 'profit-sum positive-profit' : 'profit-sum negative-profit'} >{ profit }</h3>
       <p> Top three expense categories</p>
       <section className={'profit-analytics-category-container'}>
         { topThreeCategories.map((category) => {

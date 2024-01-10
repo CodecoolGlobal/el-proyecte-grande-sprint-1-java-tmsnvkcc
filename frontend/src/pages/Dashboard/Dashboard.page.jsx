@@ -42,7 +42,7 @@ const Dashboard = () => {
       <div className={!isModalVisible ? 'dashboard-page' : 'dashboard-page blur'}>
         <PageTitle title={'Dashboard'} />
         <div className={'dashboard-window-container'}>
-          <Window title={'Current month'} text={'Data...'} button={<AddTransaction handleOnClick={handleOnClick} />}>
+          <Window title={'Current month'} text={''} button={<AddTransaction handleOnClick={handleOnClick} />}>
             <ProfitAnalytics transactionsData={transactionsData} isTransactionLoading={isTransactionLoading} />
           </Window>
           <Window title={'Last 12 months recap'} text={'Expenses...'} />
