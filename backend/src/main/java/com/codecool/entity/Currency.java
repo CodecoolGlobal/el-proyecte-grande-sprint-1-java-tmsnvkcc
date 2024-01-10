@@ -33,9 +33,4 @@ public class Currency {
   public Currency() {
     this.accounts = new HashSet<>();
   }
-
-  @Override
-  public String toString() {
-    return String.format("[Id]: %s | [Accounts]: %s", id, accounts);
-  }
 }

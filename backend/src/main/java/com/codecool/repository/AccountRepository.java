@@ -24,4 +24,18 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
       """, nativeQuery = true
   )
   void updateAccountBalanceById(@Param("accountId") int accountId, @Param("amount") double amount);
+
+  @Modifying
+  @Query(
+          value =
+                  """
+                    UPDATE
+                      accounts
+                    SET
+                      savings_balance = savings_balance + :amount
+                    WHERE
+                      id = :accountId
+                  """, nativeQuery = true
+  )
+  void updateAccountSavingsBalanceById(@Param("accountId") int accountId, @Param("amount") double amount);
 }

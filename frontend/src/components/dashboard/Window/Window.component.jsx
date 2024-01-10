@@ -1,11 +1,11 @@
 import './Window.styles.css';
 
-const Window = ({ title, text, button }) => {
+const Window = ({ title, text, button, children }) => {
   return (
     <div className={'window'}>
       <h2>{title}</h2>
-      <hr />
       <p>{text}</p>
+      {children}
       {button}
     </div>
   );

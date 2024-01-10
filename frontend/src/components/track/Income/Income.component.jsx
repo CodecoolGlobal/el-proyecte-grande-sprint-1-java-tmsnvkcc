@@ -1,14 +1,19 @@
+import { AddTransactionModal } from '@src/components/modal/index.js';
+import { useUser } from '@src/context/UserContext.jsx';
+import { useCurrencyFormatter } from '@src/hooks';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { iconLibraryConfig } from '@src/config';
 import './Income.styles.css';
 
-const Income = ({ transactions, isLoading }) => {
-  const [balanceDetails, setBalanceDetails] = useState({ actual: 0, savings: 0 });
+const Income = ({ transactions, isLoading, refetch }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [income, setIncome] = useState('');
   const [incomeList, setIncomeList] = useState('');
   const [categories, setCategories] = useState('');
   const [currency, setCurrency] = useState('HUF');
+  const { user } = useUser();
+  const { formatCurrency } = useCurrencyFormatter();
 
   const getAmountSumOf = (list) => {
     let sum = 0;
@@ -50,6 +55,19 @@ const Income = ({ transactions, isLoading }) => {
 
     return result;
   };
+  const handleOnClick = () => {
+    setIsModalVisible(!isModalVisible);
+
+    if (isModalVisible) {
+      refetch();
+    }
+  };
+
+  const listenForEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsModalVisible(false);
+    }
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -59,10 +77,8 @@ const Income = ({ transactions, isLoading }) => {
       setIncomeList(getIncomes(data));
       // setCategoryNames();
       const categoryNames = getCategoryNames(data);
-      setCategories(calculateSumForCategories(categoryNames, data));
 
-      const userData = JSON.parse(localStorage.getItem('userData'));
-      setBalanceDetails({ actual: userData.actualBalance, savings: userData.savingsBalance });
+      setCategories(calculateSumForCategories(categoryNames, data));
     }
   }, [transactions, isLoading]);
 
@@ -80,12 +96,14 @@ const Income = ({ transactions, isLoading }) => {
           <div className={'information'}>
             <div className={'title'}>
               <span>{income} {currency}</span>
-              <button>
+              <button
+                onClick={handleOnClick}
+              >
                 <FontAwesomeIcon icon={iconLibraryConfig.faPlus} />
                 <span>Add new income</span>
               </button>
             </div>
-            {incomeList && incomeList.map((income) => <p key={income.id}>{income.amount} {currency}</p>)}
+            {incomeList && incomeList.map((income) => <p key={income.id}>{formatCurrency(income.amount)}</p>)}
           </div>
         </div>
       </div>
@@ -95,7 +113,7 @@ const Income = ({ transactions, isLoading }) => {
             return (
               <div key={cat.name} className={'information'}>
                 <h3 className={'category-name'}>{cat.name}</h3>
-                <h3 className={'category-amount income-color'}>{cat.sum} {currency}</h3>
+                <h3 className={'category-amount income-color'}>{formatCurrency(cat.sum)}</h3>
               </div>
             );
           })}
@@ -106,15 +124,21 @@ const Income = ({ transactions, isLoading }) => {
           <div className={'balance-content'}>
             <div className={'information'}>
               <h2>Actual Balance</h2>
-              <h3>{balanceDetails.actualBalance} {currency}</h3>
+              <h3>{formatCurrency(user.actualBalance)}</h3>
             </div>
             <div className={'information'}>
               <h2>Savings Balance</h2>
-              <h3>{balanceDetails.savingsBalance} {currency}</h3>
+              <h3>{formatCurrency(user.savingsBalance)}</h3>
             </div>
           </div>
         </div>
       </div>
+      <AddTransactionModal
+        isModalVisible={isModalVisible}
+        handleOnKeyClose={listenForEscapeKey}
+        handleOnClick={handleOnClick}
+        data={{ userId: user.id, accountId: user.id }}
+      />
     </div>
   );
 };

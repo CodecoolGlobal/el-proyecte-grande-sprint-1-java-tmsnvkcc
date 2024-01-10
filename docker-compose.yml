@@ -3,7 +3,7 @@ version: '3.8'
 services:
   backend:
     image: backend
-    container_name: backend
+    container_name: backend-temurin-21-jdk-alpine
     build:
       context: backend
       dockerfile: Dockerfile
@@ -14,23 +14,21 @@ services:
     networks:
       - trackero
     environment:
-      DB_URL: jdbc:postgresql://db:5432/trackero
-      DB_USER: postgres
-      DB_PASSW: admin
-      # DB_URL: jdbc:postgresql://ella.db.elephantsql.com:5432/ldctrnpn?ApplicationName=TrackeroDevTeam
-      # DB_USER: ldctrnpn
-      # DB_PASSW: 18_xsgAF-t47YXXPUyvN74MyYaxafd0Q
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db/trackero
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      # SPRING_DATASOURCE_URL: jdbc:postgresql://ella.db.elephantsql.com:5432/ldctrnpn?ApplicationName=TrackeroDevTeam
+      # SPRING_DATASOURCE_USERNAME: ldctrnpn
+      # SPRING_DATASOURCE_PASSWORD: 18_xsgAF-t47YXXPUyvN74MyYaxafd0Q
     depends_on:
       - db
 
   frontend:
     image: frontend
-    container_name: frontend
+    container_name: frontend-node-21-alpine3.19
     build:
       context: frontend
       dockerfile: Dockerfile
-    expose:
-      - 80
     ports:
       - 80:80
     networks:
@@ -39,24 +37,24 @@ services:
       - backend
 
   db:
-    container_name: db
     image: "postgres:12.17-alpine"
-    expose:
-      - 5432
+    container_name: db-postgres-12.17-alpine
     ports:
       - 5432:5432
     networks:
       - trackero
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=trackero
-    restart: unless-stopped
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: trackero
+    restart: always
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./init.sql/:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/var/lib/postgres/data
 
 volumes:
-  db-data:
+  postgres:
 
 networks:
   trackero:
+    driver: bridge

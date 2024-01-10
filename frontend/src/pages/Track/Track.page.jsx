@@ -29,10 +29,10 @@ const Track = () => {
       return <Overview transactions={transactionsData} isLoading={isTransactionLoading} />;
 
     case 'Spendings':
-      return <Spendings transactions={transactionsData} isLoading={isTransactionLoading} />;
+      return <Spendings transactions={transactionsData} isLoading={isTransactionLoading} refetch={refetch} />;
 
     case 'Income':
-      return <Income transactions={transactionsData} isLoading={isTransactionLoading} />;
+      return <Income transactions={transactionsData} isLoading={isTransactionLoading} refetch={refetch}/>;
 
     case 'Savings':
       return <Savings transactions={transactionsData} isLoading={isTransactionLoading} refetch={refetch} />;
