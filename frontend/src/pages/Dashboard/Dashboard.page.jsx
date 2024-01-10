@@ -1,4 +1,4 @@
-import { ProfitAnalytics } from '@src/components/dashboard/index.js';
+import { MonthlyCharts, ProfitAnalytics } from '@src/components/dashboard/index.js';
 import { useGetMonthlyTransactions } from '@src/hooks';
 import { useState } from 'react';
 import {
@@ -31,6 +31,10 @@ const Dashboard = () => {
     );
   }
 
+  const provideIncomeArray = () => {
+    return transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount > 0);
+  };
+
   if (isError) {
     return (
       <div>An error has happened, please reload the application.</div>
@@ -45,7 +49,9 @@ const Dashboard = () => {
           <Window title={'Current month'} text={''} button={<AddTransaction handleOnClick={handleOnClick} />}>
             <ProfitAnalytics transactionsData={transactionsData} isTransactionLoading={isTransactionLoading} />
           </Window>
-          <Window title={'Last 12 months recap'} text={'Expenses...'} />
+          <Window title={'Last 12 months recap'} text={''} >
+            <MonthlyCharts transactionArray={provideIncomeArray()} isTransactionLoading={isTransactionLoading}/>
+          </Window>
           <Window title={'Test title'} text={'Random test text dev'} />
         </div>
       </div>
