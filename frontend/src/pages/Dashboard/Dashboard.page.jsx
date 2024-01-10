@@ -17,6 +17,10 @@ const Dashboard = () => {
 
   const handleOnClick = () => {
     setIsModalVisible(!isModalVisible);
+
+    if (isModalVisible) {
+      refetch();
+    }
   };
 
   const listenForEscapeKey = (event) => {

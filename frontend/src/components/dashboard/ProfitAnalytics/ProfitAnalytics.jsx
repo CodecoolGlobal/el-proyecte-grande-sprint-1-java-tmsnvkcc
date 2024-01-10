@@ -1,18 +1,20 @@
 import './ProfitAnalytics.css';
 import { useUser } from '@src/context/UserContext.jsx';
+import { useCurrencyFormatter } from '@src/hooks';
 import { useEffect, useState } from 'react';
 
 const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
   const [profit, setProfit] = useState(0);
   const [topThreeCategories, setTopThreeCategories] = useState([]);
   const { user } = useUser();
+  const { formatCurrency } = useCurrencyFormatter();
 
   const calculateProfit = () => {
     if (!transactionsData?.externalTransactionDTOS) return 0;
     const allExpenseThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount < 0).reduce((acc, curr) => acc + curr.amount, 0);
     const allIncomeThisMonth = transactionsData?.externalTransactionDTOS.filter((transaction) => transaction.amount > 0).reduce((acc, curr) => acc + curr.amount, 0);
 
-    return allIncomeThisMonth - allExpenseThisMonth;
+    return formatCurrency(allIncomeThisMonth - allExpenseThisMonth);
   };
   const getSpendings = (exTransactionList) => {
     if (!exTransactionList) return [];
