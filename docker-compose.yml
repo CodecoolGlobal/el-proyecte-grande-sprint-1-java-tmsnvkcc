@@ -2,25 +2,61 @@ version: '3.8'
 
 services:
   backend:
-    image: trackero-backend
-    container_name: trackero-backend
+    image: backend
+    container_name: backend
     build:
       context: backend
       dockerfile: Dockerfile
+    expose:
+      - 8080
     ports:
       - 8080:8080
+    networks:
+      - trackero
     environment:
-      DB_URL: jdbc:postgresql://ella.db.elephantsql.com:5432/ldctrnpn?ApplicationName=TrackeroDevTeam
-      DB_USER: ldctrnpn
-      DB_PASSW: 18_xsgAF-t47YXXPUyvN74MyYaxafd0Q
+      DB_URL: jdbc:postgresql://db:5432/trackero
+      DB_USER: postgres
+      DB_PASSW: admin
+      # DB_URL: jdbc:postgresql://ella.db.elephantsql.com:5432/ldctrnpn?ApplicationName=TrackeroDevTeam
+      # DB_USER: ldctrnpn
+      # DB_PASSW: 18_xsgAF-t47YXXPUyvN74MyYaxafd0Q
+    depends_on:
+      - db
 
   frontend:
-    image: trackero-frontend
-    container_name: trackero-frontend
+    image: frontend
+    container_name: frontend
     build:
       context: frontend
       dockerfile: Dockerfile
+    expose:
+      - 80
     ports:
       - 80:80
+    networks:
+      - trackero
     depends_on:
       - backend
+
+  db:
+    container_name: db
+    image: "postgres:12.17-alpine"
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    networks:
+      - trackero
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=trackero
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
+
+networks:
+  trackero:

@@ -103,16 +103,22 @@ UPDATE accounts SET user_id = 1 WHERE id = 1;
 
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(1, 1, 1, 1, 'test', '09-01-2024', 1500, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(2, 1, 1, 1, 'test', '09-01-2024', 2500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(3, 1, 1, 1, 'test', '10-01-2024', 3500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(4, 1, 1, 1, 'test', '10-01-2024', 100, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(5, 1, 1, 1, 'test', '10-01-2024', 500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(6, 1, 1, 1, 'test', '11-01-2024', 11000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(3, 1, 3, 1, 'test', '10-01-2024', 3500, false,
+                                                                                                                                                   false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(4, 1, 4, 1, 'test', '10-01-2024', 100, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(5, 1, 2, 1, 'test', '10-01-2024', 500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(6, 1, 2, 1, 'test', '11-01-2024', 11000, false,
+                                                                                                                                                   false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(7, 1, 1, 1, 'test', '11-01-2024', 15000, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(8, 1, 1, 1, 'test', '11-01-2024', 12000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(9, 1, 1, 1, 'test', '11-01-2024', 500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(10, 1, 1, 1, 'test', '12-01-2024', 5000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(11, 1, 1, 1, 'test', '12-01-2024', 4000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(12, 1, 1, 1, 'test', '12-01-2024', 3500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(9, 1, 4, 1, 'test', '11-01-2024', 500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(10, 1, 3, 1, 'test', '12-01-2024', 5000, false,
+                                                                                                                                                   false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(11, 1, 2, 1, 'test', '12-01-2024', 4000, false,
+                                                                                                                                                   false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(12, 1, 2, 1, 'test', '12-01-2024', 3500, false,
+                                                                                                                                                   false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(13, 1, 1, 1, 'test', '12-01-2024', 100000, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(14, 1, 1, 1, 'test', '12-01-2024', 2340, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(15, 1, 1, 1, 'test', '12-01-2024', 7800, false,  false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(15, 1, 3, 1, 'test', '12-01-2024', 7800, false,
+                                                                                                                                                   false);
