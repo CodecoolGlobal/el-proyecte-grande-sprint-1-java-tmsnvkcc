@@ -46,9 +46,6 @@ public class TrackeroUser {
   @Column(name = "hashed_password")
   private String hashedPassword;
 
-  @Column(name = "is_admin")
-  private boolean isAdmin;
-
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id", referencedColumnName = "id")
   @JsonManagedReference
@@ -78,13 +75,12 @@ public class TrackeroUser {
     this.categories = new ArrayList<>();
     this.dateOfRegistration = new Timestamp(System.currentTimeMillis());
     this.userName = "CHANGE ME!";
-    this.isAdmin = false;
     this.roles = roles;
     this.account = account;
   }
 
   @Override
   public String toString() {
-    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [IsAdmin]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, isAdmin, categories, roles);
+    return String.format("[ENTITY]: User | [Id]: %s | [DateOfRegistration]: %s | [UserName]: %s | [Email]: %s | [Categories]: %s | [Role(s)]: %s", id, dateOfRegistration, userName, email, categories, roles);
   }
 }
