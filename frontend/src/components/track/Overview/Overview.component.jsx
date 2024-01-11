@@ -14,7 +14,6 @@ const Overview = ({ transactions, isLoading }) => {
   const [income, setIncome] = useState(null);
   const [plannedSpending, setPlannedSpending] = useState(null);
   const [plannedIncome, setPlannedIncome] = useState(null);
-  const [currency, setCurrency] = useState('HUF');
   const [incomeArray, setIncomeArray] = useState([]);
   const [spendingArray, setSpendingArray] = useState([]);
   const { user } = useUser();
