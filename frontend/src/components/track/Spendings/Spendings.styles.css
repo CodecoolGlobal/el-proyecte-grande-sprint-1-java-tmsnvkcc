@@ -10,7 +10,14 @@
     align-items: flex-start;
     position: relative;
 
+    width: 85%;
+    height: 70vh;
+
     & .spending-left, & .spending-right {
+        width: 35%;
+        height: 85%;
+
+        display: flex;
 
         && .spending-color {
             color: #FF0202;
@@ -40,7 +47,13 @@
                 & .title {
                     border-bottom: 0.3rem solid var(--primary-main-font-color);
                     font-weight: bold;
-                    font-size: 20px;
+                    font-size: 40px;
+
+                    display: flex;
+                    flex-direction: row;
+
+                    align-items: center;
+                    justify-content: space-between;
 
                     & button {
                         float: right;
@@ -97,6 +110,9 @@
                 flex-direction: column;
                 text-align: center;
                 padding: 2rem;
+                font-size: 1.3vw;
+                justify-self: center;
+                align-self: center;
 
                 & h2 {
                     text-decoration: underline;
