@@ -1,4 +1,5 @@
 import { AddTransactionModal } from '@src/components/modal/index.js';
+import { TransactionSlide } from '@src/components/track/index.js';
 import { useUser } from '@src/context/UserContext.jsx';
 import { useCurrencyFormatter } from '@src/hooks';
 import { useEffect, useState } from 'react';
@@ -95,7 +96,7 @@ const Income = ({ transactions, isLoading, refetch }) => {
         <div className={'left-content'}>
           <div className={'information'}>
             <div className={'title'}>
-              <span>{income} {currency}</span>
+              <span>{formatCurrency(income)}</span>
               <button
                 onClick={handleOnClick}
               >
@@ -103,7 +104,7 @@ const Income = ({ transactions, isLoading, refetch }) => {
                 <span>Add new income</span>
               </button>
             </div>
-            {incomeList && incomeList.map((income) => <p key={income.id}>{formatCurrency(income.amount)}</p>)}
+            {incomeList && incomeList.map((income) => <TransactionSlide key={income.id} transactionData={income}/>)}
           </div>
         </div>
       </div>

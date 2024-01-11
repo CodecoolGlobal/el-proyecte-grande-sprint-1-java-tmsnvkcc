@@ -6,6 +6,7 @@ import Spendings from './Spendings';
 import Income from './Income';
 import Savings from './Savings';
 import TransactionCard from './TransactionCard';
+import TransactionSlide from './TransactionSlide';
 
 export {
   TrackComponentSelector,
@@ -16,4 +17,5 @@ export {
   Income,
   Savings,
   TransactionCard,
+  TransactionSlide,
 };

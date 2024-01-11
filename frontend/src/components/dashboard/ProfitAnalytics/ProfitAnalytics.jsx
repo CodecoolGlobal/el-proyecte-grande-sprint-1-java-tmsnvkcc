@@ -54,8 +54,14 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
   }; //TODO Remove code duplication ( spendings component )
 
   useEffect(() => {
+    let categoryNameArray = [];
+
+    if (user.categories !== undefined) {
+      categoryNameArray = user.categories.map((category) => category.name);
+    }
+
     setProfit(calculateProfit());
-    setTopThreeCategories(calculateSumForCategories(user.categories.map((category) => category.name), transactionsData?.externalTransactionDTOS));
+    setTopThreeCategories(calculateSumForCategories(categoryNameArray, transactionsData?.externalTransactionDTOS));
   }, [isTransactionLoading]);
 
   return (
