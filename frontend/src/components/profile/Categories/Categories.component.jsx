@@ -23,6 +23,7 @@ const Categories = () => {
   return (
     <>
       <div className='profile-categories'>
+        <button>Add new category</button>
         <table className={'rwd-table'}>
           <thead>
             <tr>
