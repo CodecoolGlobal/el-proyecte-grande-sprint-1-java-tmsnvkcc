@@ -1,4 +1,5 @@
 import { AddTransactionModal } from '@src/components/modal/index.js';
+import { TransactionSlide } from '@src/components/track/index.js';
 import { useUser } from '@src/context/UserContext.jsx';
 import { useCurrencyFormatter } from '@src/hooks';
 import {
@@ -105,7 +106,7 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
                 <span>Add new expense</span>
               </button>
             </div>
-            {spendingList && spendingList.map((spending) => <p key={spending.id}>{formatCurrency(spending.amount * -1)}</p>)}
+            {spendingList && spendingList.map((spending) => <TransactionSlide key={spending.id} transactionData={spending} />)}
           </div>
         </div>
       </div>
