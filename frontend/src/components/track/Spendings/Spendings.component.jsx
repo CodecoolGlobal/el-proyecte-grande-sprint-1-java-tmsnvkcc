@@ -98,7 +98,7 @@ const Spendings = ({ transactions, isLoading, refetch }) => {
         <div className={'left-content'}>
           <div className={'information'}>
             <div className={'title'}>
-              <span>{spending * -1} {currency}</span>
+              <span>{formatCurrency(spending * -1)}</span>
               <button
                 onClick={handleOnClick}
               >

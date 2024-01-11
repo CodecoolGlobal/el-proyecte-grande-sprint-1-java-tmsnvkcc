@@ -96,7 +96,7 @@ const Income = ({ transactions, isLoading, refetch }) => {
         <div className={'left-content'}>
           <div className={'information'}>
             <div className={'title'}>
-              <span>{income} {currency}</span>
+              <span>{formatCurrency(income)}</span>
               <button
                 onClick={handleOnClick}
               >
