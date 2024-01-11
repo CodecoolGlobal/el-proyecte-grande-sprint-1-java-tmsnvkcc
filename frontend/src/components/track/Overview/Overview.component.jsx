@@ -1,3 +1,4 @@
+import { MonthlyCharts } from '@src/components/dashboard/index.js';
 import { useUser } from '@src/context/UserContext.jsx';
 import { useCurrencyFormatter } from '@src/hooks';
 import {
@@ -14,6 +15,8 @@ const Overview = ({ transactions, isLoading }) => {
   const [plannedSpending, setPlannedSpending] = useState(null);
   const [plannedIncome, setPlannedIncome] = useState(null);
   const [currency, setCurrency] = useState('HUF');
+  const [incomeArray, setIncomeArray] = useState([]);
+  const [spendingArray, setSpendingArray] = useState([]);
   const { user } = useUser();
   const { formatCurrency } = useCurrencyFormatter();
 
@@ -25,6 +28,13 @@ const Overview = ({ transactions, isLoading }) => {
     }
 
     return sum;
+  };
+
+  const getSpendingArray = (exTransactionList) => {
+    return exTransactionList.filter((tr) => tr.amount < 0);
+  };
+  const getIncomeArray = (exTransactionList) => {
+    return exTransactionList.filter((tr) => tr.amount > 0);
   };
 
   const calculateSpending = (exTransactionList) => {
@@ -52,63 +62,65 @@ const Overview = ({ transactions, isLoading }) => {
       setIncome(calculateIncome(data));
       setPlannedSpending(calculatePlannedSpending(data));
       setPlannedIncome(calculatePlannedIncome(data));
+      setSpendingArray(getSpendingArray(data));
+      setIncomeArray(getIncomeArray(data));
     }
   }, [transactions, isLoading]);
 
   return (
     <div className={'track-page-overview'}>
-
       {isLoading &&
         <div className={'track-page-overview-loading'}>
-          <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'} />
+          <FontAwesomeIcon icon={iconLibraryConfig.faCircleNotch} spin className={'loading-icon'}/>
         </div>}
-
-      <div className={'overview-left'}>
-        {/*<div className={'left-title'}>
-                    <h1>Monthly balance</h1>
-                    <hr />
-                </div>*/}
-        <div className={'left-content'}>
-          <div className={'information'}>
-            <h2>Total amount of spending this month</h2>
-            <h3 className={'spending-color'}>{formatCurrency(spending)}</h3>
+      <section className={'track-overview-summation'}>
+        <div className={'track-overview-sum-container'}>
+          <div className={'track-overview-sum-labels'}>
+            <div>
+              <b>All spendings</b>
+              <p>{formatCurrency(spending)}</p>
+            </div>
+            <div>
+              <b>Planned spendings</b>
+              <p>{formatCurrency(plannedSpending)}</p>
+            </div>
           </div>
-
-          <div className={'information'}>
-            <h2>Planned spending</h2>
-            <h3 className={'spending-color'}>{formatCurrency(plannedSpending)}</h3>
-          </div>
-
-          <div className={'information'}>
-            <h2>Total amount of income this month</h2>
-            <h3 className={'income-color'}>{formatCurrency(income)}</h3>
-          </div>
-
-          <div className={'information'}>
-            <h2>Planned income</h2>
-            <h3 className={'income-color'}>{formatCurrency(plannedIncome)}</h3>
-          </div>
+          <MonthlyCharts
+            transactionArray={spendingArray}
+            borderColor={'rgb(192,75,75)'}
+            backgroundColor={'rgba(192,75,75,0.2)'}
+            dataText={'Spending'}
+            isTransactionLoading={isLoading}/>
         </div>
-      </div>
-      <div className={'overview-split'}>
-        <hr className={'hr-stand'} />
-      </div>
-      <div className={'overview-right'}>
-        {/*<div className={'right-title'}>
-                    <h1>Total</h1>
-                    <hr />
-                </div>*/}
-        <div className={'right-content'}>
-          <div className={'information'}>
-            <h2>Actual Balance</h2>
-            <h3>{formatCurrency(user.actualBalance)}</h3>
+        <div className={'track-overview-sum-container'}>
+          <div className={'track-overview-sum-labels'}>
+            <div>
+              <b>All income</b>
+              <p>{formatCurrency(income)}</p>
+            </div>
+            <div>
+              <b>Planned income</b>
+              <p>{formatCurrency(plannedIncome)}</p>
+            </div>
           </div>
-          <div className={'information'}>
-            <h2>Savings Balance</h2>
-            <h3>{formatCurrency(user.savingsBalance)}</h3>
-          </div>
+          <MonthlyCharts
+            transactionArray={incomeArray}
+            borderColor={'rgb(75,192,85)'}
+            backgroundColor={'rgba(87,192,75,0.2)'}
+            dataText={'income'}
+            isTransactionLoading={isLoading}/>
         </div>
-      </div>
+      </section>
+      <section className={'track-page-overview-balance'}>
+        <div>
+          <b>Actual balance</b>
+          <p>{formatCurrency(user.actualBalance)}</p>
+        </div>
+        <div>
+          <b>Savings balance</b>
+          <p>{formatCurrency(user.savingsBalance)}</p>
+        </div>
+      </section>
     </div>
   );
 };
