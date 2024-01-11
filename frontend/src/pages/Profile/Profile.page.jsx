@@ -20,7 +20,7 @@ const Profile = () => {
   const [isEditing, setEditing] = useState(false);
   const [currentTile, setCurrentTile] = useState('Profile');
 
-  const { data, isDataLoading, isDataError, refetch } = getProfileData('get-accounts');
+  const { data, isDataLoading, isDataError, refetch } = getProfileData('users/get-accounts');
 
   useEffect(() => {
     refetch();

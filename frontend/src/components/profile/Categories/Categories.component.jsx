@@ -6,13 +6,13 @@ import getProfileData from '@src/pages/Profile/Profile.page.hooks';
 import { AddNewCategoryModal } from '@src/components/modal';
 
 const Categories = () => {
-  const [isModalVisible, setIsModalVisible] = useState(true);
-  const { data, isDataLoading, isDataError, refetch } = getProfileData('get-categories');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { data, isDataLoading, isDataError, refetch } = getProfileData('category/get-categories');
 
   const handleDeleteCategory = async (categoryId) => {
     await axiosConfigWithAuth({
       method: 'DELETE',
-      url: '/api/users/delete-category',
+      url: '/api/category/delete-category',
       data:JSON.stringify(categoryId),
     });
     refetch();
@@ -20,6 +20,7 @@ const Categories = () => {
 
   const handleOnClick = () => {
     setIsModalVisible(!isModalVisible);
+    refetch();
   };
 
   const handleOnClickNewCategoryButton = () => {

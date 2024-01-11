@@ -192,29 +192,6 @@ public class UserController {
     return new ResponseEntity<>(userAccount, HttpStatus.OK);
   }
 
-  @GetMapping(value = "/get-categories", produces = "application/json")
-  @ResponseStatus(HttpStatus.OK)
-  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-  public ResponseEntity<?> getCategories() {
-    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
-    List<TransactionCategory> categories = trackeroUser.getCategories();
-
-    return new ResponseEntity<>(categories, HttpStatus.OK);
-  }
-
-  @DeleteMapping(value = "/delete-category")
-  @ResponseStatus(HttpStatus.OK)
-  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-  public ResponseEntity<?> deleteCategory(@RequestBody int categoryId){
-    User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    TrackeroUser trackeroUser = userService.findUserByEmail(userDetails.getUsername());
-    userService.removeCategory(trackeroUser, categoryId);
-    System.out.println(categoryId);
-
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
-
   @PutMapping(value = "/update-profile", consumes = "application/json", produces = "application/json")
   @ResponseStatus(HttpStatus.OK)
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")

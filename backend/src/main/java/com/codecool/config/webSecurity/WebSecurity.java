@@ -64,6 +64,7 @@ public class WebSecurity {
         .requestMatchers("/api/dashboard/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers("/api/account/**").hasAnyRole("USER", "ADMIN")
         .requestMatchers("/api/transaction/**").hasAnyRole("USER", "ADMIN")
+        .requestMatchers("/api/category/**").hasAnyRole("USER", "ADMIN")
         .anyRequest().authenticated()
       );
     http.authenticationProvider(authenticationProvider());
