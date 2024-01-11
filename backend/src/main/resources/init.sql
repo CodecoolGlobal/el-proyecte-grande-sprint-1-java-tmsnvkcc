@@ -8,79 +8,80 @@ drop table if exists transaction_categories cascade;
 drop table if exists users cascade;
 drop table if exists users_roles_join cascade;
 
+
 CREATE TABLE roles(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+                      id SERIAL PRIMARY KEY,
+                      name VARCHAR(255)
 );
 
 CREATE TABLE transaction_categories(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+                                       id SERIAL PRIMARY KEY,
+                                       name VARCHAR(255)
 );
 
 CREATE TABLE currencies(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(3)
+                           id SERIAL PRIMARY KEY,
+                           name VARCHAR(3)
 );
 
 CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
-    registered_at TIMESTAMP DEFAULT NOW(),
-    user_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE,
-    hashed_password VARCHAR(255) NOT NULL
+                      id SERIAL PRIMARY KEY,
+                      registered_at TIMESTAMP DEFAULT NOW(),
+                      user_name VARCHAR(255) NOT NULL,
+                      email VARCHAR(255) UNIQUE,
+                      hashed_password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE accounts(
-    id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id),
-    name VARCHAR(255),
-    description TEXT,
-    currency_id INT REFERENCES currencies(id),
-    actual_balance DECIMAL(10, 2),
-    savings_balance DECIMAL(10, 2)
+                         id SERIAL PRIMARY KEY,
+                         user_id INT REFERENCES users(id),
+                         name VARCHAR(255),
+                         description TEXT,
+                         currency_id INT REFERENCES currencies(id),
+                         actual_balance DECIMAL(10, 2),
+                         savings_balance DECIMAL(10, 2)
 );
 
 ALTER TABLE users
-ADD COLUMN account_id INT REFERENCES accounts(id);
+    ADD COLUMN account_id INT REFERENCES accounts(id);
 
 CREATE TABLE external_transactions(
-    id SERIAL PRIMARY KEY,
-    account_id INT REFERENCES accounts(id),
-    user_id INT REFERENCES users(id),
-    category_id INT REFERENCES transaction_categories(id),
-    description TEXT,
-    date_of_transaction DATE,
-    amount DECIMAL(10, 2),
-    is_planned BOOLEAN,
-    is_recurring BOOLEAN
+                                      id SERIAL PRIMARY KEY,
+                                      account_id INT REFERENCES accounts(id),
+                                      user_id INT REFERENCES users(id),
+                                      category_id INT REFERENCES transaction_categories(id),
+                                      description TEXT,
+                                      date_of_transaction DATE,
+                                      amount DECIMAL(10, 2),
+                                      is_planned BOOLEAN,
+                                      is_recurring BOOLEAN
 );
 
 CREATE TABLE local_transactions(
-    id SERIAL PRIMARY KEY,
-    account_id INT REFERENCES accounts(id),
-    user_id INT REFERENCES users(id),
-    description TEXT,
-    date_of_transaction DATE,
-    amount DECIMAL(10, 2),
-    is_planned BOOLEAN,
-    is_recurring BOOLEAN
+                                   id SERIAL PRIMARY KEY,
+                                   account_id INT REFERENCES accounts(id),
+                                   user_id INT REFERENCES users(id),
+                                   description TEXT,
+                                   date_of_transaction DATE,
+                                   amount DECIMAL(10, 2),
+                                   is_planned BOOLEAN,
+                                   is_recurring BOOLEAN
 );
 
 CREATE TABLE categories_users_join(
-    category_id INT,
-    user_id INT,
-    PRIMARY KEY (category_id, user_id),
-    FOREIGN KEY (category_id) REFERENCES transaction_categories(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+                                      category_id INT NOT NULL,
+                                      user_id INT NOT NULL,
+                                      PRIMARY KEY (category_id, user_id),
+                                      FOREIGN KEY (category_id) REFERENCES transaction_categories(id),
+                                      FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE users_roles_join(
-    role_id INT,
-    user_id INT,
-    PRIMARY KEY (role_id, user_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (role_id) REFERENCES roles(id)
+                                 role_id INT NOT NULL,
+                                 user_id INT NOT NULL,
+                                 PRIMARY KEY (role_id, user_id),
+                                 FOREIGN KEY (user_id) REFERENCES users(id),
+                                 FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
 
@@ -91,6 +92,7 @@ INSERT INTO transaction_categories (id, name) VALUES (1, 'bills');
 INSERT INTO transaction_categories (id, name) VALUES (2, 'grocery shopping');
 INSERT INTO transaction_categories (id, name) VALUES (3, 'eating out');
 INSERT INTO transaction_categories (id, name) VALUES (4, 'dentist');
+INSERT INTO transaction_categories (id, name) VALUES (5, 'income');
 
 INSERT INTO currencies (id, name) VALUES (1, 'huf');
 INSERT INTO currencies (id, name) VALUES (2, 'usd');
@@ -107,23 +109,23 @@ INSERT INTO categories_users_join(category_id, user_id) VALUES (3, 1);
 INSERT INTO categories_users_join(category_id, user_id) VALUES (4, 1);
 
 INSERT INTO users_roles_join(role_id, user_id) VALUES(1, 1);
--- INSERT INTO users_roles_join(role_id, user_id) VALUES(
---     (SELECT id FROM roles WHERE id = 1),
---     (SELECT id FROM users WHERE id = 1)
--- );
 
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(1, 1, 1, 3, 'test', '01-09-2024', 1500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(2, 1, 1, 3, 'test', '01-09-2024', 2500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(3, 1, 1, 2, 'test', '01-09-2024', 3500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(4, 1, 1, 1, 'test', '01-09-2024', 100, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(5, 1, 1, 4, 'test', '01-10-2024', 500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(6, 1, 1, 4, 'test', '01-10-2024', 11000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(7, 1, 1, 1, 'test', '01-10-2024', 15000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(8, 1, 1, 1, 'test', '01-10-2024', 12000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(9, 1, 1, 2, 'test', '01-11-2024', 500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(10, 1, 1, 2, 'test', '01-11-2024', 5000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(11, 1, 1, 4, 'test', '01-11-2024', 4000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(12, 1, 1, 4, 'test', '01-12-2024', 3500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(13, 1, 1, 3, 'test', '01-12-2024', 100000, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(14, 1, 1, 1, 'test', '01-12-2024', 2340, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(15, 1, 1, 3, 'test', '01-12-2024', 7800, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(1, 1, 1, 3, 'test', '01-09-2024', -1500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(2, 1, 1, 3, 'test', '01-09-2024', -2500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(3, 1, 1, 2, 'test', '01-09-2024', -3500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(4, 1, 1, 1, 'test', '01-09-2024', -100 false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(5, 1, 1, 4, 'test', '01-10-2024', -500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(6, 1, 1, 4, 'test', '01-10-2024', -11000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(7, 1, 1, 1, 'test', '01-10-2024', -15000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(8, 1, 1, 1, 'test', '01-10-2024', -12000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(9, 1, 1, 2, 'test', '01-11-2024', -500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(10, 1, 1, 2, 'test', '01-11-2024', -5000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(11, 1, 1, 4, 'test', '01-11-2024', -4000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(12, 1, 1, 4, 'test', '01-12-2024', -3500, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(13, 1, 1, 3, 'test', '01-12-2024', -100000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(14, 1, 1, 1, 'test', '01-12-2024', -2340, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(15, 1, 1, 3, 'test', '01-12-2024', -7800, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(16, 1, 1, 5, 'test', '01-13-2024', 150000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(17, 1, 1, 5, 'test', '01-13-2024', 75000, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(18, 1, 1, 4, 'test', '01-13-2024', -7800, false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(19, 1, 1, 2, 'test', '01-13-2024', -15000, false, false);
