@@ -1,15 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Categories.styles.css';
 import { iconLibraryConfig, axiosConfigWithAuth } from '@src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getProfileData from '@src/pages/Profile/Profile.page.hooks';
+import { AddNewCategoryModal } from '@src/components/modal';
 
 const Categories = () => {
+  const [isModalVisible, setIsModalVisible] = useState(true);
   const { data, isDataLoading, isDataError, refetch } = getProfileData('get-categories');
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   const handleDeleteCategory = async (categoryId) => {
     await axiosConfigWithAuth({
@@ -20,10 +18,24 @@ const Categories = () => {
     refetch();
   };
 
+  const handleOnClick = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleOnClickNewCategoryButton = () => {
+    setIsModalVisible(true);
+  };
+
+  const listenForEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsModalVisible(false);
+    }
+  };
+
   return (
     <>
       <div className='profile-categories'>
-        <button>Add new category</button>
+        <button onClick={handleOnClickNewCategoryButton}>Add new category</button>
         <table className={'rwd-table'}>
           <thead>
             <tr>
@@ -53,7 +65,11 @@ const Categories = () => {
             )}
           </tbody>
         </table>
-
+        <AddNewCategoryModal
+          isModalVisible={isModalVisible}
+          handleOnKeyClose={listenForEscapeKey}
+          handleOnClick={handleOnClick}
+        />
       </div>
     </>
   );
