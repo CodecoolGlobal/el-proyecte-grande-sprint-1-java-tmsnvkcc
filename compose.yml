@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  # Frontend
+  trackero-vite-app:
+    image: 'nginx:latest'
+    build: ./frontend
+    container_name: trackero-vite-app
+    ports:
+      - "3000:80"
+    depends_on:
+      - trackero-spring-app
+
+  # Backend
+  trackero-spring-app:
+    image: 'docker-spring-boot-postgres:latest'
+    build: ./backend
+    container_name: trackero-spring-app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/trackero
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  # Database
+  db:
+    image: 'postgres:15.2'
+    ports:
+      - '5432:5432'
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=trackero
+      - POSTGRES_PASSWORD=123
