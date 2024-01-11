@@ -1,13 +1,19 @@
-import './ProfitAnalytics.css';
+import { useEffect, useState } from 'react';
 import { useUser } from '@src/context/UserContext.jsx';
 import { useCurrencyFormatter } from '@src/hooks';
-import { useEffect, useState } from 'react';
+import './ProfitAnalytics.css';
 
 const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
   const [profit, setProfit] = useState(0);
   const [topThreeCategories, setTopThreeCategories] = useState([]);
   const { user } = useUser();
   const { formatCurrency } = useCurrencyFormatter();
+
+  if (isTransactionLoading) {
+    return (
+      <div>Loading data...</div>
+    );
+  }
 
   const calculateProfit = () => {
     if (!transactionsData?.externalTransactionDTOS) return 0;
@@ -16,11 +22,13 @@ const ProfitAnalytics = ({ transactionsData, isTransactionLoading }) => {
 
     return (allIncomeThisMonth + allExpenseThisMonth);
   };
+
   const getSpendings = (exTransactionList) => {
     if (!exTransactionList) return [];
 
     return exTransactionList.filter((tr) => tr.amount < 0).reverse();
   }; //TODO Remove code duplication ( spendings component )
+
   const getAmountSumOf = (list) => {
     let sum = 0;
 

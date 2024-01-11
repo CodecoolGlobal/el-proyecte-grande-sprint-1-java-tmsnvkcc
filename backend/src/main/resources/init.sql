@@ -113,7 +113,7 @@ INSERT INTO users_roles_join(role_id, user_id) VALUES(1, 1);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(1, 1, 1, 3, 'test', '01-09-2024', -1500, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(2, 1, 1, 3, 'test', '01-09-2024', -2500, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(3, 1, 1, 2, 'test', '01-09-2024', -3500, false, false);
-INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(4, 1, 1, 1, 'test', '01-09-2024', -100 false, false);
+INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(4, 1, 1, 1, 'test', '01-09-2024', -100, false,  false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(5, 1, 1, 4, 'test', '01-10-2024', -500, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(6, 1, 1, 4, 'test', '01-10-2024', -11000, false, false);
 INSERT INTO external_transactions(id, account_id, user_id, category_id, description, date_of_transaction, amount, is_planned, is_recurring) VALUES(7, 1, 1, 1, 'test', '01-10-2024', -15000, false, false);

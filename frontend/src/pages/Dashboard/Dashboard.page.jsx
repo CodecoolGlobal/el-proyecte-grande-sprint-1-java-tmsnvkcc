@@ -28,7 +28,7 @@ const Dashboard = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isTransactionLoading) {
     return (
       <div>Loading data...</div>
     );

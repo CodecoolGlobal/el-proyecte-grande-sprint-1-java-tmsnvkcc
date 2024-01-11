@@ -1,23 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-// import { axiosConfigWithAuth } from 'config';
+import { axiosConfigWithAuth } from '@src/config';
+import { getLocalStorageItem } from '../utilities/index.js';
 
 const fetchMonthlyTransactions = async (year, month) => {
   try {
-    const token = window.localStorage.getItem('token');
-
-    const response = await fetch(`/api/transaction/${year}/${month + 1}`, {
+    const { data } = await axiosConfigWithAuth.request({
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-type': 'application/json',
-      },
+      url: `/api/transaction/${year}/${month + 1}`,
     });
-    const data = await response.json();
-
-    // const { data } = await axiosConfigWithAuth.request({
-    //   method: 'GET',
-    //   url: `/api/transaction/${year}/${month + 1}`,
-    // });
 
     return data;
   } catch (err) {
@@ -28,13 +18,13 @@ const fetchMonthlyTransactions = async (year, month) => {
 
 const useGetMonthlyTransactions = (year, month) => {
   const query = useQuery({
-    queryKey:['monthlyTransactions'],
+    queryKey: ['monthlyTransactions'],
     queryFn:() => fetchMonthlyTransactions(year, month),
   });
 
   return {
     transactionsData: query.data,
-    isTransactionLoading: query.isFetching,
+    isTransactionLoading: query.isLoading,
     isTransactionError: query.isError,
     refetch: query.refetch,
   };

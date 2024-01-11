@@ -49,7 +49,6 @@ public class TransactionController {
     public ResponseEntity<MonthlyTransactionsDTO> getTransactionsForMonth(@PathVariable int year, @PathVariable int month) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         TrackeroUser trackeroUser = userService.findUserByEmail(user.getUsername());
-
         MonthlyTransactionsDTO result = mainTransactionService.getMonthlyTransactions(trackeroUser.getId(), year, month);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
