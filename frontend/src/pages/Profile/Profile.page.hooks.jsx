@@ -7,7 +7,7 @@ const getProfileData = (url) => {
     queryFn: async () => {
       const { data } = await axiosConfigWithAuth.request({
         method: 'GET',
-        url: `/api/users/${url}`,
+        url: `/api/${url}`,
       });
 
       return data;
