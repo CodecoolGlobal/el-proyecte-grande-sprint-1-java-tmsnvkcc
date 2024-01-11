@@ -101,14 +101,14 @@ public class UserController {
     List<TransactionCategory> categories = trackeroUser.getCategories();
 
     AboutMeDTO aboutMeDTO = new AboutMeDTO(
-            trackeroUser.getId(),
-            trackeroUser.getEmail(),
-            trackeroUser.getUserName(),
-            userRoles,
-            account.getActualBalance(),
-            account.getSavingsBalance(),
-            trackeroUser.getDateOfRegistration(),
-            categories
+      trackeroUser.getId(),
+      trackeroUser.getEmail(),
+      trackeroUser.getUserName(),
+      userRoles,
+      account.getActualBalance(),
+      account.getSavingsBalance(),
+      trackeroUser.getDateOfRegistration(),
+      categories
     );
 
     return new ResponseEntity<>(aboutMeDTO, HttpStatus.OK);
@@ -144,7 +144,7 @@ public class UserController {
       foundTrackeroUser.getCategories(),
       jwtResponse
     );
-
+    System.out.println(userData);
     return new ResponseEntity<>(userData, HttpStatus.OK);
   }
 
