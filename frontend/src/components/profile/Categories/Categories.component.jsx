@@ -1,20 +1,42 @@
-import { useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import './Categories.styles.css';
-import { iconLibraryConfig } from '@src/config';
+import { iconLibraryConfig, axiosConfigWithAuth } from '@src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getProfileData from '@src/pages/Profile/Profile.page.hooks';
+import { AddNewCategoryModal } from '@src/components/modal';
 
 const Categories = () => {
-  const { data, isDataLoading, isDataError, refetch } = getProfileData('get-categories');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { data, isDataLoading, isDataError, refetch } = getProfileData('category/get-categories');
 
-  useEffect(() => {
+  const handleDeleteCategory = async (categoryId) => {
+    await axiosConfigWithAuth({
+      method: 'DELETE',
+      url: '/api/category/delete-category',
+      data:JSON.stringify(categoryId),
+    });
     refetch();
-  }, []);
+  };
+
+  const handleOnClick = () => {
+    setIsModalVisible(!isModalVisible);
+    refetch();
+  };
+
+  const handleOnClickNewCategoryButton = () => {
+    setIsModalVisible(true);
+  };
+
+  const listenForEscapeKey = (event) => {
+    if (event.key === 'Escape') {
+      setIsModalVisible(false);
+    }
+  };
 
   return (
     <>
       <div className='profile-categories'>
+        <button onClick={handleOnClickNewCategoryButton}>Add new category</button>
         <table className={'rwd-table'}>
           <thead>
             <tr>
@@ -37,14 +59,18 @@ const Categories = () => {
                 return (
                   <tr key={category.id}>
                     <td>{category.name}</td>
-                    <td><button>Delete</button></td>
+                    <td><button onClick={() => handleDeleteCategory(category.id)}>Delete</button></td>
                   </tr>
                 );
               })
             )}
           </tbody>
         </table>
-
+        <AddNewCategoryModal
+          isModalVisible={isModalVisible}
+          handleOnKeyClose={listenForEscapeKey}
+          handleOnClick={handleOnClick}
+        />
       </div>
     </>
   );
