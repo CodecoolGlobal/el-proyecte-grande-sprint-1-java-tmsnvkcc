@@ -3,17 +3,19 @@ version: '3'
 services:
   # Frontend
   trackero-vite-app:
-    image: 'nginx:latest'
+    # image: 'nginx:latest'
+    image: trackero-vite-app:latest
     build: ./frontend
     container_name: trackero-vite-app
     ports:
-      - "3000:80"
+      - "80:80"
     depends_on:
       - trackero-spring-app
 
   # Backend
   trackero-spring-app:
-    image: 'docker-spring-boot-postgres:latest'
+    # image: 'docker-spring-boot-postgres:latest'
+    image: trackero-spring-app:latest
     build: ./backend
     container_name: trackero-spring-app
     ports:
